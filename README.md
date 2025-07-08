@@ -1,596 +1,753 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Silent Witness</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Cairo&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <style>
-    /* Reset */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Poppins', 'Cairo', sans-serif;
-      background-color: var(--bg-color, #f9fafd);
-      color: var(--text-color, #1c5980);
-      line-height: 1.5;
-      transition: background-color 0.4s ease, color 0.4s ease;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    :root {
-      --primary-color: #1c5980;
-      --secondary-color: #8fc1a1;
-      --bg-color: #f9fafd;
-      --text-color: #1c5980;
-      --btn-bg: var(--primary-color);
-      --btn-hover-bg: var(--secondary-color);
-      --input-border: #ccc;
-      --input-focus: var(--primary-color);
-    }
-    .dark-theme {
-      --bg-color: #1c1c1c;
-      --text-color: #f0f0f0;
-      --btn-bg: #8fc1a1;
-      --btn-hover-bg: #1c5980;
-      --input-border: #555;
-      --input-focus: #8fc1a1;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Silent Witness - Vous n'êtes pas seul</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&family=Cairo&display=swap');
+  :root {
+    --clr-bg-light: #f9fafb;
+    --clr-bg-dark: #1c1c1c;
+    --clr-text-light: #1c5980;
+    --clr-text-dark: #f0f0f0;
+    --clr-primary: #1c5980;
+    --clr-primary-light: #8fc1a1;
+    --clr-success: #3cba54;
+    --clr-warning: #f4c20d;
+    --clr-danger: #db3236;
+    --transition: 0.3s ease-in-out;
+  }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--clr-bg-light);
+    color: var(--clr-text-light);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  body.dark-theme {
+    background: var(--clr-bg-dark);
+    color: var(--clr-text-dark);
+  }
+  header {
+    background: var(--clr-primary);
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  header h1 {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  select#lang-select {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button#theme-toggle {
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #fff;
+    user-select: none;
+  }
+
+  main {
+    flex-grow: 1;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    width: 100%;
+  }
+  .animated-text {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    animation: pulse 2.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% {opacity: 1; transform: scale(1);}
+    50% {opacity: 0.6; transform: scale(1.05);}
+  }
+
+  section {
+    margin-bottom: 3rem;
+  }
+  h2 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    color: var(--clr-primary);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+
+  /* White Paper */
+  .whitepaper {
+    background: var(--clr-primary-light);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: var(--clr-primary);
+    font-weight: 600;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    transition: background var(--transition), color var(--transition);
+  }
+  .whitepaper:hover, .whitepaper:focus {
+    background: var(--clr-primary);
+    color: #fff;
+    outline: none;
+  }
+
+  /* Stats */
+  ul.stats-list {
+    list-style: inside disc;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Compteur suicides */
+  #suicide-counter {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 1rem 0 0.5rem;
+    color: var(--clr-danger);
+    font-family: 'Cairo', sans-serif;
+  }
+
+  /* Timeline étapes IA */
+  ol.timeline {
+    counter-reset: step-counter;
+    max-width: 750px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+  }
+  ol.timeline li {
+    position: relative;
+    padding-left: 2.8rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+  ol.timeline li::before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--clr-primary);
+    color: white;
+    font-weight: 700;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.8rem;
+    user-select: none;
+  }
+  ol.timeline li:nth-child(4)::before {
+    background: var(--clr-warning);
+  }
+  ol.timeline li:nth-child(5)::before {
+    background: var(--clr-danger);
+  }
+
+  /* Carte interactive */
+  #map {
+    width: 100%;
+    height: 400px;
+    max-width: 900px;
+    margin: 1.5rem auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(28, 89, 128, 0.3);
+  }
+
+  /* Formulaire */
+  form#contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  form#contact-form input,
+  form#contact-form textarea {
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1.5px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    resize: vertical;
+  }
+  form#contact-form input:focus,
+  form#contact-form textarea:focus {
+    outline: none;
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 4px var(--clr-primary);
+  }
+  form#contact-form button {
+    background: var(--clr-primary);
+    color: white;
+    border: none;
+    padding: 0.9rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  form#contact-form button:disabled {
+    background: #a0b8c8;
+    cursor: not-allowed;
+  }
+  form#contact-form button:hover:not(:disabled),
+  form#contact-form button:focus:not(:disabled) {
+    background: var(--clr-primary-light);
+    outline: none;
+  }
+
+  /* Message succès/erreur */
+  #form-message {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    min-height: 1.4rem;
+  }
+  #form-message.success {
+    color: var(--clr-success);
+  }
+  #form-message.error {
+    color: var(--clr-danger);
+  }
+
+  /* Donation PayPal */
+  #paypal-donation {
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* Retour en haut */
+  #back-to-top {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--clr-primary);
+    color: #fff;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 6px rgba(28, 89, 128, 0.6);
+    transition: background var(--transition);
+    user-select: none;
+    z-index: 9999;
+  }
+  #back-to-top:hover {
+    background: var(--clr-primary-light);
+  }
+
+  /* FAQ */
+  .faq {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .faq dt {
+    font-weight: 700;
+    margin-top: 1rem;
+    cursor: pointer;
+    color: var(--clr-primary);
+  }
+  .faq dd {
+    margin: 0.25rem 0 1rem 1rem;
+    display: none;
+    font-size: 1rem;
+  }
+  .faq dt.active + dd {
+    display: block;
+  }
+
+  /* Responsive */
+  @media (max-width: 720px) {
     header {
-      background: var(--primary-color);
-      color: white;
-      padding: 0.8rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      font-size: 1rem;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
     }
     header h1 {
-      font-weight: 700;
       font-size: 1.5rem;
-      margin: 0;
-    }
-    .controls {
-      display: flex;
-      gap: 0.8rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    select.language-select {
-      padding: 0.3rem 0.5rem;
-      font-size: 0.9rem;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      min-width: 100px;
-    }
-    button#theme-toggle {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      user-select: none;
-    }
-    button#theme-toggle:hover {
-      background: white;
-      color: var(--primary-color);
-    }
-
-    main {
-      flex: 1 0 auto;
-      max-width: 850px;
-      margin: 1.5rem auto 2rem;
-      padding: 0 1rem;
-      width: 100%;
-      text-align: left;
     }
     .animated-text {
-      font-weight: 700;
-      font-size: 2rem;
-      margin-bottom: 1.2rem;
-      color: var(--primary-color);
-      animation: pulseText 3s ease-in-out infinite;
-      user-select: none;
-      text-align: center;
+      font-size: 1.8rem;
     }
-    @keyframes pulseText {
-      0%, 100% {opacity: 1; transform: scale(1);}
-      50% {opacity: 0.6; transform: scale(1.05);}
-    }
-
-    section {
-      margin-bottom: 2rem;
-    }
-    section h2 {
-      color: var(--primary-color);
-      font-weight: 700;
-      font-size: 1.3rem;
-      margin-bottom: 0.8rem;
-      border-bottom: 2px solid var(--secondary-color);
-      padding-bottom: 0.1rem;
-    }
-    p, li {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--text-color);
-    }
-    ul, ol {
-      padding-left: 1.1rem;
-      color: var(--text-color);
-    }
-
-    /* Download Button */
-    .download-btn {
-      display: inline-block;
-      padding: 0.65rem 1.3rem;
-      background-color: var(--btn-bg);
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: background-color 0.3s ease;
-      user-select: none;
-    }
-    .download-btn:hover {
-      background-color: var(--btn-hover-bg);
-      color: var(--primary-color);
-    }
-
-    /* Form */
-    form#contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-      max-width: 450px;
-      margin-top: 1rem;
-    }
-    input[type="text"],
-    input[type="email"],
-    textarea {
-      padding: 0.6rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      border: 2px solid var(--input-border);
-      transition: border-color 0.3s ease;
-      font-family: inherit;
-    }
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    textarea:focus {
-      border-color: var(--input-focus);
-      outline: none;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-      font-family: inherit;
-    }
-    button.submit-btn {
-      padding: 0.7rem 1rem;
-      font-size: 1rem;
-      font-weight: 700;
-      background-color: var(--btn-bg);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      user-select: none;
-      transition: background-color 0.3s ease;
-      align-self: flex-start;
-      min-width: 100px;
-    }
-    button.submit-btn:hover,
-    button.submit-btn:focus {
-      background-color: var(--btn-hover-bg);
-      color: var(--primary-color);
-      outline: none;
-    }
-    .form-message {
-      margin-top: 0.5rem;
-      font-weight: 600;
-    }
-    .form-message.success {
-      color: #2e7d32;
-    }
-    .form-message.error {
-      color: #c62828;
-    }
-
-    /* Map */
     #map {
-      height: 350px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
-      transition: box-shadow 0.3s ease;
-      margin-top: 0.7rem;
+      height: 300px;
     }
-    #map:hover {
-      box-shadow: 0 3px 12px rgb(0 0 0 / 0.15);
-    }
-
-    /* Donation */
-    .donation-section {
-      text-align: center;
-    }
-    .donation-btn {
-      display: inline-block;
-      margin-top: 0.8rem;
-      padding: 0.7rem 1.4rem;
-      background-color: #0070ba;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      user-select: none;
-      transition: background-color 0.3s ease;
-    }
-    .donation-btn:hover,
-    .donation-btn:focus {
-      background-color: #003087;
-      outline: none;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      header {
-        justify-content: center;
-        gap: 0.8rem;
-      }
-      .animated-text {
-        font-size: 1.6rem;
-        margin-bottom: 1rem;
-      }
-      form#contact-form {
-        max-width: 100%;
-      }
-      main {
-        margin: 1rem 1rem 2rem;
-      }
-    }
-  </style>
+  }
+</style>
+<!-- Leaflet CSS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+  integrity="sha256-sA+Q41H+I+ftMy8J50i+JqYt0P8OYnd2V8taT4U/7C4="
+  crossorigin=""
+/>
 </head>
 <body>
-  <header>
-    <h1>Silent Witness</h1>
-    <div class="controls">
-      <label for="lang-select" class="sr-only">Choisir la langue</label>
-      <select id="lang-select" class="language-select" aria-label="Choisir la langue">
-        <option value="fr" selected>Français</option>
-        <option value="en">English</option>
-        <option value="ar">العربية</option>
-      </select>
-      <button id="theme-toggle" aria-label="Basculer thème clair/sombre" title="Basculer thème clair/sombre">🌓</button>
-    </div>
-  </header>
+<header>
+  <h1>Silent Witness</h1>
+  <div class="controls">
+    <select id="lang-select" aria-label="Choisir la langue">
+      <option value="fr">Français</option>
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+    </select>
+    <button id="theme-toggle" aria-label="Basculer thème clair/sombre" title="Basculer thème clair/sombre">🌓</button>
+  </div>
+</header>
+<main>
+  <div class="animated-text" id="animated-text">Vous n'êtes pas seul</div>
 
-  <main>
-    <div class="animated-text" aria-live="polite" aria-atomic="true"></div>
+  <section aria-labelledby="whitepaper-title">
+    <h2 id="whitepaper-title">Livre blanc Silent Witness</h2>
+    <p id="wp-paragraph">
+      Découvrez notre livre blanc complet sur Silent Witness : une IA éthique dédiée à la prévention et à la protection des plus vulnérables.
+    </p>
+    <a
+      href="https://silentwitnessteam.github.io/Silent-witness/Silent_Witness_White_Paper.pdf"
+      target="_blank"
+      rel="noopener"
+      class="whitepaper"
+      id="wp-btn"
+      >📘 Télécharger le White Paper</a
+    >
+  </section>
 
-    <section>
-      <p id="wp-paragraph"></p>
-      <a
-        id="wp-btn"
-        href="https://silentwitnessteam.github.io/Silent-witness/Silent_Witness_White_Paper.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="download-btn"
-        >📘 Télécharger notre White Paper</a
-      >
-    </section>
+  <section aria-labelledby="stats-title">
+    <h2 id="stats-title">Statistiques sur le suicide</h2>
+    <ul class="stats-list" id="stats-list">
+      <li>Près de 800 000 personnes se suicident chaque année (OMS)</li>
+      <li>1 suicide toutes les 40 secondes dans le monde</li>
+      <li>Le suicide est la 2e cause de mortalité chez les 15-29 ans</li>
+    </ul>
+    <div id="suicide-counter" aria-live="polite" aria-atomic="true">1 suicide toutes les 40 secondes</div>
+  </section>
 
-    <section>
-      <h2 id="stats-title">Statistiques clés</h2>
-      <ul id="stats-list">
-        <!-- remplissage JS -->
-      </ul>
-    </section>
+  <section aria-labelledby="detection-title">
+    <h2 id="detection-title">Étapes de détection IA</h2>
+    <ol class="timeline" id="timeline">
+      <li>Analyse des mots clés dans les messages, requêtes IA ou recherches web</li>
+      <li>Corrélation des données vocales, textuelles ou comportementales</li>
+      <li>Évaluation automatique du niveau de détresse</li>
+      <li>Classement de l’urgence (vert / orange / rouge)</li>
+      <li>Déclenchement d'une alerte vers ONG, autorités ou hôpitaux selon le niveau</li>
+    </ol>
+  </section>
 
-    <section>
-      <h2>Carte mondiale des suicides</h2>
-      <div id="map" role="region" aria-label="Carte interactive des taux de suicide"></div>
-    </section>
+  <section aria-labelledby="map-title">
+    <h2 id="map-title">Carte interactive mondiale des taux de suicide</h2>
+    <div id="map" role="region" aria-label="Carte interactive des taux de suicide par pays"></div>
+  </section>
 
-    <section>
-      <h2>Étapes de détection IA</h2>
-      <ol id="detection-steps">
-        <!-- remplissage JS -->
-      </ol>
-    </section>
+  <section aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact</h2>
+    <form id="contact-form" aria-describedby="form-message" novalidate>
+      <input type="text" name="nom" placeholder="Votre nom" required aria-required="true" />
+      <input type="email" name="email" placeholder="Votre email" required aria-required="true" />
+      <textarea name="message" placeholder="Votre message" rows="4" required aria-required="true"></textarea>
+      <button type="submit" id="submit-btn">Envoyer</button>
+    </form>
+    <div id="form-message" role="alert" aria-live="assertive"></div>
+  </section>
 
-    <section class="donation-section">
-      <h2>Contribuez à Silent Witness</h2>
-      <p>Votre soutien est vital pour concrétiser ce projet et sauver des vies.</p>
-      <div id="paypal-donation"></div>
-    </section>
+  <section aria-labelledby="donation-title" style="text-align:center;">
+    <h2 id="donation-title">Soutenez Silent Witness</h2>
+    <p>Votre don contribue à concrétiser ce projet de prévention et protection.</p>
+    <div id="paypal-donation"></div>
+  </section>
 
-    <section>
-      <h2 id="contact-title">Contact</h2>
-      <form id="contact-form" aria-label="Formulaire de contact">
-        <input
-          id="input-name"
-          type="text"
-          name="nom"
-          placeholder="Votre nom"
-          required
-          aria-required="true"
-          autocomplete="name"
-        />
-        <input
-          id="input-email"
-          type="email"
-          name="email"
-          placeholder="Votre email"
-          required
-          aria-required="true"
-          autocomplete="email"
-        />
-        <textarea
-          id="input-message"
-          name="message"
-          rows="4"
-          placeholder="Votre message"
-          required
-          aria-required="true"
-          autocomplete="off"
-        ></textarea>
-        <button type="submit" id="btn-send" class="submit-btn">Envoyer</button>
-        <div id="form-message" role="alert" aria-live="assertive" class="form-message"></div>
-      </form>
-    </section>
-  </main>
+  <section aria-labelledby="faq-title" class="faq">
+    <h2 id="faq-title">FAQ - Questions fréquentes</h2>
+    <dl>
+      <dt tabindex="0">Comment garantissez-vous la confidentialité des données ?</dt>
+      <dd>Silent Witness utilise des protocoles stricts et ne partage aucune donnée sans consentement explicite.</dd>
+      <dt tabindex="0">Comment fonctionne la détection ?</dt>
+      <dd>Notre IA analyse des indicateurs clés dans les communications et comportements en temps réel pour évaluer la détresse.</dd>
+      <dt tabindex="0">Puis-je rester anonyme ?</dt>
+      <dd>Oui, l’utilisation peut être anonyme et les alertes sont traitées de manière confidentielle.</dd>
+    </dl>
+  </section>
+</main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<button id="back-to-top" aria-label="Retour en haut" title="Retour en haut">↑</button>
 
-  <script>
-    emailjs.init('_pR14KMi1syThzlmY');
+<!-- Leaflet JS -->
+<script
+  src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+  integrity="sha256-oC4PvAoMkruNqJtv5T3Y2T/f+v3GmrL0PslbkD5tpzE="
+  crossorigin=""
+></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<!-- PayPal SDK -->
+<script
+  src="https://www.paypal.com/sdk/js?client-id=BAAwNQmuQNtmwbB198XpnMFgJqBHvKNcvg138E9ddcIrNxHGCrGT2tvdVOyLaJTqde8dM-9e9ZglZUXS9A&currency=USD"
+  data-sdk-integration-source="button-factory"
+></script>
+<script>
+  // Initialisation EmailJS
+  emailjs.init('_pR14KMi1syThzlmY');
 
-    const translations = {
-      fr: {
-        title: "Vous n'êtes pas seul",
-        whitepaper: "📘 Télécharger notre White Paper",
-        paragraph:
-          "Découvrez notre livre blanc complet sur Silent Witness : une IA éthique dédiée à la prévention et à la protection des plus vulnérables.",
-        stats: [
-          "Près de 800 000 personnes se suicident chaque année (OMS)",
-          "1 suicide toutes les 40 secondes dans le monde",
-          "Le suicide est la 2e cause de mortalité chez les 15-29 ans",
-        ],
-        steps: [
-          "Analyse des mots clés dans les messages, requêtes IA ou recherches web",
-          "Corrélation des données vocales, textuelles ou comportementales",
-          "Évaluation automatique du niveau de détresse",
-          "Classement de l’urgence (vert / orange / rouge)",
-          "Déclenchement d'une alerte vers ONG, autorités ou hôpitaux selon le niveau",
-        ],
-        formSendSuccess: "Message envoyé avec succès ! Merci.",
-        formSendError: "Erreur lors de l'envoi. Veuillez réessayer.",
-        formSending: "Envoi en cours...",
-        sendBtnText: "Envoyer",
+  // Traductions complètes
+  const translations = {
+    fr: {
+      animatedText: "Vous n'êtes pas seul",
+      whitepaper: "📘 Télécharger le White Paper",
+      wpParagraph:
+        "Découvrez notre livre blanc complet sur Silent Witness : une IA éthique dédiée à la prévention et à la protection des plus vulnérables.",
+      stats: [
+        "Près de 800 000 personnes se suicident chaque année (OMS)",
+        "1 suicide toutes les 40 secondes dans le monde",
+        "Le suicide est la 2e cause de mortalité chez les 15-29 ans",
+      ],
+      detectionTitle: "Étapes de détection IA",
+      detectionSteps: [
+        "Analyse des mots clés dans les messages, requêtes IA ou recherches web",
+        "Corrélation des données vocales, textuelles ou comportementales",
+        "Évaluation automatique du niveau de détresse",
+        "Classement de l’urgence (vert / orange / rouge)",
+        "Déclenchement d'une alerte vers ONG, autorités ou hôpitaux selon le niveau",
+      ],
+      contactTitle: "Contact",
+      contactPlaceholder: {
+        nom: "Votre nom",
+        email: "Votre email",
+        message: "Votre message",
+        button: "Envoyer",
       },
-      en: {
-        title: "You're not alone",
-        whitepaper: "📘 Download our White Paper",
-        paragraph:
-          "Explore our full white paper on Silent Witness – an ethical AI for prevention and protection of the vulnerable.",
-        stats: [
-          "Nearly 800,000 people die by suicide each year (WHO)",
-          "1 suicide every 40 seconds worldwide",
-          "Suicide is the 2nd leading cause of death among 15-29 year olds",
-        ],
-        steps: [
-          "Analyze keywords in messages, AI queries or web searches",
-          "Correlate vocal, textual or behavioral data",
-          "Automatically evaluate distress level",
-          "Rank urgency (green / orange / red)",
-          "Trigger alert to NGOs, authorities or hospitals based on level",
-        ],
-        formSendSuccess: "Message sent successfully! Thank you.",
-        formSendError: "Sending failed. Please try again.",
-        formSending: "Sending...",
-        sendBtnText: "Send",
+      donationTitle: "Soutenez Silent Witness",
+      donationParagraph:
+        "Votre don contribue à concrétiser ce projet de prévention et protection.",
+      formSuccess: "Message envoyé avec succès, merci !",
+      formError: "Erreur lors de l'envoi, veuillez réessayer.",
+    },
+    en: {
+      animatedText: "You're not alone",
+      whitepaper: "📘 Download our White Paper",
+      wpParagraph:
+        "Explore our full white paper on Silent Witness – an ethical AI for prevention and protection of the vulnerable.",
+      stats: [
+        "Nearly 800,000 people die by suicide each year (WHO)",
+        "1 suicide every 40 seconds worldwide",
+        "Suicide is the 2nd leading cause of death among 15-29 year olds",
+      ],
+      detectionTitle: "AI Detection Steps",
+      detectionSteps: [
+        "Analyze keywords in messages, AI queries, or web searches",
+        "Correlate vocal, textual, or behavioral data",
+        "Automatically evaluate distress level",
+        "Urgency ranking (green / orange / red)",
+        "Trigger alert to NGOs, authorities or hospitals depending on level",
+      ],
+      contactTitle: "Contact",
+      contactPlaceholder: {
+        nom: "Your name",
+        email: "Your email",
+        message: "Your message",
+        button: "Send",
       },
-      ar: {
-        title: "لست وحدك",
-        whitepaper: "📘 تحميل الورقة البيضاء",
-        paragraph:
-          "اكتشف الورقة البيضاء الخاصة بـ Silent Witness: ذكاء اصطناعي أخلاقي لحماية الفئات الأكثر عرضة للخطر.",
-        stats: [
-          "يقع حوالي 800,000 شخص في حالات انتحار سنويًا (منظمة الصحة العالمية)",
-          "انتحار واحد كل 40 ثانية في جميع أنحاء العالم",
-          "الانتحار هو السبب الثاني للوفاة بين سن 15-29",
-        ],
-        steps: [
-          "تحليل الكلمات المفتاحية في الرسائل أو استفسارات الذكاء الاصطناعي أو عمليات البحث على الويب",
-          "ربط البيانات الصوتية والنصية والسلوكية",
-          "التقييم التلقائي لمستوى الضيق النفسي",
-          "تصنيف مستوى الطوارئ (أخضر / برتقالي / أحمر)",
-          "إطلاق التنبيه إلى المنظمات غير الحكومية أو السلطات أو المستشفيات حسب المستوى",
-        ],
-        formSendSuccess: "تم إرسال الرسالة بنجاح! شكرًا لك.",
-        formSendError: "حدث خطأ أثناء الإرسال. الرجاء المحاولة مرة أخرى.",
-        formSending: "جارٍ الإرسال...",
-        sendBtnText: "إرسال",
+      donationTitle: "Support Silent Witness",
+      donationParagraph:
+        "Your donation helps bring this prevention and protection project to life.",
+      formSuccess: "Message sent successfully, thank you!",
+      formError: "Error sending message, please try again.",
+    },
+    ar: {
+      animatedText: "لست وحدك",
+      whitepaper: "📘 تحميل الورقة البيضاء",
+      wpParagraph:
+        "اكتشف الورقة البيضاء الخاصة بـ Silent Witness: ذكاء اصطناعي أخلاقي لحماية الفئات الأكثر عرضة للخطر.",
+      stats: [
+        "يُقدّر أن 800,000 شخص ينتحرون سنويًا (منظمة الصحة العالمية)",
+        "انتحار واحد كل 40 ثانية في العالم",
+        "الانتحار هو السبب الثاني للوفاة بين 15-29 سنة",
+      ],
+      detectionTitle: "خطوات الكشف بالذكاء الاصطناعي",
+      detectionSteps: [
+        "تحليل الكلمات المفتاحية في الرسائل أو طلبات الذكاء الاصطناعي أو البحث على الإنترنت",
+        "ربط البيانات الصوتية والنصية أو السلوكية",
+        "التقييم التلقائي لمستوى الضيق",
+        "تصنيف درجة الاستعجال (أخضر / برتقالي / أحمر)",
+        "إطلاق تنبيه إلى المنظمات والسلطات والمستشفيات حسب المستوى",
+      ],
+      contactTitle: "اتصل بنا",
+      contactPlaceholder: {
+        nom: "اسمك",
+        email: "بريدك الإلكتروني",
+        message: "رسالتك",
+        button: "إرسال",
       },
-    };
+      donationTitle: "ادعم Silent Witness",
+      donationParagraph:
+        "تبرعك يساعد على إنجاح هذا المشروع للوقاية والحماية.",
+      formSuccess: "تم إرسال الرسالة بنجاح، شكرًا لك!",
+      formError: "حدث خطأ أثناء الإرسال، الرجاء المحاولة مرة أخرى.",
+    },
+  };
 
-    let currentLang = "fr";
+  // Elements references
+  const langSelect = document.getElementById("lang-select");
+  const animatedText = document.getElementById("animated-text");
+  const wpBtn = document.getElementById("wp-btn");
+  const wpParagraph = document.getElementById("wp-paragraph");
+  const statsList = document.getElementById("stats-list");
+  const timeline = document.getElementById("timeline");
+  const contactForm = document.getElementById("contact-form");
+  const formMessage = document.getElementById("form-message");
+  const submitBtn = document.getElementById("submit-btn");
+  const donationTitle = document.getElementById("donation-title");
+  const donationParagraph = document.querySelector("#paypal-donation").previousElementSibling;
 
-    function updateLanguage(lang) {
-      const trans = translations[lang];
-      document.querySelector(".animated-text").textContent = trans.title;
-      document.getElementById("wp-paragraph").textContent = trans.paragraph;
-      const wpBtn = document.getElementById("wp-btn");
-      wpBtn.textContent = trans.whitepaper;
+  function updateContent(lang) {
+    const t = translations[lang];
 
-      // Statistiques
-      const statsList = document.getElementById("stats-list");
-      statsList.innerHTML = "";
-      trans.stats.forEach((item) => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        statsList.appendChild(li);
-      });
+    animatedText.textContent = t.animatedText;
+    wpBtn.textContent = t.whitepaper;
+    wpParagraph.textContent = t.wpParagraph;
 
-      // Étapes détection IA
-      const stepsList = document.getElementById("detection-steps");
-      stepsList.innerHTML = "";
-      trans.steps.forEach((step) => {
-        const li = document.createElement("li");
-        li.textContent = step;
-        stepsList.appendChild(li);
-      });
-
-      // Bouton formulaire
-      const btnSend = document.getElementById("btn-send");
-      btnSend.textContent = trans.sendBtnText;
-
-      // Message formulaire reset
-      formMessage.textContent = "";
-      formMessage.className = "form-message";
-
-      currentLang = lang;
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle("dark-theme");
-    }
-
-    // EmailJS form handling
-    const form = document.getElementById("contact-form");
-    const formMessage = document.getElementById("form-message");
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      formMessage.textContent = translations[currentLang].formSending;
-      formMessage.className = "form-message";
-      document.getElementById("btn-send").disabled = true;
-
-      emailjs
-        .sendForm("service_za2pm5i", "template_mt5ycpk", form)
-        .then(() => {
-          formMessage.textContent = translations[currentLang].formSendSuccess;
-          formMessage.className = "form-message success";
-          form.reset();
-          document.getElementById("btn-send").disabled = false;
-        })
-        .catch(() => {
-          formMessage.textContent = translations[currentLang].formSendError;
-          formMessage.className = "form-message error";
-          document.getElementById("btn-send").disabled = false;
-        });
+    // Stats
+    statsList.innerHTML = "";
+    t.stats.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      statsList.appendChild(li);
     });
 
-    // Leaflet carte interactive
-    function initMap() {
-      const map = L.map("map", {
-        center: [20, 0],
-        zoom: 2,
-        minZoom: 2,
-        maxZoom: 6,
-        scrollWheelZoom: false,
-      });
-
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
-      }).addTo(map);
-
-      const suicideData = [
-        { country: "France", coords: [46.2276, 2.2137], rate: 12.1 },
-        { country: "USA", coords: [37.0902, -95.7129], rate: 14.5 },
-        { country: "Brazil", coords: [-14.235, -51.9253], rate: 6.2 },
-        { country: "Japan", coords: [36.2048, 138.2529], rate: 18.5 },
-        { country: "India", coords: [20.5937, 78.9629], rate: 16.3 },
-        { country: "South Africa", coords: [-30.5595, 22.9375], rate: 11.5 },
-        { country: "Australia", coords: [-25.2744, 133.7751], rate: 12.9 },
-        { country: "Russia", coords: [61.524, 105.3188], rate: 26.5 },
-      ];
-
-      suicideData.forEach(({ country, coords, rate }) => {
-        let color = "#3cba54"; // vert
-        if (rate > 20) color = "#db3236"; // rouge
-        else if (rate > 15) color = "#f4c20d"; // orange
-
-        const radius = rate * 8000;
-
-        L.circle(coords, {
-          color,
-          fillColor: color,
-          fillOpacity: 0.5,
-          radius,
-        })
-          .addTo(map)
-          .bindPopup(`<strong>${country}</strong><br>Taux de suicide: ${rate} / 100k habitants`);
-      });
-    }
-
-    // PayPal Donation button injecté dans #paypal-donation
-    function loadPaypalButton() {
-      if (!window.paypal) return;
-      paypal
-        .Buttons({
-          style: {
-            shape: "rect",
-            color: "blue",
-            layout: "horizontal",
-            label: "donate",
-          },
-          createOrder: function (data, actions) {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  amount: {
-                    value: "5.00", // montant par défaut, modifiable par l'utilisateur
-                  },
-                },
-              ],
-            });
-          },
-          onApprove: function (data, actions) {
-            return actions.order.capture().then(function () {
-              alert("Merci pour votre don !");
-            });
-          },
-        })
-        .render("#paypal-donation");
-    }
-
-    // Au chargement
-    window.addEventListener("DOMContentLoaded", () => {
-      updateLanguage(currentLang);
-      initMap();
-      loadPaypalButton();
-
-      document
-        .getElementById("lang-select")
-        .addEventListener("change", (e) => updateLanguage(e.target.value));
-
-      document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+    // Detection steps
+    timeline.innerHTML = "";
+    t.detectionSteps.forEach((step) => {
+      const li = document.createElement("li");
+      li.textContent = step;
+      timeline.appendChild(li);
     });
-  </script>
 
-  <!-- PayPal SDK -->
-  <script
-    src="https://www.paypal.com/sdk/js?client-id=BAAwNQmuQNtmwbB198XpnMFgJqBHvKNcvg138E9ddcIrNxHGCrGT2tvdVOyLaJTqde8dM-9e9ZglZUXS9A&currency=USD"
-    data-sdk-integration-source="button-factory"
-  ></script>
+    // Contact placeholders
+    contactForm.nom.placeholder = t.contactPlaceholder.nom;
+    contactForm.email.placeholder = t.contactPlaceholder.email;
+    contactForm.message.placeholder = t.contactPlaceholder.message;
+    submitBtn.textContent = t.contactPlaceholder.button;
+
+    // Donation text
+    donationTitle.textContent = t.donationTitle;
+    donationParagraph.textContent = t.donationParagraph;
+
+    // Reset form messages
+    formMessage.textContent = "";
+    formMessage.className = "";
+  }
+
+  // Handle language change
+  langSelect.addEventListener("change", (e) => {
+    updateContent(e.target.value);
+    if (e.target.value === "ar") {
+      document.body.dir = "rtl";
+      document.body.style.fontFamily = "'Cairo', sans-serif";
+    } else {
+      document.body.dir = "ltr";
+      document.body.style.fontFamily = "'Poppins', sans-serif";
+    }
+  });
+
+  // Theme toggle
+  const themeToggle = document.getElementById("theme-toggle");
+  function applyTheme(dark) {
+    if (dark) document.body.classList.add("dark-theme");
+    else document.body.classList.remove("dark-theme");
+  }
+  function getPrefersDark() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  // Initial theme based on preference or hour
+  function initTheme() {
+    const hour = new Date().getHours();
+    if (getPrefersDark() || hour >= 19 || hour < 7) {
+      applyTheme(true);
+    } else {
+      applyTheme(false);
+    }
+  }
+  themeToggle.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark-theme");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+  window.onload = () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) applyTheme(savedTheme === "dark");
+    else initTheme();
+  };
+
+  // EmailJS form handling
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    formMessage.textContent = "";
+    formMessage.className = "";
+
+    emailjs
+      .sendForm("service_za2pm5i", "template_mt5ycpk", contactForm)
+      .then(() => {
+        formMessage.textContent = translations[langSelect.value].formSuccess;
+        formMessage.classList.add("success");
+        contactForm.reset();
+      })
+      .catch(() => {
+        formMessage.textContent = translations[langSelect.value].formError;
+        formMessage.classList.add("error");
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+      });
+  });
+
+  // Back to top button
+  const backToTopBtn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) backToTopBtn.style.display = "flex";
+    else backToTopBtn.style.display = "none";
+  });
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Compteur animé (simulateur)
+  const suicideCounter = document.getElementById("suicide-counter");
+  let count = 0;
+  const interval = 40 * 1000; // 40 sec
+  function incrementCounter() {
+    count++;
+    suicideCounter.textContent = `${count} suicide${count > 1 ? "s" : ""} depuis que vous êtes ici.`;
+  }
+  setInterval(incrementCounter, interval);
+
+  // Leaflet carte interactive avec données
+  const map = L.map("map").setView([20, 0], 2);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 6,
+    attribution: '© OpenStreetMap contributors',
+  }).addTo(map);
+
+  // Données simplifiées taux suicide par 100k habitants (exemple)
+  const suicideRates = {
+    FR: 15.1,
+    US: 14.5,
+    MA: 11.2,
+    IN: 16.5,
+    CN: 8.5,
+    RU: 26.5,
+    BR: 6.2,
+    ZA: 12.8,
+  };
+
+  // Polygones GeoJSON simplifié pays clés (exemple)
+  // On utilise Leaflet's CircleMarkers instead for simplicity
+  Object.entries(suicideRates).forEach(([countryCode, rate]) => {
+    // Coords approximatives (lat, lng) pour quelques pays (à ajuster)
+    const coords = {
+      FR: [46.6, 2.4],
+      US: [39.8, -98.6],
+      MA: [31.6, -7.9],
+      IN: [21.0, 78.0],
+      CN: [35.9, 104.2],
+      RU: [61.5, 105.3],
+      BR: [-14.2, -51.9],
+      ZA: [-30.5, 22.9],
+    }[countryCode];
+    if (!coords) return;
+    const color =
+      rate < 10 ? "#3cba54" : rate < 15 ? "#f4c20d" : "#db3236";
+
+    L.circleMarker(coords, {
+      radius: 15,
+      fillColor: color,
+      color: "#222",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.7,
+    })
+      .addTo(map)
+      .bindPopup(
+        `<b>${countryCode}</b><br>Taux de suicide: ${rate} / 100k habitants`
+      );
+  });
+
+  // FAQ accordion
+  document.querySelectorAll(".faq dt").forEach((dt) => {
+    dt.addEventListener("click", () => {
+      dt.classList.toggle("active");
+    });
+    dt.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        dt.classList.toggle("active");
+      }
+    });
+  });
+
+  // Initial update
+  updateContent(langSelect.value);
+</script>
+
+<!-- PayPal Buttons -->
+<script>
+  paypal.Buttons({
+    style: {
+      shape: 'pill',
+      color: 'blue',
+      layout: 'vertical',
+      label: 'donate',
+    },
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '5.00' // montant par défaut en USD
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert('Merci pour votre don, ' + details.payer.name.given_name + '!');
+      });
+    }
+  }).render('#paypal-donation');
+</script>
 </body>
 </html>
 
