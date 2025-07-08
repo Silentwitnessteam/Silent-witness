@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Silent Witness - IA au service de l'humain</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
@@ -26,6 +26,13 @@
       text-decoration: none;
       font-weight: 500;
     }
+    .lang-select {
+      color: #1C5980;
+      padding: 0.5rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
     .hero {
       display: flex;
       flex-wrap: wrap;
@@ -40,9 +47,6 @@
       width: 100%;
       border-radius: 12px;
       margin-top: 2rem;
-    }
-    .hero-text h1 {
-      font-size: 2.5rem;
     }
     section {
       padding: 3rem 2rem;
@@ -92,69 +96,50 @@
 <body>
   <header>
     <div><strong>Silent Witness</strong></div>
-    <nav>
-      <a href="#concept">Concept</a>
-      <a href="#stats">Statistiques</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div>
+      <label for="lang"></label>
+      <select id="lang" class="lang-select" onchange="switchLang()">
+        <option value="fr">🇫🇷 Français</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="ar">🇸🇦 العربية</option>
+      </select>
+    </div>
   </header>
 
   <div class="hero">
     <div class="hero-text">
-      <h1>L'IA au service de l'humain</h1>
-      <p>Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
+      <h1 id="hero-title">L'IA au service de l'humain</h1>
+      <p id="hero-desc">Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
     </div>
-    <img src="https://raw.githubusercontent.com/silentwitnessteam/silentwitness/main/illustration.png" alt="Illustration IA et humain" />
+    <img src="https://raw.githubusercontent.com/silentwitnessteam/silentwitness/main/illustration.png" alt="Illustration IA et humain">
   </div>
 
   <section id="concept">
-    <h2>Notre mission</h2>
-    <p>
+    <h2 id="mission-title">Notre mission</h2>
+    <p id="mission-desc">
       Silent Witness est une solution d’intelligence artificielle capable de détecter les signaux de détresse dans la voix, les gestes ou les recherches d’un individu. Elle classe ces signaux par gravité, puis transmet une alerte éthique et sécurisée aux secours appropriés : ONG, hôpitaux, ou autorités compétentes.
     </p>
   </section>
 
   <section id="stats">
-    <h2>Statistiques Clés</h2>
+    <h2 id="stats-title">Statistiques Clés</h2>
     <div class="stats">
-      <div class="stat">
-        <strong>1 suicide toutes les 40 secondes</strong>
-        <p>dans le monde entier</p>
-      </div>
-      <div class="stat">
-        <strong>+30%</strong>
-        <p>de chances d'intervention si le danger est détecté tôt</p>
-      </div>
-      <div class="stat">
-        <strong>95%</strong>
-        <p>des utilisateurs croient au potentiel éthique de l'IA</p>
-      </div>
+      <div class="stat"><strong id="stat1">1 suicide toutes les 40 secondes</strong><p id="stat1-desc">dans le monde entier</p></div>
+      <div class="stat"><strong id="stat2">+30%</strong><p id="stat2-desc">de chances d'intervention si le danger est détecté tôt</p></div>
+      <div class="stat"><strong id="stat3">95%</strong><p id="stat3-desc">des utilisateurs croient au potentiel éthique de l'IA</p></div>
     </div>
   </section>
 
   <section id="faq" class="faq">
     <h2>FAQ</h2>
-    <details>
-      <summary>L’IA accède-t-elle à des données privées ?</summary>
-      <p>Non. Silent Witness n'enregistre aucune donnée personnelle. Elle analyse uniquement les signaux nécessaires à la détection de détresse.</p>
-    </details>
-    <details>
-      <summary>Comment les alertes sont-elles transmises ?</summary>
-      <p>Via une base de données sécurisée et cryptée, envoyée aux services partenaires validés.</p>
-    </details>
-    <details>
-      <summary>Est-ce déjà en service ?</summary>
-      <p>Silent Witness est en phase de prototypage avancé, en recherche de partenaires pour déploiement pilote.</p>
-    </details>
-    <details>
-      <summary>Qui peut nous contacter ?</summary>
-      <p>ONG, hôpitaux, développeurs IA, chercheurs, ou soutiens citoyens.</p>
-    </details>
+    <details><summary id="faq1">L’IA accède-t-elle à des données privées ?</summary><p id="faq1-desc">Non. Silent Witness n'enregistre aucune donnée personnelle...</p></details>
+    <details><summary id="faq2">Comment les alertes sont-elles transmises ?</summary><p id="faq2-desc">Via une base de données sécurisée et cryptée...</p></details>
+    <details><summary id="faq3">Est-ce déjà en service ?</summary><p id="faq3-desc">Silent Witness est en phase de prototypage avancé...</p></details>
+    <details><summary id="faq4">Qui peut nous contacter ?</summary><p id="faq4-desc">ONG, hôpitaux, développeurs IA, chercheurs...</p></details>
   </section>
 
   <section id="contact">
-    <h2>Contact</h2>
+    <h2 id="contact-title">Contact</h2>
     <form class="contact-form" action="mailto:silentwitness@outlook.fr" method="post" enctype="text/plain">
       <label>Nom:<br><input type="text" name="nom" required></label><br><br>
       <label>Email:<br><input type="email" name="email" required></label><br><br>
@@ -166,5 +151,85 @@
   <footer>
     © 2025 Silent Witness — IA pour la prévention, l'éthique et la vie.
   </footer>
+
+  <script>
+    const translations = {
+      fr: {
+        "hero-title": "L'IA au service de l'humain",
+        "hero-desc": "Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.",
+        "mission-title": "Notre mission",
+        "mission-desc": "Silent Witness est une solution d’intelligence artificielle capable...",
+        "stats-title": "Statistiques Clés",
+        "stat1": "1 suicide toutes les 40 secondes",
+        "stat1-desc": "dans le monde entier",
+        "stat2": "+30%",
+        "stat2-desc": "de chances d'intervention...",
+        "stat3": "95%",
+        "stat3-desc": "des utilisateurs croient au potentiel éthique de l'IA",
+        "faq1": "L’IA accède-t-elle à des données privées ?",
+        "faq1-desc": "Non. Silent Witness n'enregistre aucune donnée...",
+        "faq2": "Comment les alertes sont-elles transmises ?",
+        "faq2-desc": "Via une base de données sécurisée...",
+        "faq3": "Est-ce déjà en service ?",
+        "faq3-desc": "Silent Witness est en phase de prototypage avancé...",
+        "faq4": "Qui peut nous contacter ?",
+        "faq4-desc": "ONG, hôpitaux, développeurs IA, chercheurs...",
+        "contact-title": "Contact"
+      },
+      en: {
+        "hero-title": "AI serving humanity",
+        "hero-desc": "Ethical detection of distress signals to save lives confidentially.",
+        "mission-title": "Our Mission",
+        "mission-desc": "Silent Witness is an AI solution that detects distress signals...",
+        "stats-title": "Key Statistics",
+        "stat1": "1 suicide every 40 seconds",
+        "stat1-desc": "worldwide",
+        "stat2": "+30%",
+        "stat2-desc": "increase in intervention chances...",
+        "stat3": "95%",
+        "stat3-desc": "believe in the ethical potential of AI",
+        "faq1": "Does the AI access private data?",
+        "faq1-desc": "No. Silent Witness records no personal data...",
+        "faq2": "How are alerts sent?",
+        "faq2-desc": "Via secure and encrypted data...",
+        "faq3": "Is it live now?",
+        "faq3-desc": "Currently in advanced prototype phase...",
+        "faq4": "Who can contact us?",
+        "faq4-desc": "NGOs, hospitals, AI developers, citizens...",
+        "contact-title": "Contact"
+      },
+      ar: {
+        "hero-title": "الذكاء الاصطناعي في خدمة الإنسان",
+        "hero-desc": "رصد أخلاقي لإشارات الاستغاثة لإنقاذ الأرواح بسرية تامة.",
+        "mission-title": "مهمتنا",
+        "mission-desc": "Silent Witness هو حل ذكاء اصطناعي يكشف إشارات الضيق...",
+        "stats-title": "إحصائيات رئيسية",
+        "stat1": "انتحار كل 40 ثانية",
+        "stat1-desc": "حول العالم",
+        "stat2": "+30%",
+        "stat2-desc": "فرصة أكبر للتدخل المبكر...",
+        "stat3": "95%",
+        "stat3-desc": "يؤمنون بإمكانات الذكاء الاصطناعي الأخلاقية",
+        "faq1": "هل يصل الذكاء الاصطناعي إلى البيانات الشخصية؟",
+        "faq1-desc": "لا. لا يتم تسجيل أي بيانات شخصية...",
+        "faq2": "كيف يتم إرسال التنبيهات؟",
+        "faq2-desc": "عبر بيانات مشفرة وآمنة...",
+        "faq3": "هل الخدمة مفعّلة الآن؟",
+        "faq3-desc": "لا تزال في مرحلة النموذج الأولي المتقدم...",
+        "faq4": "من يمكنه الاتصال بنا؟",
+        "faq4-desc": "المنظمات، المستشفيات، مطوري الذكاء الاصطناعي...",
+        "contact-title": "اتصل بنا"
+      }
+    };
+
+    function switchLang() {
+      const lang = document.getElementById('lang').value;
+      const keys = Object.keys(translations[lang]);
+      keys.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = translations[lang][id];
+      });
+    }
+  </script>
 </body>
 </html>
