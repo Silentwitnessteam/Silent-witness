@@ -1,173 +1,176 @@
-<section id="visuals" tabindex="0" aria-label="Galerie images humain et technologie">
-  <h2>Humain & Technologie</h2>
-  <div class="carousel" aria-live="polite" aria-roledescription="carousel">
-    <button class="carousel-button prev" aria-label="Image précédente" aria-controls="carousel-track" aria-disabled="false">&#10094;</button>
-    <div class="carousel-track" id="carousel-track">
-      <div class="carousel-slide" role="group" aria-roledescription="slide" aria-label="Image 1 sur 3">
-        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Homme avec un casque de réalité augmentée" />
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Silent Witness - IA au service de l'humain</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #1c5980;
+      line-height: 1.5;
+    }
+    header {
+      background-color: #1c5980;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header strong {
+      font-size: 1.5rem;
+    }
+    .lang-select {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 2px solid #8fc1a1;
+      background-color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .hero {
+      padding: 4rem 2rem;
+      background: linear-gradient(to right, #1c5980, #8fc1a1);
+      color: white;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+    }
+    .carousel {
+      max-width: 900px;
+      margin: 3rem auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(28,89,128,0.3);
+      background: white;
+      position: relative;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel-slide {
+      min-width: 100%;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1c5980cc;
+      color: white;
+      font-size: 2rem;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .carousel-button.prev { left: 10px; }
+    .carousel-button.next { right: 10px; }
+    .whitepaper-download-button {
+      background-color: #1c5980;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 1.5rem;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #1c5980;
+      color: white;
+      font-size: 0.9rem;
+    }
+    .animated-text {
+      animation: pulseText 2s infinite;
+    }
+    @keyframes pulseText {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Silent Witness</strong>
+    <select class="lang-select" id="lang-select">
+      <option value="fr">🇫🇷 Français</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="ar">🇸🇦 العربية</option>
+    </select>
+  </header>
+
+  <section class="hero">
+    <h1 id="hero-title">L'IA au service de l'humain</h1>
+    <p id="hero-desc">Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
+  </section>
+
+  <section id="carousel" class="carousel">
+    <button class="carousel-button prev">&#10094;</button>
+    <div class="carousel-track">
+      <div class="carousel-slide">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Homme avec un casque de réalité augmentée">
       </div>
-      <div class="carousel-slide" role="group" aria-roledescription="slide" aria-label="Image 2 sur 3">
-        <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=80" alt="Femme et robot collaborant ensemble" />
-      </div>
-      <div class="carousel-slide" role="group" aria-roledescription="slide" aria-label="Image 3 sur 3">
-        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Visage humain et visage robot en transparence" />
+      <div class="carousel-slide">
+        <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=80" alt="Femme et robot collaborant ensemble">
       </div>
     </div>
-    <button class="carousel-button next" aria-label="Image suivante" aria-controls="carousel-track" aria-disabled="false">&#10095;</button>
+    <button class="carousel-button next">&#10095;</button>
+  </section>
 
-    <div class="carousel-indicators" role="tablist" aria-label="Indicateurs de position">
-      <button role="tab" aria-selected="true" aria-controls="slide1" id="indicator1" tabindex="0"></button>
-      <button role="tab" aria-selected="false" aria-controls="slide2" id="indicator2" tabindex="-1"></button>
-      <button role="tab" aria-selected="false" aria-controls="slide3" id="indicator3" tabindex="-1"></button>
-    </div>
-  </div>
-</section>
+  <section id="whitepaper" style="text-align:center; margin: 4rem auto;">
+    <h2 id="whitepaper-title"><span class="animated-text">You're not alone</span></h2>
+    <p id="whitepaper-desc">Découvrez notre livre blanc complet sur Silent Witness : une IA éthique dédiée à la prévention et à la protection des plus vulnérables.</p>
+    <a href="https://silentwitnessteam.github.io/Silent-witness/Silent_Witness_White_Paper.pdf" target="_blank" class="whitepaper-download-button">📘 Télécharger notre White Paper</a>
+  </section>
 
-<style>
-  /* Carousel styles améliorés */
-  .carousel {
-    max-width: 900px;
-    margin: 3rem auto;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(28,89,128,0.3);
-    background: white;
-    position: relative;
-    user-select: none;
-  }
-  .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease;
-    will-change: transform;
-  }
-  .carousel-slide {
-    min-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .carousel-slide img {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 12px;
-    pointer-events: none;
-  }
-  .carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #1c5980cc;
-    border: none;
-    color: white;
-    font-size: 2.5rem;
-    padding: 0.3rem 1rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-    user-select: none;
-    z-index: 10;
-  }
-  .carousel-button:hover,
-  .carousel-button:focus {
-    background: #8fc1a1cc;
-    color: #1c5980;
-    outline: none;
-  }
-  .carousel-button.prev {
-    left: 15px;
-  }
-  .carousel-button.next {
-    right: 15px;
-  }
-  .carousel-indicators {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-  }
-  .carousel-indicators button {
-    width: 14px;
-    height: 14px;
-    background: #ccc;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-  }
-  .carousel-indicators button[aria-selected="true"] {
-    background: #1c5980;
-  }
-</style>
+  <section id="contact" style="max-width: 500px; margin: auto; padding: 2rem;">
+    <h2 id="contact-title">Contact</h2>
+    <form id="contact-form">
+      <label for="name">Nom:</label>
+      <input type="text" id="name" name="name" required><br><br>
 
-<script>
-  const track = document.querySelector('.carousel-track');
-  const slides = Array.from(track.children);
-  const prevButton = document.querySelector('.carousel-button.prev');
-  const nextButton = document.querySelector('.carousel-button.next');
-  const indicators = document.querySelectorAll('.carousel-indicators button');
-  let currentIndex = 0;
-  let autoplayInterval;
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br><br>
 
-  function updateCarousel() {
-    const slideWidth = slides[0].getBoundingClientRect().width;
-    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-    indicators.forEach((btn, i) => {
-      btn.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
-      btn.tabIndex = i === currentIndex ? 0 : -1;
+      <label for="message">Message:</label><br>
+      <textarea id="message" name="message" rows="5" required></textarea><br><br>
+
+      <button type="submit">Envoyer</button>
+    </form>
+  </section>
+
+  <footer>
+    © 2025 Silent Witness — IA pour la prévention, l'éthique et la vie.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init('_pR14KMi1syThzlmY');
+
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      emailjs.sendForm('service_za2pm5i', 'template_mt5ycpk', this)
+        .then(() => alert('Message envoyé avec succès!'))
+        .catch((error) => alert('Erreur: ' + error.text));
     });
-  }
-
-  function goToSlide(index) {
-    if (index < 0) index = slides.length - 1;
-    else if (index >= slides.length) index = 0;
-    currentIndex = index;
-    updateCarousel();
-  }
-
-  prevButton.addEventListener('click', () => {
-    goToSlide(currentIndex - 1);
-    resetAutoplay();
-  });
-
-  nextButton.addEventListener('click', () => {
-    goToSlide(currentIndex + 1);
-    resetAutoplay();
-  });
-
-  indicators.forEach((btn, i) => {
-    btn.addEventListener('click', () => {
-      goToSlide(i);
-      resetAutoplay();
-    });
-  });
-
-  function startAutoplay() {
-    autoplayInterval = setInterval(() => {
-      goToSlide(currentIndex + 1);
-    }, 5000);
-  }
-
-  function resetAutoplay() {
-    clearInterval(autoplayInterval);
-    startAutoplay();
-  }
-
-  // Start autoplay on load
-  startAutoplay();
-
-  // Pause autoplay on hover/focus
-  const carousel = document.querySelector('.carousel');
-  carousel.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
-  carousel.addEventListener('mouseleave', startAutoplay);
-  carousel.addEventListener('focusin', () => clearInterval(autoplayInterval));
-  carousel.addEventListener('focusout', startAutoplay);
-
-  // Responsive fix on resize
-  window.addEventListener('resize', updateCarousel);
-
-  // Initialize carousel position
-  updateCarousel();
-</script>
+  </script>
+</body>
+</html>
 
