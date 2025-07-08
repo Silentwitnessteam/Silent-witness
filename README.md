@@ -4,49 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Silent Witness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Cairo&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins&family=Cairo&display=swap');
-
     :root {
       --color-bg-light: #ffffff;
       --color-text-light: #1c5980;
       --color-bg-dark: #1c1c1c;
       --color-text-dark: #f0f0f0;
-      --color-primary: #1c5980;
-      --color-primary-hover: #8fc1a1;
-      --transition-speed: 0.3s;
+      --primary-color: #204d7a;
+      --accent-color: #8fc1a1;
     }
     body {
       margin: 0;
       font-family: 'Poppins', 'Cairo', sans-serif;
       background-color: var(--color-bg-light);
       color: var(--color-text-light);
-      transition: background-color var(--transition-speed), color var(--transition-speed);
-      line-height: 1.5;
+      transition: background-color 0.3s ease, color 0.3s ease;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 1rem;
+      line-height: 1.5;
     }
     body.dark-theme {
       background-color: var(--color-bg-dark);
       color: var(--color-text-dark);
     }
     header {
-      width: 100%;
-      max-width: 900px;
-      padding: 1rem;
-      background-color: var(--color-primary);
+      background: var(--primary-color);
       color: white;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-sizing: border-box;
-      border-radius: 8px;
-      margin: 1rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
-    h1 {
+    header h1 {
       margin: 0;
       font-weight: 700;
       font-size: 1.8rem;
@@ -57,235 +49,160 @@
       gap: 1rem;
     }
     select.language-select {
-      padding: 0.4rem 0.6rem;
-      border-radius: 6px;
-      border: none;
       font-size: 1rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+      border: none;
       cursor: pointer;
     }
     button#theme-toggle {
+      font-size: 1.4rem;
       background: transparent;
-      border: 2px solid white;
-      border-radius: 50%;
-      color: white;
-      font-size: 1.3rem;
-      width: 36px;
-      height: 36px;
+      border: none;
       cursor: pointer;
-      transition: background-color var(--transition-speed), color var(--transition-speed);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      color: white;
       user-select: none;
+      transition: color 0.3s ease;
     }
     button#theme-toggle:hover {
-      background-color: white;
-      color: var(--color-primary);
+      color: var(--accent-color);
     }
-
     .animated-text {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
-      margin: 2rem auto;
       text-align: center;
-      max-width: 900px;
-      animation: pulseText 2.5s infinite;
-      user-select: none;
+      margin: 2rem 1rem 1rem;
+      animation: pulseText 2s infinite;
     }
     @keyframes pulseText {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.05); }
+      50% { opacity: 0.7; transform: scale(1.05); }
     }
     main {
-      width: 100%;
       max-width: 900px;
-      box-sizing: border-box;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
     }
     section {
       margin-bottom: 3rem;
-      background: rgba(255 255 255 / 0.85);
-      border-radius: 10px;
-      padding: 1.8rem 1.5rem;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-      transition: background var(--transition-speed), color var(--transition-speed);
     }
-    body.dark-theme section {
-      background: rgba(28 28 28 / 0.85);
-      box-shadow: 0 2px 12px rgb(255 255 255 / 0.1);
-    }
-    section h2 {
-      font-size: 1.6rem;
-      margin-top: 0;
+    h2 {
+      color: var(--primary-color);
+      font-weight: 700;
       margin-bottom: 1rem;
-      font-weight: 600;
-      color: var(--color-primary);
+      font-size: 1.5rem;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.25rem;
     }
     p, ul, ol {
-      font-size: 1rem;
-      margin-top: 0;
-      margin-bottom: 1rem;
+      font-size: 1.1rem;
     }
     ul, ol {
-      padding-left: 1.4rem;
+      padding-left: 1.5rem;
     }
     ul li, ol li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
     }
     a.download-btn {
       display: inline-block;
-      background-color: var(--color-primary);
+      background: var(--primary-color);
       color: white;
-      padding: 0.8rem 1.5rem;
+      padding: 0.7rem 1.5rem;
       border-radius: 8px;
+      font-weight: 700;
       text-decoration: none;
-      font-weight: 600;
-      transition: background-color var(--transition-speed), color var(--transition-speed);
-      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-    a.download-btn:hover,
-    a.download-btn:focus {
-      background-color: var(--color-primary-hover);
-      color: var(--color-primary);
-      outline: none;
+    a.download-btn:hover {
+      background: var(--accent-color);
+      color: var(--primary-color);
     }
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: none;
-      border-radius: 8px;
+    #map {
+      height: 450px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
       margin-top: 1rem;
     }
     form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-top: 1rem;
     }
     input, textarea {
       font-family: inherit;
       font-size: 1rem;
-      padding: 0.8rem;
+      padding: 0.7rem;
+      border: 1px solid #ccc;
       border-radius: 6px;
-      border: 1.5px solid #ccc;
-      transition: border-color 0.3s;
       resize: vertical;
     }
     input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--color-primary);
-      box-shadow: 0 0 6px var(--color-primary);
+      outline: 2px solid var(--primary-color);
+      border-color: var(--primary-color);
     }
     button[type="submit"] {
-      background-color: var(--color-primary);
+      background-color: var(--primary-color);
       color: white;
-      padding: 0.9rem;
       border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
+      padding: 0.9rem;
       font-weight: 700;
+      font-size: 1rem;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s;
-      user-select: none;
+      transition: background-color 0.3s ease;
     }
     button[type="submit"]:hover {
-      background-color: var(--color-primary-hover);
-      color: var(--color-primary);
+      background-color: var(--accent-color);
+      color: var(--primary-color);
     }
-    /* Donation section styles */
+    /* Donation buttons */
     .donation-section {
       text-align: center;
-      background: #e6f1ec;
-      border-radius: 10px;
-      padding: 1.8rem 1.5rem;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
-      margin-bottom: 3rem;
-      transition: background var(--transition-speed), color var(--transition-speed);
-    }
-    body.dark-theme .donation-section {
-      background: #2e443a;
-      box-shadow: 0 2px 10px rgb(255 255 255 / 0.1);
-    }
-    .donation-section h2 {
-      color: #1c5980;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    body.dark-theme .donation-section h2 {
-      color: #8fc1a1;
-    }
-    .donation-section p {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      color: #254f3f;
-    }
-    body.dark-theme .donation-section p {
-      color: #a3c0a0;
     }
     .donate-buttons {
       display: flex;
       justify-content: center;
       gap: 1.5rem;
+      margin-top: 1rem;
       flex-wrap: wrap;
     }
     .donate-buttons a {
-      background-color: #1c5980;
+      background-color: var(--primary-color);
       color: white;
       padding: 0.8rem 1.8rem;
       border-radius: 8px;
       font-weight: 700;
+      font-size: 1.1rem;
       text-decoration: none;
-      transition: background-color 0.3s;
-      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
       min-width: 140px;
       text-align: center;
     }
-    .donate-buttons a:hover,
-    .donate-buttons a:focus {
-      background-color: #8fc1a1;
-      color: #1c5980;
-      outline: none;
+    .donate-buttons a:hover {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
     }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .animated-text {
-        font-size: 1.8rem;
-      }
-      section {
-        padding: 1rem 1rem;
-      }
-      header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-      }
-      .controls {
-        width: 100%;
-        justify-content: flex-start;
-      }
-      .donate-buttons {
-        flex-direction: column;
-        gap: 1rem;
-      }
+    /* Dark mode fixes */
+    body.dark-theme a.download-btn,
+    body.dark-theme .donate-buttons a,
+    body.dark-theme button[type="submit"] {
+      color: #fff;
+    }
+    body.dark-theme input, body.dark-theme textarea {
+      background-color: #333;
+      color: #eee;
+      border-color: #555;
     }
   </style>
-
-  <!-- EmailJS SDK -->
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
   <script>
-    emailjs.init('_pR14KMi1syThzlmY');
-
-    // Traductions multilingues complètes
     const translations = {
       fr: {
         title: "Vous n'êtes pas seul",
         whitepaper: "📘 Télécharger notre White Paper",
-        paragraph: "Découvrez notre livre blanc complet sur Silent Witness : une IA éthique dédiée à la prévention et à la protection des plus vulnérables.",
-        worldMapTitle: "Carte mondiale des suicides",
+        whitepaperDesc: "Découvrez notre livre blanc complet sur Silent Witness : une IA éthique dédiée à la prévention et à la protection des plus vulnérables.",
+        mapTitle: "Carte mondiale des suicides",
         statsTitle: "Statistiques clés",
         statsList: [
           "Près de 800 000 personnes se suicident chaque année (OMS)",
@@ -300,94 +217,101 @@
           "Classement de l’urgence (vert / orange / rouge)",
           "Déclenchement d'une alerte vers ONG, autorités ou hôpitaux selon le niveau"
         ],
-        contactTitle: "Contact",
-        formNamePlaceholder: "Votre nom",
-        formEmailPlaceholder: "Votre email",
-        formMessagePlaceholder: "Votre message",
-        formSubmitButton: "Envoyer",
-        donationTitle: "Soutenez Silent Witness — Faites la différence aujourd’hui",
-        donationText: "Le développement, la maintenance et l’amélioration continue de Silent Witness nécessitent des ressources importantes. Votre soutien est essentiel pour :\n- Affiner les algorithmes et renforcer la précision.\n- Assurer une veille éthique et la protection des données.\n- Déployer le projet auprès des populations vulnérables.\n- Former les équipes partenaires (ONG, hôpitaux).\n\nChaque don, petit ou grand, rapproche Silent Witness d’un monde plus sûr et solidaire.\n\nMerci pour votre générosité.",
+        donationTitle: "Soutenez Silent Witness",
+        donationText: `Votre soutien est vital pour concrétiser ce projet humain et sauver des vies.\n\nChaque don contribue à améliorer la détection et l'assistance aux personnes en détresse.\n\nMerci de votre générosité !`,
         donatePaypal: "Faire un don via PayPal",
-        donateStripe: "Faire un don via Stripe"
+        donateStripe: "Faire un don via Stripe",
+        contactTitle: "Contactez-nous",
+        inputName: "Votre nom",
+        inputEmail: "Votre email",
+        inputMessage: "Votre message",
+        submitBtn: "Envoyer",
+        emailSuccess: "Message envoyé ! Merci pour votre contact.",
+        emailError: "Erreur lors de l’envoi : "
       },
       en: {
         title: "You're not alone",
         whitepaper: "📘 Download our White Paper",
-        paragraph: "Explore our full white paper on Silent Witness – an ethical AI for prevention and protection of the vulnerable.",
-        worldMapTitle: "Worldwide Suicide Map",
+        whitepaperDesc: "Explore our full white paper on Silent Witness – an ethical AI for prevention and protection of the vulnerable.",
+        mapTitle: "World Suicide Map",
         statsTitle: "Key Statistics",
         statsList: [
-          "Nearly 800,000 people die by suicide each year (WHO)",
+          "Nearly 800,000 people die by suicide every year (WHO)",
           "1 suicide every 40 seconds worldwide",
           "Suicide is the 2nd leading cause of death among 15-29 year olds"
         ],
         stepsTitle: "AI Detection Steps",
         stepsList: [
-          "Analysis of keywords in messages, AI queries or web searches",
-          "Correlation of vocal, textual, or behavioral data",
-          "Automatic evaluation of distress levels",
-          "Urgency classification (green / orange / red)",
-          "Alert triggering to NGOs, authorities or hospitals depending on level"
+          "Analyze keywords in messages, AI queries or web searches",
+          "Correlate vocal, textual or behavioral data",
+          "Automatically evaluate distress level",
+          "Classify urgency (green / orange / red)",
+          "Trigger alert to NGOs, authorities or hospitals based on level"
         ],
-        contactTitle: "Contact",
-        formNamePlaceholder: "Your name",
-        formEmailPlaceholder: "Your email",
-        formMessagePlaceholder: "Your message",
-        formSubmitButton: "Send",
-        donationTitle: "Support Silent Witness — Make a difference today",
-        donationText: "The development, maintenance and continuous improvement of Silent Witness require significant resources. Your support is essential to:\n- Refine algorithms and improve accuracy.\n- Ensure ethical monitoring and data protection.\n- Deploy the project to vulnerable populations.\n- Train partner teams (NGOs, hospitals).\n\nEvery donation, big or small, brings Silent Witness closer to a safer, more caring world.\n\nThank you for your generosity.",
+        donationTitle: "Support Silent Witness",
+        donationText: `Your support is vital to realize this human project and save lives.\n\nEvery donation helps improve detection and assistance to people in distress.\n\nThank you for your generosity!`,
         donatePaypal: "Donate via PayPal",
-        donateStripe: "Donate via Stripe"
+        donateStripe: "Donate via Stripe",
+        contactTitle: "Contact Us",
+        inputName: "Your name",
+        inputEmail: "Your email",
+        inputMessage: "Your message",
+        submitBtn: "Send",
+        emailSuccess: "Message sent! Thank you for reaching out.",
+        emailError: "Error sending message: "
       },
       ar: {
         title: "لست وحدك",
         whitepaper: "📘 تحميل الورقة البيضاء",
-        paragraph: "اكتشف الورقة البيضاء الخاصة بـ Silent Witness: ذكاء اصطناعي أخلاقي لحماية الفئات الأكثر عرضة للخطر.",
-        worldMapTitle: "خريطة الانتحار العالمية",
+        whitepaperDesc: "اكتشف الورقة البيضاء الخاصة بـ Silent Witness: ذكاء اصطناعي أخلاقي لحماية الفئات الأكثر عرضة للخطر.",
+        mapTitle: "خريطة الانتحار العالمية",
         statsTitle: "إحصائيات رئيسية",
         statsList: [
-          "يموت حوالي 800,000 شخص من الانتحار سنويًا (منظمة الصحة العالمية)",
+          "ما يقرب من 800,000 شخص ينتحرون كل عام (منظمة الصحة العالمية)",
           "انتحار واحد كل 40 ثانية في جميع أنحاء العالم",
-          "الانتحار هو السبب الثاني للوفاة بين الأعمار 15-29 سنة"
+          "الانتحار هو السبب الثاني للوفاة بين الشباب من 15 إلى 29 عامًا"
         ],
-        stepsTitle: "خطوات الكشف بالذكاء الاصطناعي",
+        stepsTitle: "خطوات الكشف بواسطة الذكاء الاصطناعي",
         stepsList: [
-          "تحليل الكلمات المفتاحية في الرسائل، استفسارات الذكاء الاصطناعي أو البحث على الإنترنت",
-          "الربط بين البيانات الصوتية، النصية أو السلوكية",
+          "تحليل الكلمات المفتاحية في الرسائل، استفسارات الذكاء الاصطناعي أو البحث على الويب",
+          "ربط البيانات الصوتية، النصية أو السلوكية",
           "التقييم التلقائي لمستوى الضيق",
-          "تصنيف حالة الطوارئ (أخضر / برتقالي / أحمر)",
-          "إطلاق التنبيه تلقائيًا إلى المنظمات، السلطات أو المستشفيات حسب المستوى"
+          "تصنيف مستوى الطوارئ (أخضر / برتقالي / أحمر)",
+          "إطلاق تنبيه للمنظمات، السلطات أو المستشفيات حسب المستوى"
         ],
-        contactTitle: "اتصل بنا",
-        formNamePlaceholder: "الاسم",
-        formEmailPlaceholder: "البريد الإلكتروني",
-        formMessagePlaceholder: "رسالتك",
-        formSubmitButton: "إرسال",
-        donationTitle: "ادعم Silent Witness — وكن جزءًا من التغيير اليوم",
-        donationText: "يتطلب تطوير وصيانة وتحسين Silent Witness موارد كبيرة. دعمك ضروري لـ:\n- تحسين الخوارزميات وزيادة الدقة.\n- ضمان الرقابة الأخلاقية وحماية البيانات.\n- نشر المشروع بين الفئات الأكثر ضعفًا.\n- تدريب فرق الشركاء (المنظمات، المستشفيات).\n\nكل تبرع، صغير أو كبير، يقرب Silent Witness من عالم أكثر أمانًا ورعاية.\n\nشكرًا لكرمكم.",
+        donationTitle: "ادعم Silent Witness",
+        donationText: `دعمك حيوي لتحقيق هذا المشروع الإنساني وإنقاذ الأرواح.\n\nكل تبرع يساعد في تحسين الكشف والمساعدة للأشخاص في الضيق.\n\nشكرًا لكرمك!`,
         donatePaypal: "تبرع عبر PayPal",
-        donateStripe: "تبرع عبر Stripe"
+        donateStripe: "تبرع عبر Stripe",
+        contactTitle: "اتصل بنا",
+        inputName: "اسمك",
+        inputEmail: "بريدك الإلكتروني",
+        inputMessage: "رسالتك",
+        submitBtn: "إرسال",
+        emailSuccess: "تم إرسال الرسالة! شكرًا لتواصلك معنا.",
+        emailError: "خطأ في الإرسال: "
       }
     };
 
-    // Mise à jour du contenu selon langue choisie
     function updateLanguage(lang) {
-      document.documentElement.lang = lang;
-      // Texte animé
       document.querySelector('.animated-text').textContent = translations[lang].title;
-      // White paper section
-      document.getElementById('wp-paragraph').textContent = translations[lang].paragraph;
-      const wpBtn = document.getElementById('wp-btn');
-      wpBtn.textContent = translations[lang].whitepaper;
-      wpBtn.setAttribute('aria-label', translations[lang].whitepaper);
-      // Sections titles
-      document.getElementById('map-title').textContent = translations[lang].worldMapTitle;
+      document.getElementById('wp-paragraph').textContent = translations[lang].whitepaperDesc;
+      document.getElementById('wp-btn').textContent = translations[lang].whitepaper;
+      document.getElementById('wp-btn').setAttribute('aria-label', translations[lang].whitepaper);
+      document.getElementById('map-title').textContent = translations[lang].mapTitle;
       document.getElementById('stats-title').textContent = translations[lang].statsTitle;
       document.getElementById('steps-title').textContent = translations[lang].stepsTitle;
-      document.getElementById('contact-title').textContent = translations[lang].contactTitle;
       document.getElementById('donation-title').textContent = translations[lang].donationTitle;
+      document.getElementById('donation-text').textContent = translations[lang].donationText;
+      document.getElementById('donate-paypal').textContent = translations[lang].donatePaypal;
+      document.getElementById('donate-stripe').textContent = translations[lang].donateStripe;
+      document.getElementById('contact-title').textContent = translations[lang].contactTitle;
+      document.getElementById('input-name').placeholder = translations[lang].inputName;
+      document.getElementById('input-email').placeholder = translations[lang].inputEmail;
+      document.getElementById('input-message').placeholder = translations[lang].inputMessage;
+      document.getElementById('form-submit').textContent = translations[lang].submitBtn;
 
-      // Stats list
+      // update stats list
       const statsList = document.getElementById('stats-list');
       statsList.innerHTML = '';
       translations[lang].statsList.forEach(item => {
@@ -396,7 +320,7 @@
         statsList.appendChild(li);
       });
 
-      // Steps list
+      // update steps list
       const stepsList = document.getElementById('steps-list');
       stepsList.innerHTML = '';
       translations[lang].stepsList.forEach(item => {
@@ -404,55 +328,70 @@
         li.textContent = item;
         stepsList.appendChild(li);
       });
-
-      // Contact form placeholders & button
-      document.getElementById('input-name').placeholder = translations[lang].formNamePlaceholder;
-      document.getElementById('input-email').placeholder = translations[lang].formEmailPlaceholder;
-      document.getElementById('input-message').placeholder = translations[lang].formMessagePlaceholder;
-      document.getElementById('form-submit').textContent = translations[lang].formSubmitButton;
-
-      // Donation text & buttons
-      document.getElementById('donation-text').textContent = translations[lang].donationText;
-      document.getElementById('donate-paypal').textContent = translations[lang].donatePaypal;
-      document.getElementById('donate-stripe').textContent = translations[lang].donateStripe;
     }
 
-    // Toggle dark mode
+    // Dark mode toggle
     function toggleTheme() {
       document.body.classList.toggle('dark-theme');
     }
 
-    // EmailJS form send
+    // EmailJS send function
     function sendEmail(e) {
       e.preventDefault();
       const btn = document.getElementById('form-submit');
       btn.disabled = true;
-      btn.textContent = '...';
-
       emailjs.sendForm('service_za2pm5i', 'template_mt5ycpk', e.target)
         .then(() => {
-          alert('Message envoyé ! Merci pour votre contact.');
+          alert(translations[document.getElementById('lang-select').value].emailSuccess);
           e.target.reset();
           updateLanguage(document.getElementById('lang-select').value);
           btn.disabled = false;
         })
         .catch((error) => {
-          alert('Erreur lors de l’envoi : ' + error.text);
+          alert(translations[document.getElementById('lang-select').value].emailError + error.text);
           btn.disabled = false;
           updateLanguage(document.getElementById('lang-select').value);
         });
     }
 
-    // Initialisation à la charge
+    // Initialize Leaflet map with dummy suicide data by continent (per 100k)
+    function initMap() {
+      const map = L.map('map').setView([20, 0], 2);
+
+      // Add OpenStreetMap tile layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 5,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Example suicide data (rate per 100k inhabitants approx)
+      const suicideData = [
+        { continent: "Africa", coords: [1.6508, 10.2679], rate: 10 },
+        { continent: "Asia", coords: [34.0479, 100.6197], rate: 12 },
+        { continent: "Europe", coords: [54.5260, 15.2551], rate: 14 },
+        { continent: "North America", coords: [54.5260, -105.2551], rate: 13 },
+        { continent: "South America", coords: [-14.2350, -51.9253], rate: 9 },
+        { continent: "Oceania", coords: [-22.7359, 140.0188], rate: 11 }
+      ];
+
+      suicideData.forEach(({ continent, coords, rate }) => {
+        L.circle(coords, {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: rate * 20000
+        }).addTo(map)
+          .bindPopup(`<strong>${continent}</strong><br>Taux de suicide : ${rate} pour 100k habitants`);
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       emailjs.init('_pR14KMi1syThzlmY');
-
-      // Event listeners
       document.getElementById('contact-form').addEventListener('submit', sendEmail);
       document.getElementById('lang-select').addEventListener('change', e => updateLanguage(e.target.value));
       document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-
       updateLanguage('fr');
+      initMap();
     });
   </script>
 </head>
@@ -466,75 +405,65 @@
         <option value="en">English</option>
         <option value="ar">العربية</option>
       </select>
-      <button id="theme-toggle" aria-label="Basculer thème clair / sombre" title="Basculer thème clair / sombre">🌓</button>
+      <button id="theme-toggle" aria-label="Basculer thème clair/sombre" title="Basculer thème clair/sombre">🌓</button>
     </div>
   </header>
 
-  <div class="animated-text" aria-live="polite" aria-atomic="true" role="heading" aria-level="2"></div>
+  <div class="animated-text" aria-live="polite"></div>
 
   <main>
-    <!-- White Paper -->
-    <section aria-labelledby="wp-title" role="region" tabindex="0">
-      <h2 id="wp-title" class="visually-hidden">White Paper</h2>
+    <section aria-label="Description du projet">
       <p id="wp-paragraph"></p>
-      <a id="wp-btn" href="https://silentwitnessteam.github.io/Silent-witness/Silent_Witness_White_Paper.pdf" target="_blank" rel="noopener" class="download-btn" role="button" aria-label="Télécharger le White Paper"></a>
+      <a id="wp-btn" href="https://silentwitnessteam.github.io/Silent-witness/Silent_Witness_White_Paper.pdf" target="_blank" rel="noopener noreferrer" class="download-btn"></a>
     </section>
 
-    <!-- Carte mondiale des suicides -->
-    <section aria-labelledby="map-title" role="region" tabindex="0">
+    <section aria-label="Carte mondiale des suicides">
       <h2 id="map-title"></h2>
-      <iframe 
-        src="https://ourworldindata.org/grapher/suicide-death-rate?tab=map" 
-        title="Carte mondiale des taux de suicide" 
-        allowfullscreen 
-        loading="lazy" 
-        referrerpolicy="no-referrer"
-      ></iframe>
+      <div id="map" role="region" aria-label="Carte interactive des taux de suicide par continent"></div>
     </section>
 
-    <!-- Statistiques clés -->
-    <section aria-labelledby="stats-title" role="region" tabindex="0">
+    <section aria-label="Statistiques clés">
       <h2 id="stats-title"></h2>
-      <ul id="stats-list" aria-live="polite"></ul>
+      <ul id="stats-list"></ul>
     </section>
 
-    <!-- Étapes détection IA -->
-    <section aria-labelledby="steps-title" role="region" tabindex="0">
+    <section aria-label="Étapes de détection IA">
       <h2 id="steps-title"></h2>
-      <ol id="steps-list" aria-live="polite"></ol>
+      <ol id="steps-list"></ol>
     </section>
 
-    <!-- Donation -->
-    <section class="donation-section" aria-labelledby="donation-title" role="region" tabindex="0">
+    <section class="donation-section" aria-label="Section de donation">
       <h2 id="donation-title"></h2>
       <p id="donation-text" style="white-space: pre-line;"></p>
       <div class="donate-buttons">
-        <a href="https://www.paypal.com/donate?hosted_button_id=YOUR_PAYPAL_BUTTON_ID" target="_blank" rel="noopener" id="donate-paypal" role="button"></a>
-        <a href="https://buy.stripe.com/test_XXXXXXXXXXXX" target="_blank" rel="noopener" id="donate-stripe" role="button"></a>
+        <a href="https://www.paypal.com/donate?hosted_button_id=EXEMPLEID" target="_blank" rel="noopener noreferrer" id="donate-paypal" aria-label="Faire un don via PayPal"></a>
+        <a href="https://buy.stripe.com/test_14k4gD2nYb7I7e4aEE" target="_blank" rel="noopener noreferrer" id="donate-stripe" aria-label="Faire un don via Stripe"></a>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section aria-labelledby="contact-title" role="region" tabindex="0">
+    <section aria-label="Formulaire de contact">
       <h2 id="contact-title"></h2>
-      <form id="contact-form" aria-label="Formulaire de contact Silent Witness">
-        <input id="input-name" type="text" name="nom" required autocomplete="name" />
-        <input id="input-email" type="email" name="email" required autocomplete="email" />
-        <textarea id="input-message" name="message" rows="4" required></textarea>
+      <form id="contact-form">
+        <input type="text" name="nom" id="input-name" placeholder="" required aria-required="true" />
+        <input type="email" name="email" id="input-email" placeholder="" required aria-required="true" />
+        <textarea name="message" id="input-message" rows="4" placeholder="" required aria-required="true"></textarea>
         <button type="submit" id="form-submit"></button>
       </form>
     </section>
   </main>
 
-  <style>
-    /* For screen readers: hide but keep accessible */
-    .visually-hidden {
+  <script>
+    // Visually hidden class for accessibility (label)
+    const style = document.createElement('style');
+    style.textContent = `.visually-hidden {
       position: absolute !important;
-      width: 1px; height: 1px;
-      padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0 0 0 0); border: 0;
-    }
-  </style>
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px,1px,1px,1px);
+      white-space: nowrap;
+    }`;
+    document.head.appendChild(style);
+  </script>
 </body>
 </html>
 
