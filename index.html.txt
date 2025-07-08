@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Silent Witness - Choose your language</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      text-align: center;
+      color: #2c3e50;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .buttons {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    a.button {
+      padding: 15px 30px;
+      background-color: #1c5980;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      min-width: 130px;
+    }
+    a.button:hover {
+      background-color: #14527a;
+    }
+    p {
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Silent Witness</h1>
+  <p>Please choose your language / Veuillez choisir votre langue / الرجاء اختيار لغتك</p>
+  <div class="buttons">
+    <a class="button" href="index_en.html" lang="en" hreflang="en">English</a>
+    <a class="button" href="index_fr.html" lang="fr" hreflang="fr">Français</a>
+    <a class="button" href="index_ar.html" lang="ar" hreflang="ar" dir="rtl">العربية</a>
+  </div>
+  <p>© 2025 Silent Witness</p>
+</body>
+</html>

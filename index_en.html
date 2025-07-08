@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Silent Witness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Same CSS as French version */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #2c3e50;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 60px 20px 40px;
+      text-align: center;
+      position: relative;
+    }
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    header .slogan {
+      font-weight: 300;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: #a2c4f7;
+      margin-top: 5px;
+    }
+    nav {
+      background: #1c5980;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    nav a:hover {
+      background: #14527a;
+      text-decoration: none;
+    }
+    main {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    section {
+      margin-bottom: 60px;
+      background: white;
+      padding: 30px 30px 30px 100px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: relative;
+      min-height: 130px;
+    }
+    section h2 {
+      color: #1c5980;
+      margin-bottom: 15px;
+    }
+    section svg.icon {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      width: 50px;
+      height: 50px;
+      fill: #1c5980;
+      opacity: 0.3;
+    }
+    ul {
+      margin-left: 20px;
+      list-style-type: disc;
+    }
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 0.9rem;
+    }
+    a.contact {
+      color: #1c5980;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    a.contact:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+      section {
+        padding-left: 20px;
+        min-height: auto;
+        position: relative;
+      }
+      section svg.icon {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        opacity: 0.15;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Silent Witness</h1>
+  <div class="slogan">“AI at the service of humanity”</div>
+</header>
+
+<nav>
+  <a href="#about">About Us</a>
+  <a href="#concept">Concept</a>
+  <a href="#goals">Objectives</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<main>
+
+  <section id="about">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 4C20.96 4 12 13.04 12 24c0 5.29 2.89 10.22 7.65 13.06C18.9 43.23 16 48.94 16 56h32c0-7.06-2.9-12.77-3.65-18.94A15.988 15.988 0 0 0 52 24c0-10.96-8.96-20-20-20zM32 34a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"/></svg>
+    <h2>About Us</h2>
+    <p>
+      Silent Witness is led by a multidisciplinary team passionate about ethics, technology, and human rights.
+      Our mission is to prevent invisible distress situations, especially suicide risks among young people.
+    </p>
+  </section>
+
+  <section id="concept">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 2C15.4 2 2 15.4 2 32s13.4 30 30 30 30-13.4 30-30S48.6 2 32 2zm0 54c-13.3 0-24-10.7-24-24S18.7 8 32 8s24 10.7 24 24-10.7 24-24 24z"/><path d="M43 24c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zM25 32c0-3.3-2.7-6-6-6S13 28.7 13 32s2.7 6 6 6 6-2.7 6-6z"/></svg>
+    <h2>Concept</h2>
+    <p>
+      Silent Witness analyzes weak signals: vocal frequency, unusual movements, and digital searches.
+      This information is classified according to its level of danger.
+      When a critical threshold is reached, an ethical alert is sent to authorities, NGOs, or partner hospitals.
+    </p>
+    <p>
+      Everything is done with strict respect for privacy: the AI acts to save, not to spy.
+    </p>
+    <p>
+      The process is progressive: detection → monitoring → adapted intervention.
+    </p>
+  </section>
+
+  <section id="goals">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M28 46c0-3.3-2.7-6-6-6s-6 2.7-6 6 2.7 6 6 6 6-2.7 6-6zm22-8h-8v14h8v-14zM48 16H16v8h32v-8z"/></svg>
+    <h2>Objectives</h2>
+    <ul>
+      <li>Save lives by early detection of distress situations</li>
+      <li>Reduce intervention delays</li>
+      <li>Strictly respect confidentiality and ethics</li>
+      <li>Collaborate with NGOs, police, and hospitals for effective care</li>
+      <li>Build a secure database of digital evidence to support investigations</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 2C15.4 2 2 15.4 2 32s13.4 30 30 30 30-13.4 30-30S48.6 2 32 2zm0 54c-13.3 0-24-10.7-24-24S18.7 8 32 8s24 10.7 24 24-10.7 24-24 24z"/><path d="M28 20h8v4h-8v-4zm0 10h8v12h-8V30z"/></svg>
+    <h2>FAQ</h2>
+    <dl>
+      <dt><strong>Does the AI access personal data?</strong></dt>
+      <dd>No. Silent Witness analyzes only anonymized signals and fully respects confidentiality.</dd>
+
+      <dt><strong>How are alerts sent?</strong></dt>
+      <dd>Alerts are securely transmitted to partner authorities and NGOs only in critical situations.</dd>
+
+      <dt><strong>Is this an active service or a prototype?</strong></dt>
+      <dd>Currently, Silent Witness is in an advanced development phase, with pilot tests planned soon.</dd>
+
+      <dt><strong>Who can contact you?</strong></dt>
+      <dd>Any organization, professional, or individual wishing to collaborate or get information can write to us.</dd>
+    </dl>
+  </section>
+
+  <section id="contact">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M48 8H16a4 4 0 0 0-4 4v40a4 4 0 0 0 4 4h32a4 4 0 0 0 4-4V12a4 4 0 0 0-4-4zm0 8l-16 12L16 16v-4h32v4z"/></svg>
+    <h2>Contact</h2>
+    <p>
+      For any collaboration, questions, or support, please contact us at:<br />
+      <a href="mailto:silentwitness@outlook.fr" class="contact">silentwitness@outlook.fr</a>
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2025 Silent Witness — All rights reserved</p>
+</footer>
+
+</body>
+</html>
