@@ -1,62 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Silent Witness - Choose your language</title>
+  <title>Silent Witness</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0f4f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      flex-direction: column;
-      text-align: center;
+      background: #f5f7fa;
       color: #2c3e50;
+      margin: 0;
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+    header {
+      text-align: center;
+      padding-bottom: 20px;
     }
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
+    header h1 {
+      margin-bottom: 5px;
+      font-size: 2.8rem;
+      color: #1c5980;
     }
-    select {
+    header .slogan {
+      font-style: italic;
+      color: #14527a;
+      font-weight: 400;
       font-size: 1.2rem;
-      padding: 12px 18px;
-      border-radius: 8px;
-      border: 2px solid #1c5980;
-      outline: none;
-      cursor: pointer;
-      min-width: 200px;
-      transition: border-color 0.3s ease;
     }
-    select:hover, select:focus {
-      border-color: #14527a;
+    nav {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    nav a {
+      margin: 0 10px;
+      color: #1c5980;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #14527a;
+    }
+    section {
+      background: white;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      color: #1c5980;
+      margin-bottom: 15px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+      padding: 15px 0;
+      border-top: 1px solid #ddd;
+      margin-top: 40px;
+    }
+    a.contact {
+      color: #1c5980;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a.contact:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h1>Silent Witness</h1>
-  <p>Please select your language / Veuillez sélectionner votre langue / الرجاء اختيار لغتك</p>
-  <select id="languageSelect" aria-label="Choose your language">
-    <option value="" disabled selected>-- Select Language --</option>
-    <option value="index_en.html">English</option>
-    <option value="index_fr.html">Français</option>
-    <option value="index_ar.html">العربية</option>
-  </select>
+  <header>
+    <h1>Silent Witness</h1>
+    <div class="slogan">L’IA au service de l’humain</div>
+  </header>
 
-  <script>
-    document.getElementById('languageSelect').addEventListener('change', function() {
-      const val = this.value;
-      if(val) {
-        window.location.href = val;
-      }
-    });
-  </script>
+  <nav>
+    <a href="index_fr.html">Français</a> | 
+    <a href="index_en.html">English</a> | 
+    <a href="index_ar.html">العربية</a>
+  </nav>
+
+  <section id="about">
+    <h2>Qui sommes-nous ?</h2>
+    <p>Silent Witness est porté par une équipe pluridisciplinaire passionnée par l’éthique, la technologie et les droits humains. Notre mission est d’empêcher les situations de détresse extrême, notamment le suicide chez les jeunes, en détectant les signaux souvent invisibles.</p>
+  </section>
+
+  <section id="concept">
+    <h2>L’idée</h2>
+    <p>Silent Witness analyse des signaux faibles tels que la fréquence vocale, les mouvements inhabituels et les comportements numériques. Ces données sont classifiées par niveau d’alerte. Lorsqu’un seuil critique est atteint, une alerte sécurisée est envoyée aux autorités compétentes, ONG et hôpitaux.</p>
+    <p>Le tout dans un cadre strictement éthique et respectueux de la vie privée, avec un suivi progressif allant de la détection à l’intervention adaptée.</p>
+  </section>
+
+  <section id="goals">
+    <h2>Objectifs</h2>
+    <ul>
+      <li>Prévenir les suicides et sauver des vies grâce à une détection précoce</li>
+      <li>Réduire les délais d’intervention d’urgence</li>
+      <li>Assurer un respect total de la confidentialité et de l’éthique</li>
+      <li>Collaborer efficacement avec les ONG, la police et les hôpitaux</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <dl>
+      <dt>L’IA accède-t-elle aux données personnelles ?</dt>
+      <dd>Non. L’analyse porte uniquement sur des signaux anonymisés et non identifiables.</dd>
+      <dt>Comment sont envoyées les alertes ?</dt>
+      <dd>Les alertes sont transmises de manière sécurisée uniquement aux partenaires habilités en cas d’urgence.</dd>
+      <dt>Est-ce un service actif ou un prototype ?</dt>
+      <dd>Le projet est en phase avancée de développement, avec des tests prévus prochainement.</dd>
+      <dt>Qui peut nous contacter ?</dt>
+      <dd>Toute organisation ou individu souhaitant collaborer ou en savoir plus peut nous joindre.</dd>
+    </dl>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Pour toute demande ou partenariat, écrivez à : <a href="mailto:silentwitness@outlook.fr" class="contact">silentwitness@outlook.fr</a></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Silent Witness - Tous droits réservés</p>
+  </footer>
 </body>
 </html>
