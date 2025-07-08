@@ -8,6 +8,8 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
     rel="stylesheet"
   />
+  <!-- Favicon simple (œil stylisé) -->
+  <link rel="icon" href="https://raw.githubusercontent.com/silentwitnessteam/silentwitness/main/favicon.svg" type="image/svg+xml" />
   <style>
     /* Reset & global */
     body {
@@ -156,6 +158,10 @@
       color: white;
       font-size: 0.9rem;
     }
+    footer a {
+      color: #8fc1a1;
+      text-decoration: underline;
+    }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -166,6 +172,88 @@
       .hero img {
         margin-top: 1.5rem;
       }
+    }
+
+    /* Animations subtiles */
+    .fade-in {
+      animation: fadeInAnim 1.5s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInAnim {
+      to { opacity: 1; }
+    }
+
+    /* Carrousel images */
+    .carousel {
+      max-width: 900px;
+      margin: 3rem auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(28,89,128,0.3);
+      background: white;
+      position: relative;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      user-select: none;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    /* Carousel navigation buttons */
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1c5980cc;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .carousel-button:hover {
+      background: #8fc1a1cc;
+      color: #1c5980;
+    }
+    .carousel-button.prev {
+      left: 10px;
+    }
+    .carousel-button.next {
+      right: 10px;
+    }
+
+    /* Retour en haut */
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #1c5980;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(28,89,128,0.7);
+      transition: background-color 0.3s ease;
+      z-index: 1000;
+    }
+    #scrollTopBtn:hover {
+      background-color: #8fc1a1;
+      color: #1c5980;
     }
   </style>
 </head>
@@ -235,6 +323,26 @@
     </details>
   </section>
 
+  <!-- Nouvelle section galerie d'images -->
+  <section id="visuals">
+    <h2>Humain & Technologie</h2>
+    <div class="carousel fade-in" aria-label="Galerie d'images humains et IA">
+      <button class="carousel-button prev" aria-label="Image précédente">&#10094;</button>
+      <div class="carousel-track">
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Homme avec un casque de réalité augmentée" />
+        </div>
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=80" alt="Femme et robot collaborant ensemble" />
+        </div>
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Visage humain et visage robot en transparence" />
+        </div>
+      </div>
+      <button class="carousel-button next" aria-label="Image suivante">&#10095;</button>
+    </div>
+  </section>
+
   <section id="contact">
     <h2 id="contact-title">Contact</h2>
     <form
@@ -257,7 +365,8 @@
   </section>
 
   <footer>
-    © 2025 Silent Witness — IA pour la prévention, l'éthique et la vie.
+    © 2025 Silent Witness — IA pour la prévention, l'éthique et la vie.<br />
+    <a href="SilentWitness_WhitePaper.pdf" target="_blank" rel="noopener">Télécharger notre White Paper</a>
   </footer>
 
   <script>
@@ -293,69 +402,4 @@
         "stat1": "1 suicide every 40 seconds",
         "stat1-desc": "worldwide",
         "stat2": "+30%",
-        "stat2-desc": "increase in intervention chances if danger is detected early",
-        "stat3": "95%",
-        "stat3-desc": "users believe in AI’s ethical potential",
-        "faq1": "Does the AI access private data?",
-        "faq1-desc": "No. Silent Witness records no personal data...",
-        "faq2": "How are alerts sent?",
-        "faq2-desc": "Via a secure and encrypted database...",
-        "faq3": "Is it live now?",
-        "faq3-desc": "Silent Witness is in an advanced prototype phase...",
-        "faq4": "Who can contact us?",
-        "faq4-desc": "NGOs, hospitals, AI developers, researchers...",
-        "contact-title": "Contact"
-      },
-      ar: {
-        "hero-title": "الذكاء الاصطناعي في خدمة الإنسان",
-        "hero-desc": "رصد أخلاقي لإشارات الاستغاثة لإنقاذ الأرواح بسرية تامة.",
-        "mission-title": "مهمتنا",
-        "mission-desc": "Silent Witness هو حل ذكاء اصطناعي يكشف إشارات الضيق في الصوت، الإيماءات أو عمليات البحث عبر الإنترنت. يصنفها حسب الخطورة، ثم يرسل تنبيهًا أخلاقيًا وآمنًا إلى الجهات المختصة: المنظمات، المستشفيات أو السلطات.",
-        "stats-title": "إحصائيات رئيسية",
-        "stat1": "انتحار كل 40 ثانية",
-        "stat1-desc": "حول العالم",
-        "stat2": "+30%",
-        "stat2-desc": "فرصة أكبر للتدخل المبكر إذا تم الكشف عن الخطر مبكرًا",
-        "stat3": "95%",
-        "stat3-desc": "يؤمن المستخدمون بإمكانات الذكاء الاصطناعي الأخلاقية",
-        "faq1": "هل يصل الذكاء الاصطناعي إلى البيانات الشخصية؟",
-        "faq1-desc": "لا. لا يتم تسجيل أي بيانات شخصية...",
-        "faq2": "كيف يتم إرسال التنبيهات؟",
-        "faq2-desc": "عبر قاعدة بيانات مشفرة وآمنة...",
-        "faq3": "هل الخدمة مفعّلة الآن؟",
-        "faq3-desc": "Silent Witness في مرحلة النموذج الأولي المتقدم...",
-        "faq4": "من يمكنه الاتصال بنا؟",
-        "faq4-desc": "المنظمات، المستشفيات، مطورو الذكاء الاصطناعي، الباحثون...",
-        "contact-title": "اتصل بنا"
-      }
-    };
-
-    function switchLang() {
-      const lang = document.getElementById('lang').value;
-      document.documentElement.lang = lang === 'ar' ? 'ar' : lang === 'en' ? 'en' : 'fr';
-      if(lang === 'ar') {
-        document.documentElement.dir = 'rtl';
-      } else {
-        document.documentElement.dir = 'ltr';
-      }
-
-      const keys = Object.keys(translations[lang]);
-      keys.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && translations[lang][id]) {
-          el.textContent = translations[lang][id];
-        }
-      });
-    }
-
-    // Optionally initialize language based on browser or default to French
-    document.addEventListener('DOMContentLoaded', () => {
-      const userLang = navigator.language.slice(0,2);
-      if(['fr','en','ar'].includes(userLang)){
-        document.getElementById('lang').value = userLang;
-      }
-      switchLang();
-    });
-  </script>
-</body>
-</html>
+        "stat2-desc
