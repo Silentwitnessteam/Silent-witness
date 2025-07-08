@@ -17,6 +17,9 @@
       scroll-behavior: smooth;
       direction: rtl;
       text-align: right;
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
     header {
       background: #2c3e50;
@@ -24,6 +27,7 @@
       padding: 60px 20px 40px;
       text-align: center;
       position: relative;
+      border-radius: 8px;
     }
     header h1 {
       font-size: 3rem;
@@ -46,11 +50,14 @@
       top: 0;
       z-index: 100;
       direction: ltr;
+      border-radius: 0 0 8px 8px;
+      margin-top: 10px;
+      margin-bottom: 30px;
     }
     nav a {
       color: white;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 1rem;
       padding: 5px 10px;
       border-radius: 5px;
@@ -60,16 +67,11 @@
       background: #14527a;
       text-decoration: none;
     }
-    main {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
     section {
-      margin-bottom: 60px;
       background: white;
-      padding: 30px 100px 30px 30px;
-      border-radius: 10px;
+      padding: 30px 40px;
+      margin-bottom: 30px;
+      border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       position: relative;
       min-height: 130px;
@@ -77,15 +79,6 @@
     section h2 {
       color: #1c5980;
       margin-bottom: 15px;
-    }
-    section svg.icon {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      fill: #1c5980;
-      opacity: 0.3;
     }
     ul {
       margin-right: 20px;
@@ -97,10 +90,11 @@
       text-align: center;
       padding: 25px 10px;
       font-size: 0.9rem;
-      direction: ltr;
+      border-radius: 0 0 8px 8px;
+      margin-top: 40px;
     }
     a.contact {
-      color: #1c5980;
+      color: #a2c4f7;
       font-weight: bold;
       text-decoration: none;
     }
@@ -118,104 +112,8 @@
       section {
         padding-right: 20px;
         min-height: auto;
-        position: relative;
-      }
-      section svg.icon {
-        position: relative;
-        top: 0;
-        right: 0;
-        width: 40px;
-        height: 40px;
-        opacity: 0.15;
-        margin-bottom: 10px;
       }
     }
   </style>
 </head>
-<body>
-
-<header>
-  <h1>الشاهد الصامت</h1>
-  <div class="slogan">"الذكاء الاصطناعي في خدمة الإنسان"</div>
-</header>
-
-<nav>
-  <a href="index_ar.html">العربية</a>
-  <a href="index_en.html">English</a>
-  <a href="index_fr.html">Français</a>
-</nav>
-
-<main>
-
-  <section id="about">
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 4C20.96 4 12 13.04 12 24c0 5.29 2.89 10.22 7.65 13.06C18.9 43.23 16 48.94 16 56h32c0-7.06-2.9-12.77-3.65-18.94A15.988 15.988 0 0 0 52 24c0-10.96-8.96-20-20-20zM32 34a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"/></svg>
-    <h2>من نحن؟</h2>
-    <p>
-      يدير مشروع الشاهد الصامت فريق متعدد التخصصات شغوف بالأخلاقيات والتكنولوجيا وحقوق الإنسان.
-      هدفنا هو الوقاية من حالات الضيق الخفية، وخاصة مخاطر الانتحار بين الشباب.
-    </p>
-  </section>
-
-  <section id="concept">
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 2C15.4 2 2 15.4 2 32s13.4 30 30 30 30-13.4 30-30S48.6 2 32 2zm0 54c-13.3 0-24-10.7-24-24S18.7 8 32 8s24 10.7 24 24-10.7 24-24 24z"/><path d="M43 24c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zM25 32c0-3.3-2.7-6-6-6S13 28.7 13 32s2.7 6 6 6 6-2.7 6-6z"/></svg>
-    <h2>المفهوم</h2>
-    <p>
-      يحلل الشاهد الصامت الإشارات الضعيفة: تردد الصوت، الحركات غير المعتادة، والبحث الرقمي.
-      يتم تصنيف هذه المعلومات حسب درجة الخطورة.
-      عند بلوغ حد حرج، يتم إرسال تنبيه أخلاقي للسلطات والمنظمات الشريكة والمستشفيات.
-    </p>
-    <p>
-      كل ذلك يتم مع احترام صارم للخصوصية: الذكاء الاصطناعي يعمل من أجل الإنقاذ وليس للتجسس.
-    </p>
-    <p>
-      العملية تدريجية: الكشف → المتابعة → التدخل المناسب.
-    </p>
-  </section>
-
-  <section id="goals">
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M28 46c0-3.3-2.7-6-6-6s-6 2.7-6 6 2.7 6 6 6 6-2.7 6-6zm22-8h-8v14h8v-14zM48 16H16v8h32v-8z"/></svg>
-    <h2>الأهداف</h2>
-    <ul>
-      <li>إنقاذ الأرواح من خلال الكشف المبكر عن حالات الضيق</li>
-      <li>تقليل فترة التدخل</li>
-      <li>الاحترام التام للسرية والأخلاقيات</li>
-      <li>التعاون مع المنظمات، الشرطة، والمستشفيات من أجل رعاية فعالة</li>
-      <li>بناء قاعدة بيانات آمنة للأدلة الرقمية لدعم التحقيقات</li>
-    </ul>
-  </section>
-
-  <section id="faq">
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 2C15.4 2 2 15.4 2 32s13.4 30 30 30 30-13.4 30-30S48.6 2 32 2zm0 54c-13.3 0-24-10.7-24-24S18.7 8 32 8s24 10.7 24 24-10.7 24-24 24z"/><path d="M28 20h8v4h-8v-4zm0 10h8v12h-8V30z"/></svg>
-    <h2>الأسئلة المتكررة</h2>
-    <dl>
-      <dt><strong>هل يصل الذكاء الاصطناعي إلى البيانات الشخصية؟</strong></dt>
-      <dd>لا. الشاهد الصامت يحلل فقط إشارات مجهولة المصدر ويحترم السرية الكاملة.</dd>
-
-      <dt><strong>كيف تُرسل التنبيهات؟</strong></dt>
-      <dd>يتم إرسال التنبيهات بشكل آمن إلى السلطات والمنظمات الشريكة فقط في الحالات الحرجة.</dd>
-
-      <dt><strong>هل هو خدمة فعالة أم نموذج أولي؟</strong></dt>
-      <dd>حالياً، الشاهد الصامت في مرحلة تطوير متقدمة، مع تجارب تجريبية مخطط لها قريباً.</dd>
-
-      <dt><strong>من يمكنه الاتصال بكم؟</strong></dt>
-      <dd>أي منظمة أو محترف أو فرد يرغب في التعاون أو الحصول على معلومات يمكنه التواصل معنا.</dd>
-    </dl>
-  </section>
-
-  <section id="contact">
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M48 8H16a4 4 0 0 0-4 4v40a4 4 0 0 0 4 4h32a4 4 0 0 0 4-4V12a4 4 0 0 0-4-4zm0 8l-16 12L16 16v-4h32v4z"/></svg>
-    <h2>تواصل معنا</h2>
-    <p>
-      لأي تعاون أو استفسار أو دعم، يرجى التواصل معنا عبر:<br />
-      <a href="mailto:silentwitness@outlook.fr" class="contact">silentwitness@outlook.fr</a>
-    </p>
-  </section>
-
-</main>
-
-<footer>
-  <p>© 2025 الشاهد الصامت — جميع الحقوق محفوظة</p>
-</footer>
-
-</body>
-</html>
+<b
