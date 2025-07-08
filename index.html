@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Silent Witness</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
@@ -14,20 +14,25 @@
       background: #f5f7fa;
       color: #2c3e50;
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
     header {
       background: #2c3e50;
       color: white;
-      padding: 60px 20px;
+      padding: 60px 20px 40px;
       text-align: center;
+      position: relative;
     }
     header h1 {
       font-size: 3rem;
       margin-bottom: 10px;
     }
-    header p {
-      font-size: 1.2rem;
+    header .slogan {
       font-weight: 300;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: #a2c4f7;
+      margin-top: 5px;
     }
     nav {
       background: #1c5980;
@@ -43,9 +48,14 @@
       color: white;
       text-decoration: none;
       font-weight: 500;
+      font-size: 1rem;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
     }
     nav a:hover {
-      text-decoration: underline;
+      background: #14527a;
+      text-decoration: none;
     }
     main {
       max-width: 960px;
@@ -55,13 +65,28 @@
     section {
       margin-bottom: 60px;
       background: white;
-      padding: 30px;
+      padding: 30px 30px 30px 100px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: relative;
+      min-height: 130px;
     }
     section h2 {
       color: #1c5980;
       margin-bottom: 15px;
+    }
+    section svg.icon {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      width: 50px;
+      height: 50px;
+      fill: #1c5980;
+      opacity: 0.3;
+    }
+    ul {
+      margin-left: 20px;
+      list-style-type: disc;
     }
     footer {
       background: #2c3e50;
@@ -79,6 +104,7 @@
       text-decoration: underline;
     }
 
+    /* Responsive */
     @media (max-width: 600px) {
       header h1 {
         font-size: 2rem;
@@ -87,66 +113,111 @@
         flex-direction: column;
         gap: 10px;
       }
+      section {
+        padding-left: 20px;
+        min-height: auto;
+        position: relative;
+      }
+      section svg.icon {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        opacity: 0.15;
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Silent Witness</h1>
-    <p>Détection intelligente des signaux de détresse humaine</p>
-  </header>
+<header>
+  <h1>Silent Witness</h1>
+  <div class="slogan">“L’IA au service de l’humain”</div>
+</header>
 
-  <nav>
-    <a href="#about">Qui sommes-nous</a>
-    <a href="#concept">Concept</a>
-    <a href="#goals">Objectifs</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<nav>
+  <a href="#about">Qui sommes-nous</a>
+  <a href="#concept">Concept</a>
+  <a href="#goals">Objectifs</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact">Contact</a>
+</nav>
 
-  <main>
-    <section id="about">
-      <h2>Qui sommes-nous ?</h2>
-      <p>
-        Silent Witness est une initiative éthique et technologique visant à prévenir les violences invisibles
-        en détectant les signes précoces de détresse grâce à l'intelligence artificielle.
-        Notre équipe pluridisciplinaire œuvre pour allier technologie, justice sociale et intervention rapide.
-      </p>
-    </section>
+<main>
 
-    <section id="concept">
-      <h2>Concept</h2>
-      <p>
-        Notre système repose sur l’analyse de signaux faibles : fréquence vocale, mouvements inhabituels,
-        recherche d’urgence, isolement numérique. Ces signaux sont classés par niveau d'alerte.  
-        Lorsqu’un seuil critique est atteint, une alerte automatisée est envoyée aux autorités, ONG ou hôpitaux partenaires.
-      </p>
-    </section>
+  <section id="about">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 4C20.96 4 12 13.04 12 24c0 5.29 2.89 10.22 7.65 13.06C18.9 43.23 16 48.94 16 56h32c0-7.06-2.9-12.77-3.65-18.94A15.988 15.988 0 0 0 52 24c0-10.96-8.96-20-20-20zM32 34a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"/></svg>
+    <h2>Qui sommes-nous ?</h2>
+    <p>
+      Silent Witness est porté par une équipe pluridisciplinaire passionnée par l’éthique, la technologie et les droits humains.
+      Notre mission est de prévenir les situations de détresse invisible, notamment les risques de suicide, en particulier chez les jeunes.
+    </p>
+  </section>
 
-    <section id="goals">
-      <h2>Objectifs</h2>
-      <ul>
-        <li>Détection précoce des situations de détresse humaine</li>
-        <li>Réduction des délais d’intervention</li>
-        <li>Respect strict de la vie privée et de l’éthique</li>
-        <li>Collaboration avec ONG, forces de l’ordre et établissements de santé</li>
-        <li>Création d’un dossier de preuves numériques pour les enquêtes</li>
-      </ul>
-    </section>
+  <section id="concept">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 2C15.4 2 2 15.4 2 32s13.4 30 30 30 30-13.4 30-30S48.6 2 32 2zm0 54c-13.3 0-24-10.7-24-24S18.7 8 32 8s24 10.7 24 24-10.7 24-24 24z"/><path d="M43 24c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zM25 32c0-3.3-2.7-6-6-6S13 28.7 13 32s2.7 6 6 6 6-2.7 6-6z"/></svg>
+    <h2>Concept</h2>
+    <p>
+      Silent Witness analyse des signaux faibles : fréquence vocale, mouvements inhabituels et recherches numériques.
+      Ces informations sont classifiées selon leur niveau de dangerosité.
+      Lorsqu’un seuil critique est atteint, une alerte éthique est envoyée aux autorités, ONG ou hôpitaux partenaires.
+    </p>
+    <p>
+      Tout est fait dans le respect strict de la vie privée : l’IA agit pour sauver, pas pour espionner.
+    </p>
+    <p>
+      Le processus est progressif : détection → suivi → intervention adaptée.
+    </p>
+  </section>
 
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>
-        Pour toute collaboration, question ou soutien au projet, contactez-nous à :  
-        <a href="mailto:silentwitness@outlook.fr" class="contact">silentwitness@outlook.fr</a>
-      </p>
-    </section>
-  </main>
+  <section id="goals">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M28 46c0-3.3-2.7-6-6-6s-6 2.7-6 6 2.7 6 6 6 6-2.7 6-6zm22-8h-8v14h8v-14zM48 16H16v8h32v-8z"/></svg>
+    <h2>Objectifs</h2>
+    <ul>
+      <li>Sauver des vies en détectant tôt les situations de détresse</li>
+      <li>Réduire les délais d’intervention</li>
+      <li>Respecter strictement la confidentialité et l’éthique</li>
+      <li>Collaborer avec ONG, police et hôpitaux pour une prise en charge efficace</li>
+      <li>Constituer une base sécurisée de preuves numériques pour aider les enquêtes</li>
+    </ul>
+  </section>
 
-  <footer>
-    <p>© 2025 Silent Witness — Tous droits réservés</p>
-  </footer>
+  <section id="faq">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 2C15.4 2 2 15.4 2 32s13.4 30 30 30 30-13.4 30-30S48.6 2 32 2zm0 54c-13.3 0-24-10.7-24-24S18.7 8 32 8s24 10.7 24 24-10.7 24-24 24z"/><path d="M28 20h8v4h-8v-4zm0 10h8v12h-8V30z"/></svg>
+    <h2>FAQ</h2>
+    <dl>
+      <dt><strong>L’IA accède-t-elle aux données personnelles ?</strong></dt>
+      <dd>Non. Silent Witness analyse uniquement des signaux anonymisés et respecte la confidentialité totale.</dd>
+
+      <dt><strong>Comment sont envoyées les alertes ?</strong></dt>
+      <dd>Les alertes sont transmises de manière sécurisée aux autorités et ONG partenaires, uniquement en cas de situation critique.</dd>
+
+      <dt><strong>Est-ce un service actif ou un prototype ?</strong></dt>
+      <dd>Actuellement, Silent Witness est en phase de développement avancé, avec des tests pilotes envisagés prochainement.</dd>
+
+      <dt><strong>Qui peut nous contacter ?</strong></dt>
+      <dd>Toute organisation, professionnel ou particulier souhaitant collaborer ou obtenir des informations peut nous écrire.</dd>
+    </dl>
+  </section>
+
+  <section id="contact">
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M48 8H16a4 4 0 0 0-4 4v40a4 4 0 0 0 4 4h32a4 4 0 0 0 4-4V12a4 4 0 0 0-4-4zm0 8l-16 12L16 16v-4h32v4z"/></svg>
+    <h2>Contact</h2>
+    <p>
+      Pour toute collaboration, question ou soutien au projet, contactez-nous à :<br />
+      <a href="mailto:silentwitness@outlook.fr" class="contact">silentwitness@outlook.fr</a>
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2025 Silent Witness — Tous droits réservés</p>
+</footer>
 
 </body>
 </html>
+
 
