@@ -479,4 +479,251 @@
 
   // Update language function
   function updateLanguage(lang) {
-    currentLang
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+    // Animated Text
+    document.getElementById('animated-text').textContent = translations[lang].animatedText;
+
+    // White paper
+    const wpParagraph = document.getElementById('wp-paragraph');
+    wpParagraph.textContent = translations[lang].whitepaperText;
+
+    const wpBtn = document.getElementById('whitepaper-btn');
+    wpBtn.textContent = translations[lang].whitepaperBtn;
+    wpBtn.href = 'https://silentwitnessteam.github.io/Silent-witness/Silent_Witness_White_Paper.pdf';
+
+    // Donation title
+    document.querySelector('#donation-section h2').textContent = translations[lang].donationTitle;
+
+    // Contact button
+    document.querySelector('#contact-section button').textContent = translations[lang].contactSubmitBtn;
+
+    // Adjust text alignment & direction for Arabic
+    if (lang === 'ar') {
+      document.body.style.textAlign = 'right';
+    } else {
+      document.body.style.textAlign = 'left';
+    }
+  }
+
+  // Theme toggle
+  function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+  }
+
+  // EmailJS form submit
+  function sendEmail(event) {
+    event.preventDefault();
+    emailjs.sendForm('service_za2pm5i', 'template_mt5ycpk', event.target)
+      .then(() => {
+        alert(translations[currentLang].contactSendSuccess);
+        event.target.reset();
+      })
+      .catch(() => {
+        alert(translations[currentLang].contactSendError);
+      });
+  }
+
+  // Map and data setup
+  const suicideData = {
+    all: {
+      label: "Tous",
+      color: "#1c5980",
+      rates: {
+        "Africa": 12.7,
+        "Asia": 8.5,
+        "Europe": 14.3,
+        "North America": 13.5,
+        "Oceania": 15.1,
+        "South America": 7.2
+      }
+    },
+    men: {
+      label: "Hommes",
+      color: "#21506e",
+      rates: {
+        "Africa": 17.2,
+        "Asia": 12.3,
+        "Europe": 19.4,
+        "North America": 18.1,
+        "Oceania": 21.0,
+        "South America": 10.1
+      }
+    },
+    women: {
+      label: "Femmes",
+      color: "#8fc1a1",
+      rates: {
+        "Africa": 8.3,
+        "Asia": 4.2,
+        "Europe": 9.1,
+        "North America": 9.5,
+        "Oceania": 10.4,
+        "South America": 4.3
+      }
+    },
+    youth: {
+      label: "Jeunes",
+      color: "#a8d08d",
+      rates: {
+        "Africa": 15.1,
+        "Asia": 11.4,
+        "Europe": 17.5,
+        "North America": 16.3,
+        "Oceania": 18.2,
+        "South America": 9.4
+      }
+    },
+    domestic: {
+      label: "Violences conjugales",
+      color: "#d9534f",
+      rates: {
+        "Africa": 4.5,
+        "Asia": 3.8,
+        "Europe": 2.2,
+        "North America": 2.9,
+        "Oceania": 3.1,
+        "South America": 3.7
+      }
+    }
+  };
+
+  // Initialize Map
+  let map, geojsonLayer;
+  let currentFilter = 'all';
+
+  function styleFeature(feature) {
+    const continent = feature.properties.continent;
+    const rate = suicideData[currentFilter].rates[continent];
+    return {
+      fillColor: rate ? suicideData[currentFilter].color : '#ccc',
+      weight: 1,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.7,
+    };
+  }
+
+  function onEachFeature(feature, layer) {
+    if (!feature.properties.continent) return;
+    const continent = feature.properties.continent;
+    const rate = suicideData[currentFilter].rates[continent];
+    const label = `
+      <strong>${continent}</strong><br/>
+      Taux suicide (${suicideData[currentFilter].label}): ${rate ? rate : 'N/A'} / 100 000 habitants
+      <br/>
+      <em>Cliquez pour zoomer</em>
+    `;
+    layer.bindPopup(label);
+    layer.on('click', () => {
+      if (feature.properties.continent === "Africa") map.flyTo([0, 20], 3);
+      else if (feature.properties.continent === "Asia") map.flyTo([34, 100], 3);
+      else if (feature.properties.continent === "Europe") map.flyTo([54, 15], 4);
+      else if (feature.properties.continent === "North America") map.flyTo([54, -100], 3);
+      else if (feature.properties.continent === "Oceania") map.flyTo([-22, 140], 4);
+      else if (feature.properties.continent === "South America") map.flyTo([-15, -60], 3);
+    });
+  }
+
+  function updateMap() {
+    if (geojsonLayer) map.removeLayer(geojsonLayer);
+
+    geojsonLayer = L.geoJSON(continentGeojson, {
+      style: styleFeature,
+      onEachFeature: onEachFeature
+    }).addTo(map);
+  }
+
+  // Continent GeoJSON simplified
+  const continentGeojson = {
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "continent": "Africa" }, "geometry": { "type": "Polygon", "coordinates": [[
+        [-17.625, 37.25], [51.75, 37.25], [51.75, -34.75], [-17.625, -34.75], [-17.625, 37.25]
+      ]] }},
+      { "type": "Feature", "properties": { "continent": "Asia" }, "geometry": { "type": "Polygon", "coordinates": [[
+        [26.5, 81], [180, 81], [180, -11], [26.5, -11], [26.5, 81]
+      ]] }},
+      { "type": "Feature", "properties": { "continent": "Europe" }, "geometry": { "type": "Polygon", "coordinates": [[
+        [-31.3, 71], [40, 71], [40, 34.5], [-31.3, 34.5], [-31.3, 71]
+      ]] }},
+      { "type": "Feature", "properties": { "continent": "North America" }, "geometry": { "type": "Polygon", "coordinates": [[
+        [-170, 84], [-50, 84], [-50, 6], [-170, 6], [-170, 84]
+      ]] }},
+      { "type": "Feature", "properties": { "continent": "Oceania" }, "geometry": { "type": "Polygon", "coordinates": [[
+        [110, 0], [180, 0], [180, -50], [110, -50], [110, 0]
+      ]] }},
+      { "type": "Feature", "properties": { "continent": "South America" }, "geometry": { "type": "Polygon", "coordinates": [[
+        [-91, 15], [-29, 15], [-29, -60], [-91, -60], [-91, 15]
+      ]] }}
+    ]
+  };
+
+  // Map Initialization
+  function initMap() {
+    map = L.map('map').setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 6,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    updateMap();
+  }
+
+  // Filter buttons logic
+  document.addEventListener('DOMContentLoaded', () => {
+    initMap();
+
+    const filterButtons = document.querySelectorAll('#filter-buttons button');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        updateMap();
+      });
+    });
+
+    // Language change
+    document.getElementById('lang-select').addEventListener('change', (e) => updateLanguage(e.target.value));
+
+    // Theme toggle
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+    // Form submit
+    document.getElementById('contact-form').addEventListener('submit', sendEmail);
+
+    // Init lang
+    updateLanguage(currentLang);
+
+    // Init PayPal button
+    paypal.Buttons({
+      style: {
+        layout: 'horizontal',
+        color: 'blue',
+        shape: 'rect',
+        label: 'donate',
+      },
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '10.00' // montant par défaut, tu peux ajuster ou rendre dynamique
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Merci pour votre don, ' + details.payer.name.given_name + '!');
+        });
+      }
+    }).render('#paypal-button-container');
+  });
+</script>
+
+</body>
+</html>
