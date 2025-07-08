@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Silent Witness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #2c3e50;
+      line-height: 1.6;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    nav {
+      background: #1c5980;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    section {
+      margin-bottom: 60px;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    section h2 {
+      color: #1c5980;
+      margin-bottom: 15px;
+    }
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 0.9rem;
+    }
+    a.contact {
+      color: #1c5980;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    a.contact:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Silent Witness</h1>
+    <p>Détection intelligente des signaux de détresse humaine</p>
+  </header>
+
+  <nav>
+    <a href="#about">Qui sommes-nous</a>
+    <a href="#concept">Concept</a>
+    <a href="#goals">Objectifs</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section id="about">
+      <h2>Qui sommes-nous ?</h2>
+      <p>
+        Silent Witness est une initiative éthique et technologique visant à prévenir les violences invisibles
+        en détectant les signes précoces de détresse grâce à l'intelligence artificielle.
+        Notre équipe pluridisciplinaire œuvre pour allier technologie, justice sociale et intervention rapide.
+      </p>
+    </section>
+
+    <section id="concept">
+      <h2>Concept</h2>
+      <p>
+        Notre système repose sur l’analyse de signaux faibles : fréquence vocale, mouvements inhabituels,
+        recherche d’urgence, isolement numérique. Ces signaux sont classés par niveau d'alerte.  
+        Lorsqu’un seuil critique est atteint, une alerte automatisée est envoyée aux autorités, ONG ou hôpitaux partenaires.
+      </p>
+    </section>
+
+    <section id="goals">
+      <h2>Objectifs</h2>
+      <ul>
+        <li>Détection précoce des situations de détresse humaine</li>
+        <li>Réduction des délais d’intervention</li>
+        <li>Respect strict de la vie privée et de l’éthique</li>
+        <li>Collaboration avec ONG, forces de l’ordre et établissements de santé</li>
+        <li>Création d’un dossier de preuves numériques pour les enquêtes</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        Pour toute collaboration, question ou soutien au projet, contactez-nous à :  
+        <a href="mailto:silentwitness@outlook.fr" class="contact">silentwitness@outlook.fr</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Silent Witness — Tous droits réservés</p>
+  </footer>
+
+</body>
+</html>
+
