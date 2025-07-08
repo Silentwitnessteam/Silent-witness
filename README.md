@@ -94,4 +94,86 @@
         .catch(error => alert('Erreur: ' + error));
     }
 
-    con
+    const translations = {
+      fr: {
+        title: "Vous n'êtes pas seul",
+        whitepaper: "📘 Télécharger notre White Paper",
+        paragraph: "Découvrez notre livre blanc complet sur Silent Witness : une IA éthique dédiée à la prévention et à la protection des plus vulnérables."
+      },
+      en: {
+        title: "You're not alone",
+        whitepaper: "📘 Download our White Paper",
+        paragraph: "Explore our full white paper on Silent Witness – an ethical AI for prevention and protection of the vulnerable."
+      },
+      ar: {
+        title: "لست وحدك",
+        whitepaper: "📘 تحميل الورقة البيضاء",
+        paragraph: "اكتشف الورقة البيضاء الخاصة بـ Silent Witness: ذكاء اصطناعي أخلاقي لحماية الفئات الأكثر عرضة للخطر."
+      }
+    };
+
+    function updateLanguage(lang) {
+      document.querySelector('.animated-text').textContent = translations[lang].title;
+      document.getElementById('wp-paragraph').textContent = translations[lang].paragraph;
+      document.getElementById('wp-btn').textContent = translations[lang].whitepaper;
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+    }
+
+    window.onload = () => {
+      document.getElementById('contact-form').addEventListener('submit', sendEmail);
+      document.getElementById('lang-select').addEventListener('change', (e) => updateLanguage(e.target.value));
+      document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+      updateLanguage('fr');
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Silent Witness</h1>
+    <div>
+      <select id="lang-select" class="language-select">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+      <button id="theme-toggle" class="theme-toggle">🌓</button>
+    </div>
+  </header>
+
+  <div class="animated-text"></div>
+
+  <section class="section">
+    <p id="wp-paragraph"></p>
+    <a id="wp-btn" href="https://silentwitnessteam.github.io/Silent-witness/Silent_Witness_White_Paper.pdf" target="_blank" class="download-btn"></a>
+  </section>
+
+  <section class="section">
+    <h2>Carte mondiale des suicides</h2>
+    <iframe src="https://ourworldindata.org/grapher/suicide-death-rate?tab=map" allowfullscreen></iframe>
+  </section>
+
+  <section class="section">
+    <h2>Étapes de détection IA</h2>
+    <ol>
+      <li>Analyse des mots clés dans les messages, requêtes IA ou recherches web</li>
+      <li>Corrélation des données vocales, textuelles ou comportementales</li>
+      <li>Évaluation automatique du niveau de détresse</li>
+      <li>Classement de l’urgence (vert / orange / rouge)</li>
+      <li>Déclenchement d'une alerte vers ONG, autorités ou hôpitaux selon le niveau</li>
+    </ol>
+  </section>
+
+  <section class="section">
+    <h2>Contact</h2>
+    <form id="contact-form">
+      <input type="text" name="nom" placeholder="Votre nom" required>
+      <input type="email" name="email" placeholder="Votre email" required>
+      <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
+      <button type="submit">Envoyer</button>
+    </form>
+  </section>
+</body>
+</html>
