@@ -132,18 +132,54 @@
     }
 
     /* Animated marquee text */
-    .marquee-container {
-      background: #1c5980;
-      color: white;
-      font-weight: 700;
-      font-size: 2rem;
-      padding: 1rem 0;
-      overflow: hidden;
-      position: relative;
-      user-select: none;
-      border-radius: 12px;
-      margin-bottom: 2rem;
-    }
+   <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" tabindex="0">
+  <div class="progress-bar">
+    <span class="progress-text">You’re not alone</span>
+  </div>
+</div>
+
+<style>
+  .progress-container {
+    width: 100%;
+    max-width: 600px;
+    height: 30px;
+    background: #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 20px auto;
+    position: relative;
+  }
+
+  .progress-bar {
+    background: linear-gradient(90deg, #1c5980, #8fc1a1);
+    height: 100%;
+    width: 75%; /* % rempli dynamique */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    animation: progressAnim 2s ease forwards;
+    white-space: nowrap;
+  }
+
+  .progress-text {
+    animation: moveText 3s linear infinite;
+  }
+
+  @keyframes progressAnim {
+    from { width: 0; }
+    to { width: 75%; }
+  }
+
+  @keyframes moveText {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+  }
+</style>
+
     .marquee-text {
       display: inline-block;
       white-space: nowrap;
@@ -450,21 +486,40 @@
     </section>
 
     <section id="contact" tabindex="0" aria-label="Formulaire de contact">
-      <h2 id="contact-title">Contact</h2>
-      <form
-        class="contact-form"
-        action="mailto:silentwitness@outlook.fr"
-        method="post"
-        enctype="text/plain"
-      >
-        <label for="nom">Nom:</label>
-        <input type="text" name="nom" id="nom" required autocomplete="name" />
+  <h2 id="contact-title">Contact</h2>
+  <form id="contact-form" class="contact-form" onsubmit="sendEmail(event)">
+    <label for="nom">Nom:</label>
+    <input type="text" name="user_name" id="nom" required autocomplete="name" />
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required autocomplete="email" />
+    <label for="email">Email:</label>
+    <input type="email" name="user_email" id="email" required autocomplete="email" />
 
-        <label for="message">Message:</label>
-        <textarea name="message" id="message" rows="5" required></textarea>
+    <label for="message">Message:</label>
+    <textarea name="message" id="message" rows="5" required></textarea>
+
+    <button type="submit">Envoyer</button>
+  </form>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  // Initialise EmailJS avec ton User ID (à remplacer)
+  emailjs.init("TON_USER_ID");
+
+  function sendEmail(e) {
+    e.preventDefault();
+
+    emailjs.sendForm('TON_SERVICE_ID', 'TON_TEMPLATE_ID', e.target)
+      .then(() => {
+        alert('Message envoyé avec succès !');
+        e.target.reset();
+      }, (error) => {
+        alert('Une erreur est survenue, veuillez réessayer.');
+        console.error(error);
+      });
+  }
+</script>
+
 
         <button type="submit">Envoyer</button>
       </form>
