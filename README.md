@@ -179,49 +179,106 @@
   </section>
 
   <section class="section">
-    <h2>Carte mondiale des suicides</h2>
-    <iframe src="https://ourworldindata.org/grapher/suicide-death-rate?tab=map" allowfullscreen></iframe>
-  </section>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Carte mondiale des suicides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f5f5;
+      color: #1c1c1c;
+    }
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+    .counter {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      z-index: 1000;
+    }
+    .legend {
+      position: absolute;
+      bottom: 30px;
+      left: 10px;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .legend div {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<div class="counter" id="suicide-counter">🕯️ 0 suicides depuis l'ouverture</div>
+<div class="legend">
+  <strong>Légende :</strong><br>
+  <div><span style="background:red;width:12px;height:12px;display:inline-block;margin-right:5px;"></span> Taux élevé</div>
+  <div><span style="background:orange;width:12px;height:12px;display:inline-block;margin-right:5px;"></span> Taux modéré</div>
+  <div><span style="background:green;width:12px;height:12px;display:inline-block;margin-right:5px;"></span> Taux faible</div>
+</div>
 
-  <section class="section">
-    <h2>Statistiques clés</h2>
-    <ul>
-      <li>Près de 800 000 personnes se suicident chaque année (OMS)</li>
-      <li>1 suicide toutes les 40 secondes dans le monde</li>
-      <li>Le suicide est la 2e cause de mortalité chez les 15-29 ans</li>
-    </ul>
-  </section>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // Base Leaflet
+  const map = L.map('map').setView([20, 0], 2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
 
-  <section class="section">
-    <h2>Étapes de détection IA</h2>
-    <ol>
-      <li>Analyse des mots clés dans les messages, requêtes IA ou recherches web</li>
-      <li>Corrélation des données vocales, textuelles ou comportementales</li>
-      <li>Évaluation automatique du niveau de détresse</li>
-      <li>Classement de l’urgence (vert / orange / rouge)</li>
-      <li>Déclenchement d'une alerte vers ONG, autorités ou hôpitaux selon le niveau</li>
-    </ol>
-  </section>
+  // Taux fictifs par continent (en pour 100k)
+  const suicideRates = {
+    "Africa": 11.0,
+    "Asia": 14.2,
+    "Europe": 13.5,
+    "North America": 9.2,
+    "South America": 6.4,
+    "Oceania": 10.1
+  };
 
-  <section class="section">
-    <h2>💖 <span id="donate-label"></span></h2>
-    <div id="paypal-container-UTEPDMT9UCV2S"></div>
-    <script>
-      paypal.HostedButtons({
-        hostedButtonId: "UTEPDMT9UCV2S",
-      }).render("#paypal-container-UTEPDMT9UCV2S")
-    </script>
-  </section>
+  const continents = {
+    "Africa": [0, 20],
+    "Asia": [30, 30],
+    "Europe": [55, 15],
+    "North America": [40, -100],
+    "South America": [-15, -60],
+    "Oceania": [-25, 140]
+  };
 
-  <section class="section">
-    <h2>Contact</h2>
-    <form id="contact-form">
-      <input type="text" name="nom" placeholder="Votre nom" required>
-      <input type="email" name="email" placeholder="Votre email" required>
-      <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
-      <button type="submit">Envoyer</button>
-    </form>
-  </section>
+  for (const [name, coord] of Object.entries(continents)) {
+    const rate = suicideRates[name];
+    const color = rate > 12 ? 'red' : rate > 8 ? 'orange' : 'green';
+    L.circle(coord, {
+      color,
+      fillColor: color,
+      fillOpacity: 0.5,
+      radius: 1000000
+    }).addTo(map).bindPopup(`<b>${name}</b><br>Taux de suicide : ${rate}/100k`);
+  }
+
+  // Compteur dynamique
+  let counter = 0;
+  setInterval(() => {
+    counter++;
+    document.getElementById('suicide-counter').innerText = `🕯️ ${counter} suicides depuis l'ouverture`;
+  }, 40000); // 40 secondes
+</script>
 </body>
 </html>
+
 
