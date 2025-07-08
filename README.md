@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -84,28 +85,61 @@
     margin-bottom: 1rem;
     line-height: 1.4;
   }
-  .animated-text {
-    font-size: 1.5rem;
+
+  /* === Detection Process Animation === */
+  .detection-process {
+    margin-top: 1rem;
     font-weight: 700;
     color: #004d7a;
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
+    user-select: none;
   }
-  body[data-theme='dark'] .animated-text {
+  body[data-theme='dark'] .detection-process {
     color: #7ec8e3;
   }
-  /* Animation "typing" */
-  .animated-text::after {
-    content: '|';
-    position: absolute;
-    right: 0;
-    animation: blink 1s steps(1) infinite;
+
+  .progress-bar {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    background: #cde6f7;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
   }
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+  body[data-theme='dark'] .progress-bar {
+    background: #23415a;
   }
+
+  .progress-fill {
+    height: 100%;
+    width: 0;
+    background: #004d7a;
+    border-radius: 5px;
+    transition: width 1s ease;
+  }
+  body[data-theme='dark'] .progress-fill {
+    background: #7ec8e3;
+  }
+
+  .steps {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 1rem;
+  }
+  .step {
+    flex: 1;
+    text-align: center;
+    opacity: 0.4;
+    transition: opacity 0.3s ease, color 0.3s ease;
+  }
+  .step.active {
+    opacity: 1;
+    color: inherit;
+  }
+
   /* Carousel image */
   .hero img {
     flex: 1 1 320px;
@@ -356,7 +390,17 @@
   <div class="hero-text">
     <h1 id="hero-title">L'IA au service de l'humain</h1>
     <p id="hero-desc">Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
-    <div class="animated-text" aria-label="Texte animé">You're not alone</div>
+    <div class="detection-process" aria-label="Animation du processus de détection de détresse" role="region" aria-live="polite">
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <ul class="steps">
+        <li class="step active" data-step="Analyse vocale">🎙️ Analyse vocale</li>
+        <li class="step" data-step="Analyse des gestes">🖐️ Analyse des gestes</li>
+        <li class="step" data-step="Analyse des recherches">🔍 Analyse des recherches</li>
+        <li class="step" data-step="Détection terminée">✅ Détection terminée</li>
+      </ul>
+    </div>
   </div>
   <img src="https://images.unsplash.com/photo-1682687220125-5d08c9e75dc4?auto=format&fit=crop&w=800&q=80" alt="IA et humain" />
 </section>
@@ -396,87 +440,57 @@
           <img src="https://images.unsplash.com/photo-1617791160536-f74a90d52db5?auto=format&fit=crop&w=800&q=80" alt="Visage IA flouté" />
         </div>
         <div class="carousel-slide">
-          <img src="https://images.unsplash.com/photo-1603988363603-6c4b0a6b9e33?auto=format&fit=crop&w=800&q=80" alt="Main humaine et main robot" />
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Main humaine et circuit imprimé" />
         </div>
         <div class="carousel-slide">
-          <img src="https://images.unsplash.com/photo-1605077081458-414d994db0d6?auto=format&fit=crop&w=800&q=80" alt="Humain assis avec écran d'IA" />
+          <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=800&q=80" alt="Ondes sonores abstraites" />
         </div>
       </div>
       <button class="carousel-button next" aria-label="Image suivante">&#10095;</button>
     </div>
   </section>
 
-  <section id="faq" class="faq">
-    <h2>FAQ</h2>
-    <details>
-      <summary id="faq1">L’IA accède-t-elle à des données privées ?</summary>
-      <p id="faq1-desc">Non. Silent Witness n'enregistre aucune donnée personnelle...</p>
-    </details>
-    <details>
-      <summary id="faq2">Comment les alertes sont-elles transmises ?</summary>
-      <p id="faq2-desc">Via une base de données sécurisée et cryptée...</p>
-    </details>
-    <details>
-      <summary id="faq3">Est-ce déjà en service ?</summary>
-      <p id="faq3-desc">Silent Witness est en phase de prototypage avancé...</p>
-    </details>
-    <details>
-      <summary id="faq4">Qui peut nous contacter ?</summary>
-      <p id="faq4-desc">ONG, hôpitaux, développeurs IA, chercheurs...</p>
-    </details>
-  </section>
-
   <section id="whitepaper">
-    <h2>Télécharger le White Paper</h2>
-    <a href="Silent_Witness_White_Paper.pdf" download class="btn" aria-label="Télécharger le White Paper en PDF">📄 Télécharger (PDF)</a>
+    <h2>White Paper</h2>
+    <p>Téléchargez notre document détaillé sur la technologie et l’éthique du projet.</p>
+    <a href="silent-witness-whitepaper.pdf" class="btn" target="_blank" rel="noopener">Télécharger le PDF</a>
   </section>
 
   <section id="contact">
-    <h2 id="contact-title">Contact</h2>
-    <form class="contact-form" id="contact-form" aria-label="Formulaire de contact">
-      <label for="name">Nom :</label>
-      <input type="text" id="name" name="name" required autocomplete="name" />
-
-      <label for="email">Email :</label>
-      <input type="email" id="email" name="email" required autocomplete="email" />
-
-      <label for="message">Message :</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
-
+    <h2>Contactez-nous</h2>
+    <form id="contact-form">
+      <label for="name">Nom complet</label>
+      <input type="text" id="name" name="name" placeholder="Votre nom" required />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="exemple@mail.com" required />
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" placeholder="Votre message" required></textarea>
       <button type="submit">Envoyer</button>
     </form>
+    <div id="form-status" role="alert" aria-live="polite" style="margin-top:1rem;"></div>
   </section>
 </main>
 
 <footer>
-  <p>© 2025 Silent Witness — IA pour la prévention, l'éthique et la vie.</p>
+  &copy; 2025 Silent Witness. Tous droits réservés.
 </footer>
 
 <script>
-  // ==== THEME TOGGLE ====
+  // === THEME TOGGLE ===
   const themeToggleBtn = document.getElementById('theme-toggle');
-  const bodyEl = document.body;
-
   themeToggleBtn.addEventListener('click', () => {
-    if (bodyEl.getAttribute('data-theme') === 'light') {
-      bodyEl.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+    const currentTheme = document.body.getAttribute('data-theme');
+    if (currentTheme === 'light') {
+      document.body.setAttribute('data-theme', 'dark');
     } else {
-      bodyEl.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
+      document.body.setAttribute('data-theme', 'light');
     }
   });
 
-  // Apply saved theme on load
-  const savedTheme = localStorage.getItem('theme');
-  if(savedTheme) {
-    bodyEl.setAttribute('data-theme', savedTheme);
-  }
-
-  // ==== LANGUAGE SWITCH ====
+  // === LANGUAGE SELECTOR ===
   const langSelect = document.getElementById('lang-select');
 
-  // Text content for each language
+  // Texts multilingues simplifiés
   const translations = {
     fr: {
       'hero-title': "L'IA au service de l'humain",
@@ -490,163 +504,180 @@
       'stat2-desc': "de chances d'intervention si le danger est détecté tôt",
       'stat3': "95%",
       'stat3-desc': "des utilisateurs croient au potentiel éthique de l'IA",
-      'contact-title': "Contact",
-      'faq1': "L’IA accède-t-elle à des données privées ?",
-      'faq1-desc': "Non. Silent Witness n'enregistre aucune donnée personnelle...",
-      'faq2': "Comment les alertes sont-elles transmises ?",
-      'faq2-desc': "Via une base de données sécurisée et cryptée...",
-      'faq3': "Est-ce déjà en service ?",
-      'faq3-desc': "Silent Witness est en phase de prototypage avancé...",
-      'faq4': "Qui peut nous contacter ?",
-      'faq4-desc': "ONG, hôpitaux, développeurs IA, chercheurs...",
+      'contact-title': "Contactez-nous",
+      'name-label': "Nom complet",
+      'email-label': "Email",
+      'message-label': "Message",
+      'submit-btn': "Envoyer",
+      'whitepaper-title': "White Paper",
+      'whitepaper-desc': "Téléchargez notre document détaillé sur la technologie et l’éthique du projet.",
+      'whitepaper-btn': "Télécharger le PDF",
     },
     en: {
       'hero-title': "AI Serving Humanity",
       'hero-desc': "Ethical detection of distress signals to save lives confidentially.",
       'mission-title': "Our Mission",
-      'mission-desc': "Silent Witness is an AI solution capable of detecting distress signals in voice, gestures or searches. It classifies these signals by severity and securely alerts the appropriate responders: NGOs, hospitals, or authorities.",
+      'mission-desc': "Silent Witness is an AI solution able to detect distress signals in voice, gestures, or searches of an individual. It classifies these signals by severity, then transmits an ethical and secure alert to appropriate responders: NGOs, hospitals, or authorities.",
       'stats-title': "Key Statistics",
       'stat1': "1 suicide every 40 seconds",
       'stat1-desc': "worldwide",
       'stat2': "+30%",
-      'stat2-desc': "higher chances of intervention if danger detected early",
+      'stat2-desc': "chance of intervention if danger is detected early",
       'stat3': "95%",
       'stat3-desc': "of users believe in AI's ethical potential",
-      'contact-title': "Contact",
-      'faq1': "Does the AI access private data?",
-      'faq1-desc': "No. Silent Witness does not record any personal data...",
-      'faq2': "How are alerts transmitted?",
-      'faq2-desc': "Via a secure and encrypted database...",
-      'faq3': "Is it already in service?",
-      'faq3-desc': "Silent Witness is in advanced prototype phase...",
-      'faq4': "Who can contact us?",
-      'faq4-desc': "NGOs, hospitals, AI developers, researchers...",
+      'contact-title': "Contact Us",
+      'name-label': "Full Name",
+      'email-label': "Email",
+      'message-label': "Message",
+      'submit-btn': "Send",
+      'whitepaper-title': "White Paper",
+      'whitepaper-desc': "Download our detailed document on the technology and ethics of the project.",
+      'whitepaper-btn': "Download PDF",
     },
     ar: {
       'hero-title': "الذكاء الاصطناعي في خدمة الإنسان",
-      'hero-desc': "الكشف الأخلاقي عن إشارات distress لإنقاذ الأرواح بسرية تامة.",
+      'hero-desc': "الكشف الأخلاقي عن إشارات الضيق لإنقاذ الأرواح بسرية تامة.",
       'mission-title': "مهمتنا",
-      'mission-desc': "Silent Witness هو حل ذكاء اصطناعي قادر على اكتشاف إشارات distress في الصوت، الحركات أو عمليات البحث. يصنف هذه الإشارات حسب الخطورة، ثم ينقل تنبيهًا آمنًا وأخلاقيًا للجهات المختصة: منظمات غير حكومية، مستشفيات، أو السلطات.",
-      'stats-title': "إحصائيات رئيسية",
-      'stat1': "انتحار واحد كل 40 ثانية",
-      'stat1-desc': "حول العالم",
+      'mission-desc': "Silent Witness هو حل ذكاء اصطناعي قادر على اكتشاف إشارات الضيق في الصوت والحركات والبحث لدى الفرد. يصنف هذه الإشارات حسب الخطورة ثم يرسل إنذارًا أخلاقيًا وآمنًا إلى الجهات المختصة: المنظمات، المستشفيات، أو السلطات.",
+      'stats-title': "الإحصائيات الرئيسية",
+      'stat1': "انتحار كل 40 ثانية",
+      'stat1-desc': "في جميع أنحاء العالم",
       'stat2': "+30%",
-      'stat2-desc': "فرص التدخل إذا تم الكشف المبكر عن الخطر",
+      'stat2-desc': "فرصة التدخل إذا تم الكشف المبكر عن الخطر",
       'stat3': "95%",
-      'stat3-desc': "من المستخدمين يؤمنون بالإمكانات الأخلاقية للذكاء الاصطناعي",
+      'stat3-desc': "من المستخدمين يؤمنون بإمكانات الذكاء الاصطناعي الأخلاقية",
       'contact-title': "اتصل بنا",
-      'faq1': "هل يصل الذكاء الاصطناعي إلى بيانات خاصة؟",
-      'faq1-desc': "لا. لا يقوم Silent Witness بتسجيل أي بيانات شخصية...",
-      'faq2': "كيف يتم إرسال التنبيهات؟",
-      'faq2-desc': "عبر قاعدة بيانات مؤمنة ومشفرة...",
-      'faq3': "هل هو قيد الخدمة بالفعل؟",
-      'faq3-desc': "Silent Witness في مرحلة نموذج أولي متقدم...",
-      'faq4': "من يمكنه الاتصال بنا؟",
-      'faq4-desc': "المنظمات غير الحكومية، المستشفيات، مطورو الذكاء الاصطناعي، الباحثون...",
+      'name-label': "الاسم الكامل",
+      'email-label': "البريد الإلكتروني",
+      'message-label': "الرسالة",
+      'submit-btn': "إرسال",
+      'whitepaper-title': "الوثيقة التقنية",
+      'whitepaper-desc': "قم بتنزيل مستندنا التفصيلي حول التكنولوجيا وأخلاقيات المشروع.",
+      'whitepaper-btn': "تحميل PDF",
     }
   };
 
-  // Function to update page text by lang
-  function updateLanguage(lang) {
-    for (const id in translations[lang]) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.textContent = translations[lang][id];
-      }
-    }
-
-    // Adjust dir for Arabic
-    if(lang === 'ar') {
-      document.documentElement.dir = 'rtl';
-      bodyEl.style.textAlign = 'right';
-    } else {
-      document.documentElement.dir = 'ltr';
-      bodyEl.style.textAlign = 'left';
-    }
+  function updateTexts(lang) {
+    document.getElementById('hero-title').textContent = translations[lang]['hero-title'];
+    document.getElementById('hero-desc').textContent = translations[lang]['hero-desc'];
+    document.getElementById('mission-title').textContent = translations[lang]['mission-title'];
+    document.getElementById('mission-desc').textContent = translations[lang]['mission-desc'];
+    document.getElementById('stats-title').textContent = translations[lang]['stats-title'];
+    document.getElementById('stat1').textContent = translations[lang]['stat1'];
+    document.getElementById('stat1-desc').textContent = translations[lang]['stat1-desc'];
+    document.getElementById('stat2').textContent = translations[lang]['stat2'];
+    document.getElementById('stat2-desc').textContent = translations[lang]['stat2-desc'];
+    document.getElementById('stat3').textContent = translations[lang]['stat3'];
+    document.getElementById('stat3-desc').textContent = translations[lang]['stat3-desc'];
+    document.querySelector('#contact h2').textContent = translations[lang]['contact-title'];
+    document.querySelector('label[for="name"]').textContent = translations[lang]['name-label'];
+    document.querySelector('label[for="email"]').textContent = translations[lang]['email-label'];
+    document.querySelector('label[for="message"]').textContent = translations[lang]['message-label'];
+    document.querySelector('button[type="submit"]').textContent = translations[lang]['submit-btn'];
+    document.querySelector('#whitepaper h2').textContent = translations[lang]['whitepaper-title'];
+    document.querySelector('#whitepaper p').textContent = translations[lang]['whitepaper-desc'];
+    document.querySelector('#whitepaper a').textContent = translations[lang]['whitepaper-btn'];
   }
 
-  // On language change
-  langSelect.addEventListener('change', e => {
-    updateLanguage(e.target.value);
-    localStorage.setItem('language', e.target.value);
+  langSelect.addEventListener('change', () => {
+    updateTexts(langSelect.value);
   });
 
-  // Load saved language or default fr
-  const savedLang = localStorage.getItem('language') || 'fr';
-  langSelect.value = savedLang;
-  updateLanguage(savedLang);
+  // Initialize default language texts
+  updateTexts(langSelect.value);
 
-  // ==== CAROUSEL FUNCTIONALITY ====
+  // === THEME TOGGLE (save preference) ===
+  // Optionally save theme in localStorage for persistence
+  if(localStorage.getItem('theme')) {
+    document.body.setAttribute('data-theme', localStorage.getItem('theme'));
+  }
+  themeToggleBtn.addEventListener('click', () => {
+    let currentTheme = document.body.getAttribute('data-theme');
+    let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+
+  // === CAROUSEL ===
   const track = document.querySelector('.carousel-track');
   const slides = Array.from(track.children);
-  const prevBtn = document.querySelector('.carousel-button.prev');
-  const nextBtn = document.querySelector('.carousel-button.next');
+  const prevButton = document.querySelector('.carousel-button.prev');
+  const nextButton = document.querySelector('.carousel-button.next');
   let currentIndex = 0;
 
   function updateCarousel() {
     const slideWidth = slides[0].getBoundingClientRect().width;
-    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    track.style.transform = 'translateX(' + (-slideWidth * currentIndex) + 'px)';
   }
 
-  prevBtn.addEventListener('click', () => {
+  prevButton.addEventListener('click', () => {
     currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     updateCarousel();
   });
-
-  nextBtn.addEventListener('click', () => {
+  nextButton.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % slides.length;
     updateCarousel();
   });
 
-  window.addEventListener('resize', updateCarousel);
-  updateCarousel();
+  // Auto rotate carousel every 5 sec
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    updateCarousel();
+  }, 5000);
 
-  // ==== ANIMATED TEXT ====
-  // Already done with CSS blinking cursor.
+  // === Detection Process Animation ===
+  const steps = document.querySelectorAll('.detection-process .step');
+  const progressFill = document.querySelector('.progress-fill');
+  let currentStep = 0;
+  const totalSteps = steps.length;
 
-  // ==== EMAILJS FORM HANDLER ====
-  // Assumes EmailJS SDK is loaded separately or via script tag
-  // Replace your EmailJS user ID and template ID below:
+  function updateDetectionProcess() {
+    steps.forEach((step, i) => {
+      step.classList.toggle('active', i === currentStep);
+    });
+    const percent = (currentStep) / (totalSteps - 1) * 100;
+    progressFill.style.width = percent + '%';
+    currentStep = (currentStep + 1) % totalSteps;
+  }
+  updateDetectionProcess();
+  setInterval(updateDetectionProcess, 2500);
 
-  // To use EmailJS, add this script in your <head> or before </body>:
-  // <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
-  // emailjs.init('YOUR_PUBLIC_KEY');
+  // === EMAILJS FORM ===
+  // Remplace service_id, template_id et public_key par tes vraies clés EmailJS
+  const serviceID = 'service_za2pm5i';
+  const templateID = 'template_mt5ycpk';
+  const publicKey = '_pR14KMi1syThzlmY';
 
-  const contactForm = document.getElementById('contact-form');
+  const form = document.getElementById('contact-form');
+  const statusDiv = document.getElementById('form-status');
 
-  contactForm.addEventListener('submit', function(e) {
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
-
-    // Simple validation already ensured by required attribute
-    const formData = {
-      from_name: contactForm.name.value,
-      from_email: contactForm.email.value,
-      message: contactForm.message.value
+    statusDiv.textContent = "Envoi en cours...";
+    const templateParams = {
+      from_name: form.name.value,
+      from_email: form.email.value,
+      message: form.message.value
     };
-
-    // Disable button to prevent multiple sends
-    contactForm.querySelector('button[type="submit"]').disabled = true;
-
-    emailjs.send('service_za2pm5i', 'template_mt5ycpk', formData)
+    emailjs.send(serviceID, templateID, templateParams, publicKey)
       .then(() => {
-        alert('Merci pour votre message ! Nous vous répondrons bientôt.');
-        contactForm.reset();
-      }, (error) => {
-        alert('Erreur lors de l’envoi, veuillez réessayer plus tard.');
-        console.error('EmailJS error:', error);
-      })
-      .finally(() => {
-        contactForm.querySelector('button[type="submit"]').disabled = false;
+        statusDiv.textContent = "Message envoyé avec succès ! Merci.";
+        form.reset();
+      }, (err) => {
+        statusDiv.textContent = "Erreur lors de l'envoi, veuillez réessayer.";
+        console.error('EmailJS error:', err);
       });
   });
+
 </script>
 
-<!-- Load EmailJS SDK -->
-<script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-  emailjs.init('_pR14KMi1syThzlmY'); // Remplace par ta clé publique EmailJS
+  (function(){
+    emailjs.init('_pR14KMi1syThzlmY');
+  })();
 </script>
 
 </body>
 </html>
-
