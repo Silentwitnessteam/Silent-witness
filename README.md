@@ -18,10 +18,35 @@
       font-family: 'Poppins', sans-serif;
       background: #f5f7fa;
       color: #1c5980;
-      line-height: 1.5;
+      line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    main {
+      max-width: 900px;
+      width: 100%;
+    }
+    h1, h2 {
+      margin-top: 0;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #204d7a;
+    }
+    p {
+      font-weight: 400;
+      font-size: 1.15rem;
+      color: #204d7a;
+      margin-bottom: 2rem;
     }
 
     /* Header */
@@ -33,20 +58,15 @@
       justify-content: space-between;
       align-items: center;
       flex-shrink: 0;
+      width: 100%;
+      max-width: 900px;
+      border-radius: 12px;
+      box-sizing: border-box;
+      user-select: none;
+      margin-bottom: 2rem;
     }
     header strong {
       font-size: 1.5rem;
-      user-select: none;
-    }
-    .visually-hidden {
-      position: absolute !important;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
     }
     .lang-select {
       font-family: 'Poppins', sans-serif;
@@ -67,146 +87,66 @@
       box-shadow: 0 0 5px #8fc1a1;
     }
 
-    /* Hero */
-    .hero {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-around;
-      padding: 4rem 2rem;
-      background: linear-gradient(to right, #1c5980, #8fc1a1);
-      color: white;
-      flex-shrink: 0;
-    }
-    .hero-text {
-      max-width: 500px;
-      flex: 1 1 300px;
-    }
-    .hero-text h1 {
-      margin-top: 0;
-      font-weight: 700;
-      font-size: 2.5rem;
-      line-height: 1.1;
-    }
-    .hero-text p {
-      font-weight: 300;
-      font-size: 1.2rem;
-      margin-top: 0.8rem;
-    }
-    .hero img {
-      max-width: 400px;
+    /* Barre de progression container */
+    .progress-container {
       width: 100%;
-      border-radius: 12px;
-      margin-top: 2rem;
-      flex: 1 1 350px;
+      height: 40px;
+      background: #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 3rem 0 4rem 0;
+      box-shadow: 0 3px 8px rgba(28,89,128,0.15);
+      position: relative;
       user-select: none;
-      box-shadow: 0 0 15px #8fc1a1aa;
-      transition: transform 0.3s ease;
     }
-    .hero img:hover {
-      transform: scale(1.05);
-    }
-
-    /* Main content */
-    main {
-      flex-grow: 1;
-      max-width: 900px;
-      margin: 0 auto 2rem auto;
-      padding: 0 1rem;
-      width: 100%;
-    }
-    section {
-      margin-bottom: 3rem;
-    }
-    h2 {
-      color: #1c5980;
+    /* Barre de progression animée */
+    .progress-bar {
+      height: 100%;
+      width: 75%; /* Ajuste la progression ici */
+      background: linear-gradient(90deg, #1c5980, #8fc1a1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
       font-weight: 700;
-      margin-bottom: 1rem;
-      font-size: 1.8rem;
+      font-size: 1.3rem;
+      position: relative;
+      animation: fillProgress 2.5s ease forwards;
     }
-    p {
-      font-weight: 400;
-      font-size: 1.1rem;
-      margin-top: 0;
-      color: #204d7a;
-    }
-
-    /* Animated marquee text */
-   <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" tabindex="0">
-  <div class="progress-bar">
-    <span class="progress-text">You’re not alone</span>
-  </div>
-</div>
-
-<style>
-  .progress-container {
-    width: 100%;
-    max-width: 600px;
-    height: 30px;
-    background: #ddd;
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 20px auto;
-    position: relative;
-  }
-
-  .progress-bar {
-    background: linear-gradient(90deg, #1c5980, #8fc1a1);
-    height: 100%;
-    width: 75%; /* % rempli dynamique */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    animation: progressAnim 2s ease forwards;
-    white-space: nowrap;
-  }
-
-  .progress-text {
-    animation: moveText 3s linear infinite;
-  }
-
-  @keyframes progressAnim {
-    from { width: 0; }
-    to { width: 75%; }
-  }
-
-  @keyframes moveText {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(10px); }
-    100% { transform: translateX(0); }
-  }
-</style>
-
-    .marquee-text {
-      display: inline-block;
+    /* Texte animé dans la barre */
+    .progress-text {
+      animation: moveText 3.5s linear infinite;
       white-space: nowrap;
       position: absolute;
-      will-change: transform;
-      animation: marquee 15s linear infinite;
+      left: 50%;
+      transform: translateX(-50%);
     }
-    @keyframes marquee {
+    @keyframes fillProgress {
       0% {
-        transform: translateX(100%);
+        width: 0;
       }
       100% {
-        transform: translateX(-100%);
+        width: 75%;
+      }
+    }
+    @keyframes moveText {
+      0%, 100% {
+        transform: translateX(-50%);
+      }
+      50% {
+        transform: translateX(calc(-50% + 15px));
       }
     }
 
-    /* Visuals section (carousel) */
-    .visuals {
-      margin-bottom: 3rem;
+    /* Carousel styles */
+    .carousel {
       max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      position: relative;
+      margin: 3rem auto;
+      overflow: hidden;
       border-radius: 12px;
       box-shadow: 0 5px 15px rgba(28,89,128,0.3);
       background: white;
-      overflow: hidden;
+      position: relative;
       user-select: none;
     }
     .carousel-track {
@@ -215,7 +155,6 @@
     }
     .carousel-slide {
       min-width: 100%;
-      flex-shrink: 0;
     }
     .carousel-slide img {
       width: 100%;
@@ -223,7 +162,6 @@
       display: block;
       border-radius: 12px;
       pointer-events: none;
-      user-select: none;
     }
     .carousel-button {
       position: absolute;
@@ -249,27 +187,6 @@
     }
     .carousel-button.next {
       right: 10px;
-    }
-
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-    }
-    .stat {
-      background: white;
-      border-left: 6px solid #8fc1a1;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      color: #1c5980;
-      user-select: none;
-    }
-    .stat strong {
-      display: block;
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
     }
 
     /* FAQ */
@@ -301,7 +218,7 @@
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       max-width: 500px;
-      margin: auto;
+      margin: 2rem auto 4rem auto;
       color: #1c5980;
     }
     .contact-form label {
@@ -353,6 +270,11 @@
       font-size: 0.9rem;
       flex-shrink: 0;
       user-select: none;
+      border-radius: 0 0 12px 12px;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 1rem auto;
+      box-sizing: border-box;
     }
     footer a {
       color: #8fc1a1;
@@ -361,111 +283,79 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
+      h1 {
+        font-size: 2rem;
       }
-      .hero img {
-        margin-top: 1.5rem;
+      h2 {
+        font-size: 1.5rem;
+      }
+      .progress-bar {
+        font-size: 1rem;
+      }
+      header {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+        border-radius: 12px;
       }
     }
   </style>
 </head>
 <body>
+
   <header>
     <strong>Silent Witness</strong>
-    <label for="lang" class="visually-hidden">Choisir la langue</label>
-    <select id="lang" class="lang-select" onchange="switchLang()" aria-label="Choisir la langue">
+    <select id="lang" class="lang-select" aria-label="Choisir la langue" onchange="switchLang()">
       <option value="fr">🇫🇷 Français</option>
       <option value="en">🇬🇧 English</option>
       <option value="ar">🇸🇦 العربية</option>
     </select>
   </header>
 
-  <div class="hero" role="region" aria-label="Introduction">
-    <div class="hero-text">
-      <h1 id="hero-title">L'IA au service de l'humain</h1>
-      <p id="hero-desc">Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
-    </div>
-    <img
-      src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"
-      alt="Humain avec casque de réalité augmentée"
-      loading="lazy"
-      width="400"
-      height="300"
-    />
-  </div>
-
   <main>
-    <!-- Texte défilant -->
-    <div class="marquee-container" aria-live="polite" aria-atomic="true" role="alert">
-      <div class="marquee-text" id="marquee-text">You’re not alone — You’re not alone — You’re not alone — </div>
+    <h1 id="hero-title">L'IA au service de l'humain</h1>
+    <p id="hero-desc">
+      Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.
+    </p>
+
+    <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" tabindex="0">
+      <div class="progress-bar">
+        <span class="progress-text" id="progress-text">You’re not alone — Vous n’êtes pas seul — لست وحدك</span>
+      </div>
     </div>
 
-    <!-- Visuals carousel -->
-    <section id="visuals" tabindex="0" aria-label="Galerie images humain et intelligence artificielle">
-      <h2>Humain & Technologie</h2>
-      <div class="visuals" aria-live="polite">
-        <button class="carousel-button prev" aria-label="Image précédente">&#10094;</button>
-        <div class="carousel-track">
-          <div class="carousel-slide">
-            <img
-              src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
-              alt="Homme avec un casque de réalité augmentée"
-              loading="lazy"
-              width="800"
-              height="533"
-            />
-          </div>
-          <div class="carousel-slide">
-            <img
-              src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=80"
-              alt="Femme et robot collaborant ensemble"
-              loading="lazy"
-              width="800"
-              height="533"
-            />
-          </div>
-          <div class="carousel-slide">
-            <img
-              src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
-              alt="Visage humain et visage robot en transparence"
-              loading="lazy"
-              width="800"
-              height="533"
-            />
-          </div>
-        </div>
-        <button class="carousel-button next" aria-label="Image suivante">&#10095;</button>
-      </div>
-    </section>
-
-    <section id="concept" tabindex="0" aria-label="Notre mission">
+    <section>
       <h2 id="mission-title">Notre mission</h2>
       <p id="mission-desc">
-        Silent Witness est une solution d’intelligence artificielle capable de détecter les signaux de détresse dans la voix, les gestes ou les recherches d’un individu. Elle classe ces signaux par gravité, puis transmet une alerte éthique et sécurisée aux secours appropriés : ONG, hôpitaux, ou autorités compétentes.
+        Silent Witness est une solution d’intelligence artificielle capable de détecter les signaux de détresse dans la voix, les gestes ou les recherches d’un individu.
+        Elle classe ces signaux par gravité, puis transmet une alerte éthique et sécurisée aux secours appropriés : ONG, hôpitaux, ou autorités compétentes.
       </p>
     </section>
 
     <section id="stats" tabindex="0" aria-label="Statistiques clés">
       <h2 id="stats-title">Statistiques Clés</h2>
-      <div class="stats">
-        <div class="stat">
-          <strong id="stat1">1 suicide toutes les 40 secondes</strong>
-          <p id="stat1-desc">dans le monde entier</p>
-        </div>
-        <div class="stat">
-          <strong id="stat2">+30%</strong>
-          <p id="stat2-desc">de chances d'intervention si le danger est détecté tôt</p>
-        </div>
-        <div class="stat">
-          <strong id="stat3">95%</strong>
-          <p id="stat3-desc">des utilisateurs croient au potentiel éthique de l'IA</p>
-        </div>
-      </div>
+      <p><strong id="stat1">1 suicide toutes les 40 secondes</strong> <span id="stat1-desc">dans le monde entier.</span></p>
+      <p><strong id="stat2">+30%</strong> <span id="stat2-desc">de chances d'intervention si le danger est détecté tôt.</span></p>
+      <p><strong id="stat3">95%</strong> <span id="stat3-desc">des utilisateurs croient au potentiel éthique de l'IA.</span></p>
     </section>
 
-    <section id="faq" class="faq" tabindex="0" aria-label="Foire aux questions">
+    <section class="carousel" aria-label="Galerie images humain et technologie" tabindex="0">
+      <button class="carousel-button prev" aria-label="Image précédente">&#10094;</button>
+      <div class="carousel-track">
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Homme avec un casque de réalité augmentée" />
+        </div>
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=80" alt="Femme et robot collaborant ensemble" />
+        </div>
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Visage humain et visage robot en transparence" />
+        </div>
+      </div>
+      <button class="carousel-button next" aria-label="Image suivante">&#10095;</button>
+    </section>
+
+    <section class="faq" tabindex="0" aria-label="Foire aux questions">
       <h2>FAQ</h2>
       <details>
         <summary id="faq1">L’IA accède-t-elle à des données privées ?</summary>
@@ -486,40 +376,21 @@
     </section>
 
     <section id="contact" tabindex="0" aria-label="Formulaire de contact">
-  <h2 id="contact-title">Contact</h2>
-  <form id="contact-form" class="contact-form" onsubmit="sendEmail(event)">
-    <label for="nom">Nom:</label>
-    <input type="text" name="user_name" id="nom" required autocomplete="name" />
+      <h2 id="contact-title">Contact</h2>
+      <form
+        class="contact-form"
+        action="mailto:silentwitness@outlook.fr"
+        method="post"
+        enctype="text/plain"
+      >
+        <label for="nom">Nom:</label>
+        <input type="text" name="nom" id="nom" required autocomplete="name" />
 
-    <label for="email">Email:</label>
-    <input type="email" name="user_email" id="email" required autocomplete="email" />
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required autocomplete="email" />
 
-    <label for="message">Message:</label>
-    <textarea name="message" id="message" rows="5" required></textarea>
-
-    <button type="submit">Envoyer</button>
-  </form>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  // Initialise EmailJS avec ton User ID (à remplacer)
-  emailjs.init("TON_USER_ID");
-
-  function sendEmail(e) {
-    e.preventDefault();
-
-    emailjs.sendForm('TON_SERVICE_ID', 'TON_TEMPLATE_ID', e.target)
-      .then(() => {
-        alert('Message envoyé avec succès !');
-        e.target.reset();
-      }, (error) => {
-        alert('Une erreur est survenue, veuillez réessayer.');
-        console.error(error);
-      });
-  }
-</script>
-
+        <label for="message">Message:</label>
+        <textarea name="message" id="message" rows="5" required></textarea>
 
         <button type="submit">Envoyer</button>
       </form>
@@ -531,6 +402,7 @@
   </footer>
 
   <script>
+    // Texte multilingue
     const translations = {
       fr: {
         "hero-title": "L'IA au service de l'humain",
@@ -539,11 +411,11 @@
         "mission-desc": "Silent Witness est une solution d’intelligence artificielle capable de détecter les signaux de détresse dans la voix, les gestes ou les recherches d’un individu. Elle classe ces signaux par gravité, puis transmet une alerte éthique et sécurisée aux secours appropriés : ONG, hôpitaux, ou autorités compétentes.",
         "stats-title": "Statistiques Clés",
         "stat1": "1 suicide toutes les 40 secondes",
-        "stat1-desc": "dans le monde entier",
+        "stat1-desc": "dans le monde entier.",
         "stat2": "+30%",
-        "stat2-desc": "de chances d'intervention si le danger est détecté tôt",
+        "stat2-desc": "de chances d'intervention si le danger est détecté tôt.",
         "stat3": "95%",
-        "stat3-desc": "des utilisateurs croient au potentiel éthique de l'IA",
+        "stat3-desc": "des utilisateurs croient au potentiel éthique de l'IA.",
         "faq1": "L’IA accède-t-elle à des données privées ?",
         "faq1-desc": "Non. Silent Witness n'enregistre aucune donnée personnelle...",
         "faq2": "Comment les alertes sont-elles transmises ?",
@@ -552,7 +424,12 @@
         "faq3-desc": "Silent Witness est en phase de prototypage avancé...",
         "faq4": "Qui peut nous contacter ?",
         "faq4-desc": "ONG, hôpitaux, développeurs IA, chercheurs...",
-        "contact-title": "Contact"
+        "contact-title": "Contact",
+        "progress-text": "Vous n’êtes pas seul — You’re not alone — لست وحدك",
+        "contact-nom": "Nom:",
+        "contact-email": "Email:",
+        "contact-message": "Message:",
+        "contact-send": "Envoyer"
       },
       en: {
         "hero-title": "AI serving humanity",
@@ -561,11 +438,11 @@
         "mission-desc": "Silent Witness is an AI solution that detects distress signals in voice, gestures or online searches. It classifies them by severity, then sends an ethical and secure alert to appropriate responders: NGOs, hospitals, or authorities.",
         "stats-title": "Key Statistics",
         "stat1": "1 suicide every 40 seconds",
-        "stat1-desc": "worldwide",
+        "stat1-desc": "worldwide.",
         "stat2": "+30%",
-        "stat2-desc": "increase in intervention chances if danger is detected early",
+        "stat2-desc": "increase in intervention chances if danger is detected early.",
         "stat3": "95%",
-        "stat3-desc": "users believe in AI’s ethical potential",
+        "stat3-desc": "users believe in AI’s ethical potential.",
         "faq1": "Does the AI access private data?",
         "faq1-desc": "No. Silent Witness does not record any personal data...",
         "faq2": "How are alerts transmitted?",
@@ -574,55 +451,96 @@
         "faq3-desc": "Silent Witness is currently in advanced prototyping...",
         "faq4": "Who can contact us?",
         "faq4-desc": "NGOs, hospitals, AI developers, researchers...",
-        "contact-title": "Contact"
+        "contact-title": "Contact",
+        "progress-text": "You’re not alone — Vous n’êtes pas seul — لست وحدك",
+        "contact-nom": "Name:",
+        "contact-email": "Email:",
+        "contact-message": "Message:",
+        "contact-send": "Send"
       },
       ar: {
         "hero-title": "الذكاء الاصطناعي في خدمة الإنسانية",
         "hero-desc": "الكشف الأخلاقي عن إشارات الضيق لإنقاذ الأرواح بسرية تامة.",
         "mission-title": "مهمتنا",
-        "mission-desc": "Silent Witness هو حل ذكاء اصطناعي يكتشف إشارات الضيق في الصوت، الإيماءات، أو عمليات البحث على الإنترنت. يصنفها حسب الخطورة، ثم يرسل تنبيهًا أخلاقيًا وآمنًا إلى الجهات المختصة: المنظمات، المستشفيات أو السلطات.",
+        "mission-desc": "Silent Witness هو حل ذكاء اصطناعي يكتشف إشارات الضيق في الصوت، والإيماءات، أو عمليات البحث على الإنترنت. يصنف هذه الإشارات حسب شدتها، ثم يرسل تنبيهًا أخلاقيًا وآمنًا للمستجيبين المناسبين: منظمات غير حكومية، مستشفيات، أو السلطات المختصة.",
         "stats-title": "إحصائيات رئيسية",
-        "stat1": "انتحار كل 40 ثانية",
-        "stat1-desc": "حول العالم",
+        "stat1": "انتحار واحد كل 40 ثانية",
+        "stat1-desc": "في جميع أنحاء العالم.",
         "stat2": "+30%",
-        "stat2-desc": "فرصة أكبر للتدخل المبكر إذا تم الكشف عن الخطر مبكرًا",
+        "stat2-desc": "زيادة في فرص التدخل إذا تم اكتشاف الخطر مبكرًا.",
         "stat3": "95%",
-        "stat3-desc": "يؤمن المستخدمون بإمكانات الذكاء الاصطناعي الأخلاقية",
+        "stat3-desc": "من المستخدمين يؤمنون بالإمكانات الأخلاقية للذكاء الاصطناعي.",
         "faq1": "هل يصل الذكاء الاصطناعي إلى بيانات خاصة؟",
         "faq1-desc": "لا. Silent Witness لا يسجل أية بيانات شخصية...",
-        "faq2": "كيف يتم إرسال التنبيهات؟",
-        "faq2-desc": "عبر قاعدة بيانات مشفرة وآمنة...",
-        "faq3": "هل الخدمة مفعّلة الآن؟",
-        "faq3-desc": "Silent Witness في مرحلة النموذج الأولي المتقدم...",
-        "faq4": "من يمكنه الاتصال بنا؟",
-        "faq4-desc": "المنظمات، المستشفيات، مطورو الذكاء الاصطناعي، الباحثون...",
-        "contact-title": "اتصل بنا"
+        "faq2": "كيف تُنقل التنبيهات؟",
+        "faq2-desc": "عبر قاعدة بيانات مؤمنة ومشفرة...",
+        "faq3": "هل هو قيد الخدمة بالفعل؟",
+        "faq3-desc": "Silent Witness في مرحلة النماذج الأولية المتقدمة...",
+        "faq4": "من يمكنه التواصل معنا؟",
+        "faq4-desc": "المنظمات غير الحكومية، المستشفيات، مطورو الذكاء الاصطناعي، الباحثون...",
+        "contact-title": "اتصل بنا",
+        "progress-text": "لست وحدك — You’re not alone — Vous n’êtes pas seul",
+        "contact-nom": "الاسم:",
+        "contact-email": "البريد الإلكتروني:",
+        "contact-message": "الرسالة:",
+        "contact-send": "إرسال"
       }
     };
 
+    // Fonction pour changer la langue
     function switchLang() {
       const lang = document.getElementById('lang').value;
-      document.documentElement.lang = lang;
-      if (lang === 'ar') {
-        document.documentElement.dir = 'rtl';
-      } else {
-        document.documentElement.dir = 'ltr';
-      }
+      const texts = translations[lang];
 
-      const keys = Object.keys(translations[lang]);
-      keys.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el && translations[lang][id]) {
-          el.textContent = translations[lang][id];
-        }
-      });
+      // Textes principaux
+      document.getElementById('hero-title').textContent = texts["hero-title"];
+      document.getElementById('hero-desc').textContent = texts["hero-desc"];
+      document.getElementById('mission-title').textContent = texts["mission-title"];
+      document.getElementById('mission-desc').textContent = texts["mission-desc"];
+      document.getElementById('stats-title').textContent = texts["stats-title"];
+      document.getElementById('stat1').textContent = texts["stat1"];
+      document.getElementById('stat1-desc').textContent = texts["stat1-desc"];
+      document.getElementById('stat2').textContent = texts["stat2"];
+      document.getElementById('stat2-desc').textContent = texts["stat2-desc"];
+      document.getElementById('stat3').textContent = texts["stat3"];
+      document.getElementById('stat3-desc').textContent = texts["stat3-desc"];
+      document.getElementById('faq1').textContent = texts["faq1"];
+      document.getElementById('faq1-desc').textContent = texts["faq1-desc"];
+      document.getElementById('faq2').textContent = texts["faq2"];
+      document.getElementById('faq2-desc').textContent = texts["faq2-desc"];
+      document.getElementById('faq3').textContent = texts["faq3"];
+      document.getElementById('faq3-desc').textContent = texts["faq3-desc"];
+      document.getElementById('faq4').textContent = texts["faq4"];
+      document.getElementById('faq4-desc').textContent = texts["faq4-desc"];
+      document.getElementById('contact-title').textContent = texts["contact-title"];
+
+      // Contact form labels & button
+      document.querySelector('label[for="nom"]').textContent = texts["contact-nom"];
+      document.querySelector('label[for="email"]').textContent = texts["contact-email"];
+      document.querySelector('label[for="message"]').textContent = texts["contact-message"];
+      document.querySelector('.contact-form button').textContent = texts["contact-send"];
+
+      // Barre progression texte
+      document.getElementById('progress-text').textContent = texts["progress-text"];
+
+      // Direction de page pour l'arabe
+      if (lang === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.body.style.textAlign = 'right';
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.body.style.textAlign = 'left';
+      }
     }
 
-    // Carousel functionality
-    const prevBtn = document.querySelector('.carousel-button.prev');
-    const nextBtn = document.querySelector('.carousel-button.next');
+    // Initialisation à la langue par défaut
+    switchLang();
+
+    // Carrousel JS
     const track = document.querySelector('.carousel-track');
     const slides = Array.from(track.children);
+    const nextBtn = document.querySelector('.carousel-button.next');
+    const prevBtn = document.querySelector('.carousel-button.prev');
     let currentIndex = 0;
 
     function updateCarousel() {
@@ -630,28 +548,22 @@
       track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
     }
 
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-      updateCarousel();
-    });
     nextBtn.addEventListener('click', () => {
       currentIndex = (currentIndex + 1) % slides.length;
       updateCarousel();
     });
 
-    // Init
-    window.onload = () => {
-      // Lang set to browser or default French
-      const userLang = navigator.language.slice(0, 2);
-      if (['fr', 'en', 'ar'].includes(userLang)) {
-        document.getElementById('lang').value = userLang;
-      } else {
-        document.getElementById('lang').value = 'fr';
-      }
-      switchLang();
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
       updateCarousel();
-    };
+    });
+
+    // Resize listener to adjust carousel on window resize
+    window.addEventListener('resize', updateCarousel);
+
+    // Init carousel position
+    updateCarousel();
   </script>
+
 </body>
 </html>
-
