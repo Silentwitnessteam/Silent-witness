@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Silent Witness - IA au service de l'humain</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background: #f5f7fa;
-      color: #1C5980;
+      color: #1c5980;
     }
     header {
-      background-color: #1C5980;
+      background-color: #1c5980;
       color: white;
       padding: 1rem 2rem;
       display: flex;
@@ -27,7 +30,7 @@
       font-weight: 500;
     }
     .lang-select {
-      color: #1C5980;
+      color: #1c5980;
       padding: 0.5rem;
       border-radius: 5px;
       font-size: 1rem;
@@ -39,7 +42,7 @@
       align-items: center;
       justify-content: space-around;
       padding: 4rem 2rem;
-      background: linear-gradient(to right, #1C5980, #8FC1A1);
+      background: linear-gradient(to right, #1c5980, #8fc1a1);
       color: white;
     }
     .hero img {
@@ -59,10 +62,10 @@
     }
     .stat {
       background: white;
-      border-left: 6px solid #8FC1A1;
+      border-left: 6px solid #8fc1a1;
       padding: 1.5rem;
       border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     .faq details {
       margin-bottom: 1rem;
@@ -75,14 +78,14 @@
       background: white;
       padding: 2rem;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       max-width: 500px;
       margin: auto;
     }
     footer {
       text-align: center;
       padding: 1rem;
-      background: #1C5980;
+      background: #1c5980;
       color: white;
     }
     @media (max-width: 768px) {
@@ -97,7 +100,9 @@
   <header>
     <div><strong>Silent Witness</strong></div>
     <div>
-      <label for="lang"></label>
+      <label for="lang" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;">
+        Choisir la langue
+      </label>
       <select id="lang" class="lang-select" onchange="switchLang()">
         <option value="fr">🇫🇷 Français</option>
         <option value="en">🇬🇧 English</option>
@@ -109,9 +114,14 @@
   <div class="hero">
     <div class="hero-text">
       <h1 id="hero-title">L'IA au service de l'humain</h1>
-      <p id="hero-desc">Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
+      <p id="hero-desc">
+        Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.
+      </p>
     </div>
-    <img src="https://raw.githubusercontent.com/silentwitnessteam/silentwitness/main/illustration.png" alt="Illustration IA et humain">
+    <img
+      src="https://raw.githubusercontent.com/silentwitnessteam/silentwitness/main/illustration.png"
+      alt="Illustration IA et humain"
+    />
   </div>
 
   <section id="concept">
@@ -124,26 +134,64 @@
   <section id="stats">
     <h2 id="stats-title">Statistiques Clés</h2>
     <div class="stats">
-      <div class="stat"><strong id="stat1">1 suicide toutes les 40 secondes</strong><p id="stat1-desc">dans le monde entier</p></div>
-      <div class="stat"><strong id="stat2">+30%</strong><p id="stat2-desc">de chances d'intervention si le danger est détecté tôt</p></div>
-      <div class="stat"><strong id="stat3">95%</strong><p id="stat3-desc">des utilisateurs croient au potentiel éthique de l'IA</p></div>
+      <div class="stat">
+        <strong id="stat1">1 suicide toutes les 40 secondes</strong>
+        <p id="stat1-desc">dans le monde entier</p>
+      </div>
+      <div class="stat">
+        <strong id="stat2">+30%</strong>
+        <p id="stat2-desc">de chances d'intervention si le danger est détecté tôt</p>
+      </div>
+      <div class="stat">
+        <strong id="stat3">95%</strong>
+        <p id="stat3-desc">des utilisateurs croient au potentiel éthique de l'IA</p>
+      </div>
     </div>
   </section>
 
   <section id="faq" class="faq">
     <h2>FAQ</h2>
-    <details><summary id="faq1">L’IA accède-t-elle à des données privées ?</summary><p id="faq1-desc">Non. Silent Witness n'enregistre aucune donnée personnelle...</p></details>
-    <details><summary id="faq2">Comment les alertes sont-elles transmises ?</summary><p id="faq2-desc">Via une base de données sécurisée et cryptée...</p></details>
-    <details><summary id="faq3">Est-ce déjà en service ?</summary><p id="faq3-desc">Silent Witness est en phase de prototypage avancé...</p></details>
-    <details><summary id="faq4">Qui peut nous contacter ?</summary><p id="faq4-desc">ONG, hôpitaux, développeurs IA, chercheurs...</p></details>
+    <details>
+      <summary id="faq1">L’IA accède-t-elle à des données privées ?</summary>
+      <p id="faq1-desc">Non. Silent Witness n'enregistre aucune donnée personnelle...</p>
+    </details>
+    <details>
+      <summary id="faq2">Comment les alertes sont-elles transmises ?</summary>
+      <p id="faq2-desc">Via une base de données sécurisée et cryptée...</p>
+    </details>
+    <details>
+      <summary id="faq3">Est-ce déjà en service ?</summary>
+      <p id="faq3-desc">Silent Witness est en phase de prototypage avancé...</p>
+    </details>
+    <details>
+      <summary id="faq4">Qui peut nous contacter ?</summary>
+      <p id="faq4-desc">ONG, hôpitaux, développeurs IA, chercheurs...</p>
+    </details>
   </section>
 
   <section id="contact">
     <h2 id="contact-title">Contact</h2>
-    <form class="contact-form" action="mailto:silentwitness@outlook.fr" method="post" enctype="text/plain">
-      <label>Nom:<br><input type="text" name="nom" required></label><br><br>
-      <label>Email:<br><input type="email" name="email" required></label><br><br>
-      <label>Message:<br><textarea name="message" rows="5" required></textarea></label><br><br>
+    <form
+      class="contact-form"
+      action="mailto:silentwitness@outlook.fr"
+      method="post"
+      enctype="text/plain"
+    >
+      <label>
+        Nom:<br />
+        <input type="text" name="nom" required />
+      </label>
+      <br /><br />
+      <label>
+        Email:<br />
+        <input type="email" name="email" required />
+      </label>
+      <br /><br />
+      <label>
+        Message:<br />
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <br /><br />
       <button type="submit">Envoyer</button>
     </form>
   </section>
@@ -158,7 +206,8 @@
         "hero-title": "L'IA au service de l'humain",
         "hero-desc": "Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.",
         "mission-title": "Notre mission",
-        "mission-desc": "Silent Witness est une solution d’intelligence artificielle capable...",
+        "mission-desc":
+          "Silent Witness est une solution d’intelligence artificielle capable...",
         "stats-title": "Statistiques Clés",
         "stat1": "1 suicide toutes les 40 secondes",
         "stat1-desc": "dans le monde entier",
@@ -174,7 +223,7 @@
         "faq3-desc": "Silent Witness est en phase de prototypage avancé...",
         "faq4": "Qui peut nous contacter ?",
         "faq4-desc": "ONG, hôpitaux, développeurs IA, chercheurs...",
-        "contact-title": "Contact"
+        "contact-title": "Contact",
       },
       en: {
         "hero-title": "AI serving humanity",
@@ -196,7 +245,7 @@
         "faq3-desc": "Currently in advanced prototype phase...",
         "faq4": "Who can contact us?",
         "faq4-desc": "NGOs, hospitals, AI developers, citizens...",
-        "contact-title": "Contact"
+        "contact-title": "Contact",
       },
       ar: {
         "hero-title": "الذكاء الاصطناعي في خدمة الإنسان",
@@ -218,16 +267,18 @@
         "faq3-desc": "لا تزال في مرحلة النموذج الأولي المتقدم...",
         "faq4": "من يمكنه الاتصال بنا؟",
         "faq4-desc": "المنظمات، المستشفيات، مطوري الذكاء الاصطناعي...",
-        "contact-title": "اتصل بنا"
-      }
+        "contact-title": "اتصل بنا",
+      },
     };
 
     function switchLang() {
       const lang = document.getElementById('lang').value;
       const keys = Object.keys(translations[lang]);
-      keys.forEach(id => {
+      keys.forEach((id) => {
         const el = document.getElementById(id);
-        if (el) el.innerText = translations[lang][id];
+        if (el && translations[lang][id]) {
+          el.textContent = translations[lang][id];
+        }
       });
     }
   </script>
