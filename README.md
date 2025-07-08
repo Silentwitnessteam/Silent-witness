@@ -156,6 +156,15 @@
   </section>
 
   <section class="section">
+    <h2>Statistiques clés</h2>
+    <ul>
+      <li>Près de 800 000 personnes se suicident chaque année (OMS)</li>
+      <li>1 suicide toutes les 40 secondes dans le monde</li>
+      <li>Le suicide est la 2e cause de mortalité chez les 15-29 ans</li>
+    </ul>
+  </section>
+
+  <section class="section">
     <h2>Étapes de détection IA</h2>
     <ol>
       <li>Analyse des mots clés dans les messages, requêtes IA ou recherches web</li>
