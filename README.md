@@ -1,459 +1,1059 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Silent Witness - Prévention & Soutien</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-<!-- Leaflet CSS -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-  integrity="sha256-sA+4a6TCr1FzffKn1xFKfIQ87IjYwvA8r+ZvH5f5smM="
-  crossorigin=""
-/>
-
-<style>
-  :root {
-    --color-primary: #1c5980;
-    --color-secondary: #8fc1a1;
-    --color-bg-light: #f9fafb;
-    --color-bg-dark: #121212;
-    --color-text-light: #222;
-    --color-text-dark: #e0e0e0;
-    --transition-speed: 0.3s;
-    --border-radius: 12px;
-    --font-family: 'Poppins', sans-serif;
-  }
-  body {
-    margin: 0; padding: 0;
-    font-family: var(--font-family);
-    background: var(--color-bg-light);
-    color: var(--color-text-light);
-    min-height: 100vh;
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-  }
-  body.dark-theme {
-    background: var(--color-bg-dark);
-    color: var(--color-text-dark);
-  }
-  header {
-    background: var(--color-primary);
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-  }
-  header h1 {
-    margin: 0;
-    font-weight: 900;
-    font-size: 1.9rem;
-    cursor: default;
-  }
-  #lang-select {
-    background: white;
-    border-radius: var(--border-radius);
-    border: none;
-    padding: 0.3rem 0.8rem;
-    font-size: 1rem;
-    color: var(--color-primary);
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(28, 89, 128, 0.2);
-    transition: background-color 0.3s;
-  }
-  #lang-select:hover, #lang-select:focus {
-    background-color: var(--color-secondary);
-    color: white;
-    outline: none;
-  }
-  #theme-toggle {
-    background: transparent;
-    border: none;
-    font-size: 1.6rem;
-    color: white;
-    cursor: pointer;
-    margin-left: 1rem;
-    transition: color 0.3s;
-  }
-  #theme-toggle:hover {
-    color: var(--color-secondary);
-  }
-
-  main {
-    max-width: 960px;
-    margin: 2rem auto 4rem;
-    padding: 0 1rem;
-  }
-  section {
-    margin-bottom: 3rem;
-  }
-  h2 {
-    font-weight: 900;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    user-select: none;
-    color: var(--color-primary);
-    text-align: center;
-  }
-
-  /* Statistiques */
-  #stats-list {
-    max-width: 700px;
-    margin: 0 auto;
-    font-size: 1.15rem;
-    line-height: 1.6;
-    list-style: inside disc;
-    color: inherit;
-  }
-
-  /* Carte */
-  #map {
-    height: 500px;
-    max-width: 960px;
-    margin: 0 auto;
-    border-radius: var(--border-radius);
-    box-shadow: 0 8px 20px rgba(28, 89, 128, 0.3);
-  }
-
-  /* Formulaire */
-  form#contact-form {
-    max-width: 480px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  label {
-    font-weight: 600;
-    color: var(--color-primary);
-  }
-  input, textarea {
-    font-family: var(--font-family);
-    font-size: 1rem;
-    padding: 0.9rem 1.2rem;
-    border-radius: var(--border-radius);
-    border: 2px solid #ccc;
-    resize: vertical;
-    color: var(--color-text-light);
-  }
-  body.dark-theme input, body.dark-theme textarea {
-    background: #222;
-    border-color: #555;
-    color: var(--color-text-dark);
-  }
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 12px rgba(28,89,128,0.4);
-  }
-  button[type="submit"] {
-    background: var(--color-primary);
-    color: white;
-    font-weight: 700;
-    padding: 1rem;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: background-color 0.3s ease;
-  }
-  button[type="submit"]:hover {
-    background: var(--color-secondary);
-    color: var(--color-primary);
-  }
-  .error-msg {
-    color: #c0392b;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: none;
-  }
-  .error-msg.active {
-    display: block;
-  }
-
-  /* Soutenir bouton */
-  #support-btn {
-    display: block;
-    max-width: 220px;
-    margin: 1rem auto 3rem;
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    padding: 1rem 1.5rem;
-    font-weight: 700;
-    font-size: 1.15rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(28, 89, 128, 0.4);
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  #support-btn:hover {
-    background: var(--color-secondary);
-    color: var(--color-primary);
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
-    #map {
-      height: 350px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Silent Witness - IA au service de l'humain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & global */
+    * {
+      box-sizing: border-box;
     }
-    form#contact-form {
-      max-width: 100%;
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #1c5980;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-  }
 
-  /* RTL support for Arabic */
-  html[lang="ar"] {
-    direction: rtl;
-    text-align: right;
-  }
-  html[lang="ar"] label {
-    text-align: right;
-  }
-  html[lang="ar"] input, html[lang="ar"] textarea {
-    direction: rtl;
-    text-align: right;
-  }
-</style>
+    /* Header */
+    header {
+      background-color: #1c5980;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    header strong {
+      font-size: 1.5rem;
+      user-select: none;
+    }
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    .lang-select {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1c5980;
+      background-color: white;
+      border: 2px solid #1c5980;
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      min-width: 140px;
+      transition: border-color 0.3s ease;
+    }
+    .lang-select:focus {
+      outline: none;
+      border-color: #8fc1a1;
+      box-shadow: 0 0 5px #8fc1a1;
+    }
+
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+      padding: 4rem 2rem;
+      background: linear-gradient(to right, #1c5980, #8fc1a1);
+      color: white;
+      flex-shrink: 0;
+    }
+    .hero-text {
+      max-width: 500px;
+      flex: 1 1 300px;
+    }
+    .hero-text h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.5rem;
+      line-height: 1.1;
+    }
+    .hero-text p {
+      font-weight: 300;
+      font-size: 1.2rem;
+      margin-top: 0.8rem;
+    }
+    .hero img {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 2rem;
+      flex: 1 1 350px;
+      user-select: none;
+    }
+
+    /* Main content */
+    main {
+      flex-grow: 1;
+      max-width: 900px;
+      margin: 0 auto 2rem auto;
+      padding: 0 1rem;
+      width: 100%;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    h2 {
+      color: #1c5980;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    p {
+      font-weight: 400;
+      font-size: 1.1rem;
+      margin-top: 0;
+      color: #204d7a;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .stat {
+      background: white;
+      border-left: 6px solid #8fc1a1;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      color: #1c5980;
+      user-select: none;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* FAQ */
+    .faq details {
+      margin-bottom: 1rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+      color: #1c5980;
+    }
+    .faq summary {
+      font-weight: 600;
+      font-size: 1.1rem;
+      outline: none;
+    }
+    .faq p {
+      margin: 0.5rem 0 0 1rem;
+      font-weight: 400;
+      font-size: 1rem;
+      color: #35648f;
+    }
+
+    /* Contact form */
+    .contact-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+      color: #1c5980;
+    }
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 1rem;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #8fc1a1;
+      outline: none;
+      box-shadow: 0 0 5px #8fc1a1;
+    }
+    .contact-form button {
+      background-color: #1c5980;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+    .contact-form button:hover {
+      background-color: #8fc1a1;
+      color: #1c5980;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #1c5980;
+      color: white;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    footer a {
+      color: #8fc1a1;
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero img {
+        margin-top: 1.5rem;
+      }
+    }
+
+    /* Carousel styles */
+    .carousel {
+      max-width: 900px;
+      margin: 3rem auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(28,89,128,0.3);
+      background: white;
+      position: relative;
+      user-select: none;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel-slide {
+      min-width: 100%;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      pointer-events: none;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1c5980cc;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      z-index: 10;
+    }
+    .carousel-button:hover {
+      background: #8fc1a1cc;
+      color: #1c5980;
+    }
+    .carousel-button.prev {
+      left: 10px;
+    }
+    .carousel-button.next {
+      right: 10px;
+    }
+
+    /* White Paper Section */
+    #whitepaper {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 3rem 2rem;
+      max-width: 900px;
+      margin: 3rem auto;
+      text-align: center;
+      color: #1c5980;
+      user-select: none;
+    }
+    #whitepaper h2 {
+      margin-bottom: 1rem;
+    }
+    #whitepaper p {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #204d7a;
+      font-size: 1.1rem;
+    }
+    #whitepaper a {
+      display: inline-block;
+      padding: 12px 28px;
+      background-color: #1c5980;
+      color: white;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    #whitepaper a:hover {
+      background-color: #8fc1a1;
+      color: #1c5980;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <strong>Silent Witness</strong>
+    <div>
+      <label for="lang" class="visually-hidden">Choisir la langue</label>
+      <select id="lang" class="lang-select" onchange="switchLang()" aria-label="Choisir la langue">
+        <option value="fr">🇫🇷 Français</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="ar">🇸🇦 العربية</option>
+      </select>
+    </div>
+  </header>
 
-<header>
-  <h1 data-lang-fr="Silent Witness" data-lang-en="Silent Witness" data-lang-ar="الشاهد الصامت">Silent Witness</h1>
-  <div>
-    <select id="lang-select" aria-label="Choisir la langue">
-      <option value="fr" selected>Français</option>
-      <option value="en">English</option>
-      <option value="ar">العربية</option>
-    </select>
-    <button id="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
+  <div class="hero">
+    <div class="hero-text">
+      <h1 id="hero-title">L'IA au service de l'humain</h1>
+      <p id="hero-desc">Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
+    </div>
+    <img
+      src="https://raw.githubusercontent.com/silentwitnessteam/silentwitness/main/illustration.png"
+      alt="Illustration IA et humain"
+      loading="lazy"
+    />
   </div>
-</header>
 
-<main>
-  <section id="stats-section">
-    <h2 data-lang-fr="Statistiques Clés" data-lang-en="Key Statistics" data-lang-ar="إحصائيات رئيسية">Statistiques Clés</h2>
-    <ul id="stats-list">
-      <li data-lang-fr="Environ 700 000 décès par suicide chaque année dans le monde." data-lang-en="Approximately 700,000 deaths by suicide annually worldwide." data-lang-ar="حوالي 700,000 حالة وفاة بسبب الانتحار سنويًا في العالم."></li>
-      <li data-lang-fr="Le suicide est la deuxième cause de mortalité chez les jeunes de 15 à 29 ans." data-lang-en="Suicide is the second leading cause of death among 15-29 year olds." data-lang-ar="الانتحار هو السبب الثاني للوفاة بين الشباب من 15 إلى 29 عامًا."></li>
-      <li data-lang-fr="30% des femmes dans le monde subissent des violences conjugales." data-lang-en="30% of women worldwide experience intimate partner violence." data-lang-ar="30٪ من النساء في العالم يتعرضن للعنف من الشريك الحميم."></li>
-      <li data-lang-fr="Le taux de suicide au Maroc est d'environ 3.9 pour 100 000 habitants." data-lang-en="Morocco's suicide rate is approximately 3.9 per 100,000 people." data-lang-ar="معدل الانتحار في المغرب حوالي 3.9 لكل 100,000 نسمة."></li>
-      <li data-lang-fr="Les taux de suicide varient selon les continents, avec les plus élevés en Europe et en Asie." data-lang-en="Suicide rates vary by continent, highest in Europe and Asia." data-lang-ar="تختلف معدلات الانتحار حسب القارات، الأعلى في أوروبا وآسيا."></li>
-    </ul>
-  </section>
+  <main>
+    <section id="concept" tabindex="0" aria-label="Notre mission">
+      <h2 id="mission-title">Notre mission</h2>
+      <p id="mission-desc">
+        Silent Witness est une solution d’intelligence artificielle capable de détecter les signaux de détresse dans la voix, les gestes ou les recherches d’un individu. Elle classe ces signaux par gravité, puis transmet une alerte éthique et sécurisée aux secours appropriés : ONG, hôpitaux, ou autorités compétentes.
+      </p>
+    </section>
 
-  <section id="map-section">
-    <h2 data-lang-fr="Carte mondiale du suicide" data-lang-en="World Suicide Map" data-lang-ar="خريطة الانتحار العالمية">Carte mondiale du suicide</h2>
-    <div id="map" role="region" aria-label="Carte montrant les taux de suicide par pays"></div>
-  </section>
+    <section id="stats" tabindex="0" aria-label="Statistiques clés">
+      <h2 id="stats-title">Statistiques Clés</h2>
+      <div class="stats">
+        <div class="stat">
+          <strong id="stat1">1 suicide toutes les 40 secondes</strong>
+          <p id="stat1-desc">dans le monde entier</p>
+        </div>
+        <div class="stat">
+          <strong id="stat2">+30%</strong>
+          <p id="stat2-desc">de chances d'intervention si le danger est détecté tôt</p>
+        </div>
+        <div class="stat">
+          <strong id="stat3">95%</strong>
+          <p id="stat3-desc">des utilisateurs croient au potentiel éthique de l'IA</p>
+        </div>
+      </div>
+    </section>
 
-  <button id="support-btn" data-lang-fr="Soutenir le projet" data-lang-en="Support the Project" data-lang-ar="دعم المشروع" type="button"></button>
+    <section id="whitepaper" tabindex="0" aria-label="White Paper Silent Witness">
+      <h2>White Paper</h2>
+      <p>
+        Découvrez en détail notre démarche, la technologie, l’éthique et la vision derrière Silent Witness.  
+        Ce document présente les objectifs, la technologie utilisée, et l’impact social de notre IA au service de l’humain.
+      </p>
+      <a href="docs/whitepaper-silentwitness.pdf" target="_blank" rel="noopener noreferrer" download>
+        Télécharger le White Paper (PDF)
+      </a>
+    </section>
 
-  <section id="contact-section">
-    <h2 data-lang-fr="Contactez-nous" data-lang-en="Contact Us" data-lang-ar="اتصل بنا">Contactez-nous</h2>
-    <form id="contact-form" novalidate>
-      <label for="name" data-lang-fr="Nom" data-lang-en="Name" data-lang-ar="الاسم">Nom</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        placeholder="Votre nom"
-        required
-        data-placeholder-fr="Votre nom"
-        data-placeholder-en="Your name"
-        data-placeholder-ar="اسمك"
-        aria-describedby="name-error"
-      />
-      <div id="name-error" class="error-msg" aria-live="polite" role="alert">Veuillez entrer votre nom.</div>
+    <section id="faq" class="faq" tabindex="0" aria-label="Foire aux questions">
+      <h2>FAQ</h2>
+      <details>
+        <summary id="faq1">L’IA accède-t-elle à des données privées ?</summary>
+        <p id="faq1-desc">Non. Silent Witness n'enregistre aucune donnée personnelle...</p>
+      </details>
+      <details>
+        <summary id="faq2">Comment les alertes sont-elles transmises ?</summary>
+        <p id="faq2-desc">Via une base de données sécurisée et cryptée...</p>
+      </details>
+      <details>
+        <summary id="faq3">Est-ce déjà en service ?</summary>
+        <p id="faq3-desc">Silent Witness est en phase de prototypage avancé...</p>
+      </details>
+      <details>
+        <summary id="faq4">Qui peut nous contacter ?</summary>
+        <p id="faq4-desc">ONG, hôpitaux, développeurs IA, chercheurs...</p>
+      </details>
+    </section>
 
-      <label for="email" data-lang-fr="Email" data-lang-en="Email" data-lang-ar="البريد الإلكتروني">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Votre email"
-        required
-        data-placeholder-fr="Votre email"
-        data-placeholder-en="Your email"
-        data-placeholder-ar="بريدك الإلكتروني"
-        aria-describedby="email-error"
-      />
-      <div id="email-error" class="error-msg" aria-live="polite" role="alert">Veuillez entrer un email valide.</div>
+    <section id="visuals" tabindex="0" aria-label="Galerie images humain et technologie">
+      <h2>Humain & Technologie</h2>
+      <div class="carousel" aria-live="polite">
+        <button class="carousel-button prev" aria-label="Image précédente">&#10094;</button>
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Homme avec un casque de réalité augmentée" loading="lazy" />
+          </div>
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=80" alt="Femme et robot collaborant ensemble" loading="lazy" />
+          </div>
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Visage humain et visage robot en transparence" loading="lazy" />
+          </div>
+        </div>
+        <button class="carousel-button next" aria-label="Image suivante">&#10095;</button>
+      </div>
+    </section>
 
-      <label for="message" data-lang-fr="Message" data-lang-en="Message" data-lang-ar="رسالتك">Message</label>
-      <textarea
-        id="message"
-        name="message"
-        rows="5"
-        placeholder="Votre message"
-        required
-        data-placeholder-fr="Votre message"
-        data-placeholder-en="Your message"
-        data-placeholder-ar="رسالتك"
-        aria-describedby="message-error"
-      ></textarea>
-      <div id="message-error" class="error-msg" aria-live="polite" role="alert">Le message ne peut pas être vide.</div>
+    <section id="contact" tabindex="0" aria-label="Formulaire de contact">
+      <h2 id="contact-title">Contact</h2>
+      <form
+        class="contact-form"
+        action="mailto:silentwitness@outlook.fr"
+        method="post"
+        enctype="text/plain"
+      >
+        <label for="nom">Nom:</label>
+        <input type="text" name="nom" id="nom" required autocomplete="name" />
 
-      <button type="submit" data-lang-fr="Envoyer" data-lang-en="Send" data-lang-ar="إرسال">Envoyer</button>
-    </form>
-  </section>
-</main>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required autocomplete="email" />
 
-<!-- Leaflet JS -->
-<script
-  src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-  integrity="sha256-nnp2HAfHnsjTv/yf3tqMjcxl9B4QSpz4hQZjPSZV2kM="
-  crossorigin=""
-></script>
+        <label for="message">Message:</label>
+        <textarea name="message" id="message" rows="5" required></textarea>
 
-<script>
-  // === Gestion langue (FR/EN/AR) ===
-  const langSelect = document.getElementById('lang-select');
-  const allLangElements = document.querySelectorAll('[data-lang-fr]');
+        <button type="submit">Envoyer</button>
+      </form>
+    </section>
+  </main>
 
-  function updateLanguage(lang) {
-    document.documentElement.lang = lang;
-    if (lang === 'ar') {
-      document.documentElement.dir = 'rtl';
-    } else {
-      document.documentElement.dir = 'ltr';
+  <footer>
+    © 2025 Silent Witness — IA pour la prévention, l'éthique et la vie.
+  </footer>
+
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Silent Witness - IA au service de l'humain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & global */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #1c5980;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    allLangElements.forEach(el => {
-      if (lang === 'fr' && el.dataset.langFr) el.textContent = el.dataset.langFr;
-      else if (lang === 'en' && el.dataset.langEn) el.textContent = el.dataset.langEn;
-      else if (lang === 'ar' && el.dataset.langAr) el.textContent = el.dataset.langAr;
+    /* Header */
+    header {
+      background-color: #1c5980;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    header strong {
+      font-size: 1.5rem;
+      user-select: none;
+    }
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    .lang-select {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1c5980;
+      background-color: white;
+      border: 2px solid #1c5980;
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      min-width: 140px;
+      transition: border-color 0.3s ease;
+    }
+    .lang-select:focus {
+      outline: none;
+      border-color: #8fc1a1;
+      box-shadow: 0 0 5px #8fc1a1;
+    }
 
-      // placeholders
-      if (el.placeholder) {
-        if (lang === 'fr' && el.dataset.placeholderFr) el.placeholder = el.dataset.placeholderFr;
-        else if (lang === 'en' && el.dataset.placeholderEn) el.placeholder = el.dataset.placeholderEn;
-        else if (lang === 'ar' && el.dataset.placeholderAr) el.placeholder = el.dataset.placeholderAr;
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+      padding: 4rem 2rem;
+      background: linear-gradient(to right, #1c5980, #8fc1a1);
+      color: white;
+      flex-shrink: 0;
+    }
+    .hero-text {
+      max-width: 500px;
+      flex: 1 1 300px;
+    }
+    .hero-text h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.5rem;
+      line-height: 1.1;
+    }
+    .hero-text p {
+      font-weight: 300;
+      font-size: 1.2rem;
+      margin-top: 0.8rem;
+    }
+    .hero img {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 2rem;
+      flex: 1 1 350px;
+      user-select: none;
+    }
+
+    /* Main content */
+    main {
+      flex-grow: 1;
+      max-width: 900px;
+      margin: 0 auto 2rem auto;
+      padding: 0 1rem;
+      width: 100%;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    h2 {
+      color: #1c5980;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    p {
+      font-weight: 400;
+      font-size: 1.1rem;
+      margin-top: 0;
+      color: #204d7a;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .stat {
+      background: white;
+      border-left: 6px solid #8fc1a1;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      color: #1c5980;
+      user-select: none;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* FAQ */
+    .faq details {
+      margin-bottom: 1rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+      color: #1c5980;
+    }
+    .faq summary {
+      font-weight: 600;
+      font-size: 1.1rem;
+      outline: none;
+    }
+    .faq p {
+      margin: 0.5rem 0 0 1rem;
+      font-weight: 400;
+      font-size: 1rem;
+      color: #35648f;
+    }
+
+    /* Contact form */
+    .contact-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+      color: #1c5980;
+    }
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 1rem;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #8fc1a1;
+      outline: none;
+      box-shadow: 0 0 5px #8fc1a1;
+    }
+    .contact-form button {
+      background-color: #1c5980;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+    .contact-form button:hover {
+      background-color: #8fc1a1;
+      color: #1c5980;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #1c5980;
+      color: white;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    footer a {
+      color: #8fc1a1;
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
       }
+      .hero img {
+        margin-top: 1.5rem;
+      }
+    }
+
+    /* Carousel styles */
+    .carousel {
+      max-width: 900px;
+      margin: 3rem auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(28,89,128,0.3);
+      background: white;
+      position: relative;
+      user-select: none;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel-slide {
+      min-width: 100%;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      pointer-events: none;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1c5980cc;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      z-index: 10;
+    }
+    .carousel-button:hover {
+      background: #8fc1a1cc;
+      color: #1c5980;
+    }
+    .carousel-button.prev {
+      left: 10px;
+    }
+    .carousel-button.next {
+      right: 10px;
+    }
+
+    /* White Paper Section */
+    #whitepaper {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 3rem 2rem;
+      max-width: 900px;
+      margin: 3rem auto;
+      text-align: center;
+      color: #1c5980;
+      user-select: none;
+    }
+    #whitepaper h2 {
+      margin-bottom: 1rem;
+    }
+    #whitepaper p {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #204d7a;
+      font-size: 1.1rem;
+    }
+    #whitepaper a {
+      display: inline-block;
+      padding: 12px 28px;
+      background-color: #1c5980;
+      color: white;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    #whitepaper a:hover {
+      background-color: #8fc1a1;
+      color: #1c5980;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Silent Witness</strong>
+    <div>
+      <label for="lang" class="visually-hidden">Choisir la langue</label>
+      <select id="lang" class="lang-select" onchange="switchLang()" aria-label="Choisir la langue">
+        <option value="fr">🇫🇷 Français</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="ar">🇸🇦 العربية</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-text">
+      <h1 id="hero-title">L'IA au service de l'humain</h1>
+      <p id="hero-desc">Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.</p>
+    </div>
+    <img
+      src="https://raw.githubusercontent.com/silentwitnessteam/silentwitness/main/illustration.png"
+      alt="Illustration IA et humain"
+      loading="lazy"
+    />
+  </div>
+
+  <main>
+    <section id="concept" tabindex="0" aria-label="Notre mission">
+      <h2 id="mission-title">Notre mission</h2>
+      <p id="mission-desc">
+        Silent Witness est une solution d’intelligence artificielle capable de détecter les signaux de détresse dans la voix, les gestes ou les recherches d’un individu. Elle classe ces signaux par gravité, puis transmet une alerte éthique et sécurisée aux secours appropriés : ONG, hôpitaux, ou autorités compétentes.
+      </p>
+    </section>
+
+    <section id="stats" tabindex="0" aria-label="Statistiques clés">
+      <h2 id="stats-title">Statistiques Clés</h2>
+      <div class="stats">
+        <div class="stat">
+          <strong id="stat1">1 suicide toutes les 40 secondes</strong>
+          <p id="stat1-desc">dans le monde entier</p>
+        </div>
+        <div class="stat">
+          <strong id="stat2">+30%</strong>
+          <p id="stat2-desc">de chances d'intervention si le danger est détecté tôt</p>
+        </div>
+        <div class="stat">
+          <strong id="stat3">95%</strong>
+          <p id="stat3-desc">des utilisateurs croient au potentiel éthique de l'IA</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="whitepaper" tabindex="0" aria-label="White Paper Silent Witness">
+      <h2>White Paper</h2>
+      <p>
+        Découvrez en détail notre démarche, la technologie, l’éthique et la vision derrière Silent Witness.  
+        Ce document présente les objectifs, la technologie utilisée, et l’impact social de notre IA au service de l’humain.
+      </p>
+      <a href="docs/whitepaper-silentwitness.pdf" target="_blank" rel="noopener noreferrer" download>
+        Télécharger le White Paper (PDF)
+      </a>
+    </section>
+
+    <section id="faq" class="faq" tabindex="0" aria-label="Foire aux questions">
+      <h2>FAQ</h2>
+      <details>
+        <summary id="faq1">L’IA accède-t-elle à des données privées ?</summary>
+        <p id="faq1-desc">Non. Silent Witness n'enregistre aucune donnée personnelle...</p>
+      </details>
+      <details>
+        <summary id="faq2">Comment les alertes sont-elles transmises ?</summary>
+        <p id="faq2-desc">Via une base de données sécurisée et cryptée...</p>
+      </details>
+      <details>
+        <summary id="faq3">Est-ce déjà en service ?</summary>
+        <p id="faq3-desc">Silent Witness est en phase de prototypage avancé...</p>
+      </details>
+      <details>
+        <summary id="faq4">Qui peut nous contacter ?</summary>
+        <p id="faq4-desc">ONG, hôpitaux, développeurs IA, chercheurs...</p>
+      </details>
+    </section>
+
+    <section id="visuals" tabindex="0" aria-label="Galerie images humain et technologie">
+      <h2>Humain & Technologie</h2>
+      <div class="carousel" aria-live="polite">
+        <button class="carousel-button prev" aria-label="Image précédente">&#10094;</button>
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Homme avec un casque de réalité augmentée" loading="lazy" />
+          </div>
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=80" alt="Femme et robot collaborant ensemble" loading="lazy" />
+          </div>
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Visage humain et visage robot en transparence" loading="lazy" />
+          </div>
+        </div>
+        <button class="carousel-button next" aria-label="Image suivante">&#10095;</button>
+      </div>
+    </section>
+
+    <section id="contact" tabindex="0" aria-label="Formulaire de contact">
+      <h2 id="contact-title">Contact</h2>
+      <form
+        class="contact-form"
+        action="mailto:silentwitness@outlook.fr"
+        method="post"
+        enctype="text/plain"
+      >
+        <label for="nom">Nom:</label>
+        <input type="text" name="nom" id="nom" required autocomplete="name" />
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required autocomplete="email" />
+
+        <label for="message">Message:</label>
+        <textarea name="message" id="message" rows="5" required></textarea>
+
+        <button type="submit">Envoyer</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Silent Witness — IA pour la prévention, l'éthique et la vie.
+  </footer>
+
+  <script>
+    const translations = {
+      fr: {
+        "hero-title": "L'IA au service de l'humain",
+        "hero-desc": "Détection éthique des signaux de détresse, pour sauver des vies en toute confidentialité.",
+        "mission-title": "Notre mission",
+        "mission-desc": "Silent Witness est une solution d’intelligence artificielle capable de détecter les signaux de détresse dans la voix, les gestes ou les recherches d’un individu. Elle classe ces signaux par gravité, puis transmet une alerte éthique et sécurisée aux secours appropriés : ONG, hôpitaux, ou autorités compétentes.",
+        "stats-title": "Statistiques Clés",
+        "stat1": "1 suicide toutes les 40 secondes",
+        "stat1-desc": "dans le monde entier",
+        "stat2": "+30%",
+        "stat2-desc": "de chances d'intervention si le danger est détecté tôt",
+        "stat3": "95%",
+        "stat3-desc": "des utilisateurs croient au potentiel éthique de l'IA",
+        "faq1": "L’IA accède-t-elle à des données privées ?",
+        "faq1-desc": "Non. Silent Witness n'enregistre aucune donnée personnelle...",
+        "faq2": "Comment les alertes sont-elles transmises ?",
+        "faq2-desc": "Via une base de données sécurisée et cryptée...",
+        "faq3": "Est-ce déjà en service ?",
+        "faq3-desc": "Silent Witness est en phase de prototypage avancé...",
+        "faq4": "Qui peut nous contacter ?",
+        "faq4-desc": "ONG, hôpitaux, développeurs IA, chercheurs...",
+        "contact-title": "Contact",
+        "whitepaper-title": "White Paper",
+        "whitepaper-desc": "Découvrez en détail notre démarche, la technologie, l’éthique et la vision derrière Silent Witness. Ce document présente les objectifs, la technologie utilisée, et l’impact social de notre IA au service de l’humain.",
+        "whitepaper-link": "Télécharger le White Paper (PDF)"
+      },
+      en: {
+        "hero-title": "AI serving humanity",
+        "hero-desc": "Ethical detection of distress signals to save lives confidentially.",
+        "mission-title": "Our Mission",
+        "mission-desc": "Silent Witness is an AI solution that detects distress signals in voice, gestures or online searches. It classifies them by severity, then sends an ethical and secure alert to appropriate responders: NGOs, hospitals, or authorities.",
+        "stats-title": "Key Statistics",
+        "stat1": "1 suicide every 40 seconds",
+        "stat1-desc": "worldwide",
+        "stat2": "+30%",
+        "stat2-desc": "increase in intervention chances if danger is detected early",
+        "stat3": "95%",
+        "stat3-desc": "users believe in AI’s ethical potential",
+        "faq1": "Does the AI access private data?",
+        "faq1-desc": "No. Silent Witness does not record any personal data...",
+        "faq2": "How are alerts transmitted?",
+        "faq2-desc": "Via a secure and encrypted database...",
+        "faq3": "Is it already operational?",
+        "faq3-desc": "Silent Witness is currently in advanced prototyping...",
+        "faq4": "Who can contact us?",
+        "faq4-desc": "NGOs, hospitals, AI developers, researchers...",
+        "contact-title": "Contact",
+        "whitepaper-title": "White Paper",
+        "whitepaper-desc": "Discover in detail our approach, technology, ethics, and vision behind Silent Witness. This document presents objectives, technologies used, and the social impact of our AI serving humanity.",
+        "whitepaper-link": "Download the White Paper (PDF)"
+      },
+      ar: {
+        "hero-title": "الذكاء الاصطناعي في خدمة الإنسانية",
+        "hero-desc": "الكشف الأخلاقي عن إشارات الضيق لإنقاذ الأرواح بسرية تامة.",
+        "mission-title": "مهمتنا",
+        "mission-desc": "Silent Witness هو حل ذكاء اصطناعي يكتشف إشارات الضيق في الصوت، والإيماءات، أو عمليات البحث على الإنترنت. يصنف هذه الإشارات حسب شدتها، ثم يرسل تنبيهًا أخلاقيًا وآمنًا للمستجيبين المناسبين: منظمات غير حكومية، مستشفيات، أو السلطات المختصة.",
+        "stats-title": "إحصائيات رئيسية",
+        "stat1": "انتحار واحد كل 40 ثانية",
+        "stat1-desc": "في جميع أنحاء العالم",
+        "stat2": "+30%",
+        "stat2-desc": "زيادة في فرص التدخل إذا تم اكتشاف الخطر مبكرًا",
+        "stat3": "95%",
+        "stat3-desc": "من المستخدمين يؤمنون بالإمكانات الأخلاقية للذكاء الاصطناعي",
+        "faq1": "هل يصل الذكاء الاصطناعي إلى بيانات خاصة؟",
+        "faq1-desc": "لا. Silent Witness لا يسجل أية بيانات شخصية...",
+        "faq2": "كيف تُنقل التنبيهات؟",
+        "faq2-desc": "عبر قاعدة بيانات مؤمنة ومشفرة...",
+        "faq3": "هل هو قيد الخدمة بالفعل؟",
+        "faq3-desc": "Silent Witness في مرحلة النماذج الأولية المتقدمة...",
+        "faq4": "من يمكنه التواصل معنا؟",
+        "faq4-desc": "المنظمات غير الحكومية، المستشفيات، مطورو الذكاء الاصطناعي، الباحثون...",
+        "contact-title": "اتصل بنا",
+        "whitepaper-title": "الوثيقة البيضاء",
+        "whitepaper-desc": "اكتشف بالتفصيل منهجنا، التكنولوجيا، الأخلاق والرؤية وراء Silent Witness. يقدم هذا المستند الأهداف، التكنولوجيا المستخدمة، والتأثير الاجتماعي لذكائنا الاصطناعي في خدمة الإنسان.",
+        "whitepaper-link": "تحميل الوثيقة البيضاء (PDF)"
+      }
+    };
+
+    function switchLang() {
+      const lang = document.getElementById('lang').value;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+      // Liste des IDs à traduire
+      const keys = [
+        "hero-title", "hero-desc",
+        "mission-title", "mission-desc",
+        "stats-title", "stat1", "stat1-desc", "stat2", "stat2-desc", "stat3", "stat3-desc",
+        "faq1", "faq1-desc", "faq2", "faq2-desc", "faq3", "faq3-desc", "faq4", "faq4-desc",
+        "contact-title",
+        "whitepaper-title", "whitepaper-desc", "whitepaper-link"
+      ];
+
+      keys.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = translations[lang][id] || el.textContent;
+      });
+
+      // Adapt alignments for RTL if needed
+      if (lang === 'ar') {
+        document.body.style.textAlign = 'right';
+      } else {
+        document.body.style.textAlign = 'left';
+      }
+    }
+
+    // Initial setup
+    document.addEventListener('DOMContentLoaded', () => {
+      switchLang();
+
+      // Carousel functionality
+      const track = document.querySelector('.carousel-track');
+      const slides = Array.from(track.children);
+      const prevBtn = document.querySelector('.carousel-button.prev');
+      const nextBtn = document.querySelector('.carousel-button.next');
+      let currentIndex = 0;
+
+      function updateCarousel() {
+        const slideWidth = slides[0].getBoundingClientRect().width;
+        track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+      }
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateCarousel();
+      });
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel();
+      });
+
+      window.addEventListener('resize', updateCarousel);
+      updateCarousel();
     });
-
-    localStorage.setItem('preferredLang', lang);
-  }
-  // Init language
-  const savedLang = localStorage.getItem('preferredLang') || 'fr';
-  langSelect.value = savedLang;
-  updateLanguage(savedLang);
-  langSelect.addEventListener('change', (e) => {
-    updateLanguage(e.target.value);
-  });
-
-  // === Thème sombre/claire toggle ===
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const body = document.body;
-
-  function setTheme(theme) {
-    if(theme === 'dark') {
-      body.classList.add('dark-theme');
-      themeToggleBtn.textContent = '☀️';
-    } else {
-      body.classList.remove('dark-theme');
-      themeToggleBtn.textContent = '🌙';
-    }
-    localStorage.setItem('preferredTheme', theme);
-  }
-  const savedTheme = localStorage.getItem('preferredTheme') || 'light';
-  setTheme(savedTheme);
-
-  themeToggleBtn.addEventListener('click', () => {
-    if(body.classList.contains('dark-theme')) setTheme('light');
-    else setTheme('dark');
-  });
-
-  // === Carte choroplèthe simple avec Leaflet ===
-
-  // Exemple de données taux suicide (par 100 000) simplifiées, en GeoJSON style
-  // Source OMS données publiques (approximatives)
-  // Ici on crée un GeoJSON simplifié (quelques pays seulement)
-
-  const suicideRates = {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": { "name": "Morocco", "rate": 3.9 },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [-7.0926, 31.7917]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "name": "France", "rate": 12.1 },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [2.2137, 46.2276]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "name": "United States", "rate": 14.5 },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [-95.7129, 37.0902]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "name": "India", "rate": 16.5 },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [78.9629, 20.5937]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "name": "Brazil", "rate": 6.2 },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [-51.9253, -14.2350]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "name": "South Africa", "rate": 13.0 },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [22.9375, -30.5595]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": { "name": "Russia", "rate": 25.0 },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [105.3188, 61.5240]
-        }
-      }
-    ]
-  };
-
-  // Color scale fonction
-  function getColor(rate) {
-    return rate > 20 ? '#800026' :
-           rate > 15 ? '#BD0026' :
-           rate > 10 ? '#E31A1C' :
-           rate > 5  ? '#FC4E2A' :
-           rate > 0  ? '#FD8D3C' :
-                       '#FFEDA0';
-  }
-
-  // Initialise Leaflet map
-  const map = L.map('map').setView([20, 10], 2);
-
-  // Tiles
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-
-  // Markers group
-  const markersGroup = L.layerGroup().
-
+  </script>
+</body>
+</html>
